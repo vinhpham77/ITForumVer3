@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:it_forum/ui/common/utils/jwt_interceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ui/router.dart';
