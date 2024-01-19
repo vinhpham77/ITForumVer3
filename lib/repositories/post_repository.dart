@@ -10,7 +10,7 @@ class PostRepository {
 
   PostRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.postsEndpoint}"));
+        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.postsEndpoint}"));
   }
 
   get notificationRepository => null;

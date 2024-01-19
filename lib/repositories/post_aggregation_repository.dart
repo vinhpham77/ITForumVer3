@@ -10,7 +10,7 @@ class PostAggregationRepository {
 
   PostAggregationRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.postsEndpoint}"));
+        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.postsEndpoint}"));
   }
 
   Future<Response<dynamic>> getSearch({

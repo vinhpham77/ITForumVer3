@@ -7,7 +7,7 @@ import 'notification_repository.dart';
 class UserRepository {
   late Dio dio;
   late NotificationRepository notificationRepository;
-  final String baseUrl = "${ApiConfig.baseUrl}/${ApiConfig.usersEndpoint}";
+  final String baseUrl = "${ApiConfig.userServiceBaseUrl}/${ApiConfig.usersEndpoint}";
 
   UserRepository() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));

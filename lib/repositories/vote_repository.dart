@@ -10,7 +10,7 @@ class VoteRepository {
 
    VoteRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.votesEndpoint}"));
+        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.votesEndpoint}"));
   }
 
   // Future<Response<dynamic>> delete(int id) {

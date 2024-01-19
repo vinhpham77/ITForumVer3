@@ -10,7 +10,7 @@ class NotificationRepository {
   // Tạo một constructor để khởi tạo đối tượng dio
   NotificationRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.notificationsEndpoint}"));
+        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.notificationsEndpoint}"));
   }
 
   // Tạo một phương thức để thêm một thông báo mới

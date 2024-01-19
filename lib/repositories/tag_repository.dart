@@ -7,7 +7,7 @@ class TagRepository {
 
   TagRepository() {
     dio = Dio(
-        BaseOptions(baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.tagsEndpoint}"));
+        BaseOptions(baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.tagsEndpoint}"));
   }
 
   Future<void> add(Tag tag) {

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 
 class AuthRepository {
   late Dio dio;
-  final String baseUrl = "${ApiConfig.baseUrl}/${ApiConfig.loginEndpoint}";
+  final String baseUrl = "${ApiConfig.userServiceBaseUrl}/${ApiConfig.authEndpoint}";
 
   AuthRepository() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));

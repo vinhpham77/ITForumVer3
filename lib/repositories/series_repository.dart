@@ -10,7 +10,7 @@ class SeriesRepository {
 
   SeriesRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.seriesEndpoint}"));
+        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.seriesEndpoint}"));
   }
 
   Future<Response<dynamic>> add(SeriesDTO seriesDTO) async {

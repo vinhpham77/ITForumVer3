@@ -9,7 +9,7 @@ class BookmarkRepository {
 
   BookmarkRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.bookmarksEndpoint}"));
+        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.bookmarksEndpoint}"));
   }
 
   // Future<Response<dynamic>> delete(int id) {

@@ -8,7 +8,7 @@ class SpRepository {
 
   SpRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.seriesEndpoint}"));
+        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.seriesEndpoint}"));
   }
   Future<Response<dynamic>> getOne(int id) async {
     return dio.get('/detail/$id');

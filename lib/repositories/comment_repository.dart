@@ -11,7 +11,7 @@ class CommentRepository {
 
   CommentRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.baseUrl}/${ApiConfig.commentsEndpoint}"));
+        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.commentsEndpoint}"));
   }
 
   Future<Response<dynamic>> add(int postId, bool type, SubCommentDto subCommentDto) async {
