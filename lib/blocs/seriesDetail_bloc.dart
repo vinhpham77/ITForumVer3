@@ -1,18 +1,16 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/models/series.dart';
 import 'package:it_forum/repositories/series_repository.dart';
-import 'package:it_forum/ui/common/utils/message_from_exception.dart';
 import 'package:it_forum/ui/widgets/notification.dart';
-import 'package:flutter/material.dart';
 
-import '../models/sp.dart';
-import '../repositories/sp_repository.dart';
+import '../ui/common/utils/common_utils.dart';
 
 class SeriesDetailBloc {
   final StreamController<Series> _spController = StreamController<Series>();
-  final SeriesRepository  _spRepository = SeriesRepository();
+  final SeriesRepository _spRepository = SeriesRepository();
 
   late BuildContext context;
 
@@ -23,7 +21,7 @@ class SeriesDetailBloc {
   Future<void> getOneSP(int id) async {
     var future = _spRepository.getOne(id);
     future.then((response) {
-      Series series  = Series.fromJson(response.data);
+      Series series = Series.fromJson(response.data);
 
       _spController.add(series);
     }).catchError((error) {

@@ -1,31 +1,30 @@
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:it_forum/blocs/seriesDetail_bloc.dart';
 import 'package:it_forum/models/bookmarkInfo.dart';
 import 'package:it_forum/models/follow.dart';
 import 'package:it_forum/models/series.dart';
-import 'package:it_forum/models/sp.dart';
 import 'package:it_forum/models/user.dart';
 import 'package:it_forum/repositories/bookmark_repository.dart';
 import 'package:it_forum/repositories/follow_repository.dart';
 import 'package:it_forum/repositories/series_repository.dart';
 import 'package:it_forum/repositories/user_repository.dart';
-import 'package:it_forum/ui/common/utils/date_time.dart';
 import 'package:it_forum/ui/views/profile/widgets/posts_tab/post_tab_item.dart';
 import 'package:it_forum/ui/views/series_detail/seriesContent.dart';
 import 'package:it_forum/ui/views/series_detail/votes_side.dart';
 import 'package:it_forum/ui/widgets/user_avatar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../dtos/jwt_payload.dart';
+import '../../../dtos/post_user.dart';
 import '../../../dtos/vote_dto.dart';
 import '../../../models/post.dart';
 import '../../../models/vote.dart';
 import '../../../repositories/post_repository.dart';
 import '../../../repositories/sp_repository.dart';
 import '../../../repositories/vote_repository.dart';
+import '../../common/utils/common_utils.dart';
 import '../../router.dart';
 import '../../widgets/comment/comment_view.dart';
 import '../details_post/menuAnchor.dart';
@@ -52,7 +51,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
   late List<String> listTagsSeries;
   late Follow follow;
 
-  late List<Post> listPostDetail = [];
+  late List<PostUser> listPostDetail = [];
   bool stateVote = false;
   bool upVote = false;
   bool downVote = false;
@@ -74,7 +73,8 @@ class _SeriesDetailState extends State<SeriesDetail> {
   User user = User.empty();
   User authorSeries = User.empty();
   List<String> listTag = [];
-  late DateTime updateAt= DateTime.now();
+  late DateTime updateAt = DateTime.now();
+
   @override
   void initState() {
     super.initState();
@@ -94,6 +94,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
   void dispose() {
     super.dispose();
   }
+
   Future<void> _initSeries(int id) async {
     setState(() {
       isLoading = true;
@@ -147,21 +148,23 @@ class _SeriesDetailState extends State<SeriesDetail> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                Text( "Cập nhật lần cuối: ${getTimeAgo(updateAt)}"),
-                                const SizedBox(width: 10),
-                                MoreHoriz(
-                                    type: type,
-                                    idContent: widget.id,
-                                    authorname: authorSeries.username,
-                                    username: username),
-                              ],),
-
+                                  Text(
+                                      "Cập nhật lần cuối: ${getTimeAgo(updateAt)}"),
+                                  const SizedBox(width: 10),
+                                  MoreHoriz(
+                                      type: type,
+                                      idContent: widget.id,
+                                      authorname: authorSeries.username,
+                                      username: username),
+                                ],
+                              ),
                               StreamBuilder<Series>(
                                 stream: seriesDetailBloc.spStream,
                                 builder: (BuildContext context, snapshot) {
                                   if (snapshot.hasData) {
                                     return SeriesContentWidget(
-                                        series: snapshot.data!,postList: listPostDetail);
+                                        series: snapshot.data!,
+                                        postUsers: listPostDetail);
                                   } else if (snapshot.hasError) {
                                     return Text('Lỗi: ${snapshot.error}');
                                   } else {
@@ -173,14 +176,13 @@ class _SeriesDetailState extends State<SeriesDetail> {
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: listPostDetail.map((e) {
-                                    return PostTabItem(post: e);
+                                    return PostTabItem(postUser: e);
                                   }).toList()),
                             ],
                           ),
                         ),
                         const SizedBox(width: 12),
                         stickySideBar(),
-
                       ],
                     ),
                     CommentView(
@@ -309,12 +311,13 @@ class _SeriesDetailState extends State<SeriesDetail> {
 
   Future<void> _loadScoreSeries(int postId) async {
     var futureSp = await seriesRepository.getOne(postId);
-
     Series series = Series.fromJson(futureSp.data);
-    updateAt=series.updatedAt;
+    var futureUser = await userRepository.getUser(series.createdBy!);
+
+    updateAt = series.updatedAt;
     if (mounted) {
       setState(() {
-        authorSeries = series.createdBy!;
+        authorSeries = User.fromJson(futureUser.data);
         score = series.score;
         isPrivate = series.isPrivate;
       });
@@ -443,7 +446,6 @@ class _SeriesDetailState extends State<SeriesDetail> {
           ),
         ),
         _buildSocialShareSection(widget.id),
-
       ],
     );
   }
@@ -504,9 +506,22 @@ class _SeriesDetailState extends State<SeriesDetail> {
 
   Future<void> _loadListPost(int seriesId) async {
     var futureSeries = await spRepository.getOne(seriesId);
+    List<Post> posts = [];
     for (var element in futureSeries.data) {
-      listPostDetail.add(Post.fromJson(element));
+      posts.add(Post.fromJson(element));
     }
+
+    List<String> usernames = posts.map((e) => e.createdBy).toList();
+
+    var userResponse = await userRepository.getUsers(usernames);
+    List<User> users = (userResponse.data as List<dynamic>)
+        .map((e) => User.fromJson(e))
+        .toList();
+
+    List<PostUser> postUsers = convertPostUser(posts, users);
+
+    listPostDetail = postUsers;
+
     // listPostDetail = formJson(futureSeries.data);
     Map<String, int> uniqueTagCount = countUniqueTags(listTag);
     List<String> getTop5Tags = this.getTop5Tags(uniqueTagCount);

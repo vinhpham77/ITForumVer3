@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:html' as html;
 
+import 'package:dio/dio.dart';
 import 'package:it_forum/api_config.dart';
 import 'package:it_forum/ui/router.dart';
-import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../dtos/jwt_payload.dart';

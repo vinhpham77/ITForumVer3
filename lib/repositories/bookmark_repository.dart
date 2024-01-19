@@ -1,8 +1,8 @@
 // ignore_for_file: unused_import
+import 'package:dio/dio.dart';
 import "package:it_forum/api_config.dart";
 import 'package:it_forum/models/bookmarkInfo.dart';
 import 'package:it_forum/ui/common/utils/jwt_interceptor.dart';
-import 'package:dio/dio.dart';
 
 class BookmarkRepository {
   late Dio dio;

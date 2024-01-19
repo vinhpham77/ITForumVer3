@@ -1,13 +1,13 @@
-import "package:it_forum/models/tag.dart";
 import 'package:dio/dio.dart';
 import "package:it_forum/api_config.dart";
+import "package:it_forum/models/tag.dart";
 
 class TagRepository {
   late Dio dio;
 
   TagRepository() {
     dio = Dio(
-        BaseOptions(baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.tagsEndpoint}"));
+        BaseOptions(baseUrl: "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.tagsEndpoint}"));
   }
 
   Future<void> add(Tag tag) {

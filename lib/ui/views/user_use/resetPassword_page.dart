@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:it_forum/blocs/forgotPassword_bloc.dart';
 import 'package:it_forum/blocs/resetPassword_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -152,7 +152,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   void onChangePassClicked(BuildContext context) async {
     bool isValid = await bloc.isValidInfo(
-        ForgotPasswordBloc.requestname,
+        ForgotPasswordBloc.requestName,
         _otpController.text,
         _newPasswordController.text,
         _reRewPasswordController.text);

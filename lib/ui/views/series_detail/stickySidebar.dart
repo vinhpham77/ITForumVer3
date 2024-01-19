@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:it_forum/models/follow.dart';
 import 'package:it_forum/models/user.dart';
 import 'package:it_forum/repositories/follow_repository.dart';
 import 'package:it_forum/repositories/series_repository.dart';
 import 'package:it_forum/ui/widgets/user_avatar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class StickySidebar extends StatefulWidget {

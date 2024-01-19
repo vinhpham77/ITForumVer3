@@ -1,15 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/dtos/post_dto.dart';
 import 'package:it_forum/models/tag.dart';
 import 'package:it_forum/ui/common/app_constants.dart';
 import 'package:it_forum/ui/router.dart';
 import 'package:it_forum/ui/views/cu_post/widgets/tag_dropdown.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../models/post.dart';
-import '../../../models/user.dart';
 import '/ui/widgets/notification.dart';
 import 'bloc/cu_post_bloc.dart';
 import 'bloc/cu_post_provider.dart';
@@ -352,7 +351,7 @@ class CuPost extends StatelessWidget {
               content: _contentController.text,
               tags: [],
               isPrivate: false,
-              createdBy: User.empty(),
+              createdBy: '',
               updatedAt: DateTime.now(),
               score: 0,
               commentCount: 0,
@@ -467,7 +466,7 @@ class CuPost extends StatelessWidget {
           content: _contentController.text,
           tags: [],
           isPrivate: false,
-          createdBy: User.empty(),
+          createdBy: '',
           updatedAt: DateTime.now(),
           score: 0,
           commentCount: 0,

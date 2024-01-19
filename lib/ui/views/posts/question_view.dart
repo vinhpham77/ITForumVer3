@@ -1,13 +1,12 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/jwt_payload.dart';
-import 'package:it_forum/ui/views/posts/blocs/post/post_bloc.dart';
 import 'package:it_forum/ui/views/posts/posts_view.dart';
 import 'package:it_forum/ui/views/posts/widgets/bookmark/bookmark_post.dart';
 import 'package:it_forum/ui/views/posts/widgets/follow/follow_post.dart';
 import 'package:it_forum/ui/views/posts/widgets/left_menu.dart';
 import 'package:it_forum/ui/views/posts/widgets/post/posts_feed.dart';
 import 'package:it_forum/ui/views/posts/widgets/right_page/right.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import '../../common/app_constants.dart';
 

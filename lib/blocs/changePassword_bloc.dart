@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/repositories/auth_repository.dart';
-import 'package:it_forum/ui/common/utils/message_from_exception.dart';
 import 'package:it_forum/ui/widgets/notification.dart';
 import 'package:it_forum/validators/validations.dart';
-import 'package:flutter/material.dart';
+
+import '../ui/common/utils/common_utils.dart';
 
 class ChangePasswordBloc {
   final StreamController _usernameController = StreamController();
@@ -29,12 +30,10 @@ class ChangePasswordBloc {
 
   late BuildContext context;
 
-  ChangePasswordBloc(BuildContext context) {
-    this.context = context;
-  }
+  ChangePasswordBloc(this.context);
 
-  Future<bool> isValidInfo(String username, String currentpassword,
-      String newpassword, String repassword) async {
+  Future<bool> isValidInfo(String username, String currentPassword,
+      String newPassword, String rePassword) async {
     Future<bool> isValid;
 
     if (username == "" || !Validations.isValidUsername(username)) {
@@ -42,25 +41,25 @@ class ChangePasswordBloc {
       return Future<bool>.value(false);
     }
     _usernameController.sink.add("");
-    if (!Validations.isValidPassword(currentpassword)) {
+    if (!Validations.isValidPassword(currentPassword)) {
       _currentPassController.sink.addError("Mật khẩu phải lớn hơn 2 kí tự ");
       return Future<bool>.value(false);
     }
     _currentPassController.sink.add("");
-    if (!Validations.isValidPassword(newpassword)) {
+    if (!Validations.isValidPassword(newPassword)) {
       _passController.sink.addError("Mật khẩu phải lớn hơn 2 kí tự");
       return Future<bool>.value(false);
     }
     _passController.sink.add("");
 
-    if (!Validations.arePasswordsEqual(newpassword, repassword)) {
+    if (!Validations.arePasswordsEqual(newPassword, rePassword)) {
       _repassController.sink.addError("Mật khẩu phải khớp với mật khẩu ở trên");
       return Future<bool>.value(false);
     }
     _repassController.sink.add("");
 
     var future =
-    _userRepository.changePassUser(username, currentpassword, newpassword);
+    _userRepository.changePassUser(username, currentPassword, newPassword);
     isValid = future.then((response) {
       showTopRightSnackBar(
           context, 'Đổi mật khẩu thành công!', NotifyType.success);

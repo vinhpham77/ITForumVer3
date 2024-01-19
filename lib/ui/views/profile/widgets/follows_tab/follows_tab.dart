@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/ui/views/profile/widgets/follows_tab/follow_tab_item.dart';
 import 'package:it_forum/ui/widgets/notification.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../dtos/jwt_payload.dart';
 import '../../../../../dtos/pagination_states.dart';

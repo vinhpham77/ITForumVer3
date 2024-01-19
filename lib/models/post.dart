@@ -1,6 +1,4 @@
-
 import 'package:it_forum/models/tag.dart';
-import 'package:it_forum/models/user.dart';
 
 class Post {
   int id;
@@ -10,7 +8,7 @@ class Post {
   List<Tag> tags;
   bool isPrivate;
   int commentCount;
-  User createdBy;
+  String createdBy;
   DateTime updatedAt;
 
   Post({
@@ -35,7 +33,7 @@ class Post {
           .toList(),
       commentCount: json['commentCount'],
       isPrivate: json['isPrivate'],
-      createdBy: User.fromJson(json['createdBy']),
+      createdBy: json['createdBy'],
       updatedAt: DateTime.tryParse(json['updatedAt']) ?? DateTime.now(),
     );
   }
@@ -61,7 +59,7 @@ class Post {
     int? score,
     int? commentCount,
     bool? isPrivate,
-    User? createdBy,
+    String? createdBy,
     DateTime? updatedAt,
   }) {
     return Post(
@@ -86,7 +84,7 @@ class Post {
       tags: [],
       commentCount: 0,
       isPrivate: false,
-      createdBy: User.empty(),
+      createdBy: '',
       updatedAt: DateTime.now(),
     );
   }

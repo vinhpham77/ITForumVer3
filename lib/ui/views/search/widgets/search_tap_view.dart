@@ -1,5 +1,3 @@
-import 'package:it_forum/ui/views/search/widgets/search_post_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../router.dart';

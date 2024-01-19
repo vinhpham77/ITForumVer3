@@ -13,12 +13,12 @@ final class SeriesInitialState extends SeriesState {}
 final class SeriesEmptyState extends SeriesState {}
 
 final class SeriesLoadedState extends SeriesState {
-  final ResultCount<SeriesPost> seriesPost;
+  final ResultCount<SeriesPostUser> seriesPostUsers;
 
-  const SeriesLoadedState({required this.seriesPost});
+  const SeriesLoadedState({required this.seriesPostUsers});
 
   @override
-  List<Object?> get props => [seriesPost];
+  List<Object?> get props => [seriesPostUsers];
 }
 
 final class SeriesTabErrorState extends SeriesState {

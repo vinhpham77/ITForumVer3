@@ -1,19 +1,18 @@
 import 'dart:core';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:it_forum/dtos/comment_show.dart';
 import 'package:it_forum/dtos/jwt_payload.dart';
 import 'package:it_forum/models/comment_details.dart';
 import 'package:it_forum/repositories/comment_repository.dart';
 import 'package:it_forum/ui/router.dart';
 import 'package:it_forum/ui/widgets/comment/create_comment_view.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../dtos/notify_type.dart';
 import '../../../models/user.dart';
-import '../../common/utils/date_time.dart';
-import '../../common/utils/message_from_exception.dart';
+import '../../common/utils/common_utils.dart';
 import '../notification.dart';
 import '../user_avatar.dart';
 

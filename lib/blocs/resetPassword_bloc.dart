@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/repositories/auth_repository.dart';
-import 'package:it_forum/ui/common/utils/message_from_exception.dart';
 import 'package:it_forum/ui/widgets/notification.dart';
 import 'package:it_forum/validators/validations.dart';
-import 'package:flutter/material.dart';
+
+import '../ui/common/utils/common_utils.dart';
 
 class ResetPasswordBloc {
   final StreamController _usernameController = StreamController();
@@ -23,16 +24,16 @@ class ResetPasswordBloc {
 
   Stream get repassStream => _repassController.stream;
 
-  Stream get getloginStatusController => loginStatusController.stream;
+  Stream get getLoginStatusController => loginStatusController.stream;
   late BuildContext context;
 
   ResetPasswordBloc(this.context);
 
   String username = "";
 
-  Future<bool> isValidInfo(String username, String otp, String newpassword,
-      String repassword) async {
-    Future<bool> isvalid;
+  Future<bool> isValidInfo(String username, String otp, String newPassword,
+      String rePassword) async {
+    Future<bool> isValid;
     if (!Validations.isValidUsername(username)) {
       _usernameController.sink.addError("Tài khoản không hợp lệ");
       return Future<bool>.value(false);
@@ -43,21 +44,21 @@ class ResetPasswordBloc {
       return Future<bool>.value(false);
     }
     _otpController.sink.add("");
-    if (!Validations.isValidPassword(newpassword)) {
+    if (!Validations.isValidPassword(newPassword)) {
       _passController.sink.addError("Mật khẩu mới không hợp lệ");
       return Future<bool>.value(false);
     }
     _passController.sink.add("");
 
-    if (!Validations.arePasswordsEqual(newpassword, repassword)) {
+    if (!Validations.arePasswordsEqual(newPassword, rePassword)) {
       _repassController.sink.addError("Mật khẩu phải khớp với mật khẩu ở trên");
       return Future<bool>.value(false);
     }
     _repassController.sink.add("");
 
-    var future = _userRepository.resetPassUser(username, newpassword, otp);
+    var future = _userRepository.resetPassUser(username, newPassword, otp);
 
-    isvalid = future.then((response) {
+    isValid = future.then((response) {
       response.data;
       showTopRightSnackBar(
           context, 'Đổi mật khẩu thành công!', NotifyType.success);
@@ -67,7 +68,7 @@ class ResetPasswordBloc {
       showTopRightSnackBar(context, message, NotifyType.error);
       return Future<bool>.value(false);
     });
-    return isvalid;
+    return isValid;
   }
 
   void dispose() {

@@ -1,8 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:it_forum/ui/router.dart';
-import 'package:it_forum/ui/views/posts/posts_view.dart';
 import 'package:it_forum/ui/views/posts/widgets/bookmark/bookmark_post.dart';
 import 'package:it_forum/ui/views/posts/widgets/bookmark/bookmark_series.dart';
-import 'package:flutter/material.dart';
 
 class BookmarkFeed extends StatefulWidget {
   final username;

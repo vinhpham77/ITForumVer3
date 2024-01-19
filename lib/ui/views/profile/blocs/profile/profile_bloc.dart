@@ -1,16 +1,16 @@
-import 'package:it_forum/dtos/jwt_payload.dart';
-import 'package:it_forum/models/post.dart';
-import 'package:it_forum/repositories/user_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/dtos/jwt_payload.dart';
+import 'package:it_forum/repositories/user_repository.dart';
 
+import '../../../../../dtos/post_user.dart';
 import '../../../../../dtos/profile_stats.dart';
 import '../../../../../dtos/tag_count.dart';
 import '../../../../../models/user.dart';
 import '../../../../../repositories/follow_repository.dart';
-import '../../../../common/utils/message_from_exception.dart';
+import '../../../../common/utils/common_utils.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -182,7 +182,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       DecreasePostsCountEvent event, Emitter<ProfileState> emit) async {
     event.profileStats?.postCount--;
 
-    var tags = event.post.tags.map((e) => e.name);
+    var tags = event.postUser.post.tags.map((e) => e.name);
     String questionTag =
         tags.firstWhere((element) => element == 'HoiDap', orElse: () {
       return '';

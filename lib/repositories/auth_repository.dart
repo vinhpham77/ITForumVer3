@@ -1,7 +1,8 @@
 import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:it_forum/api_config.dart';
 import 'package:it_forum/ui/common/utils/jwt_interceptor.dart';
-import 'package:dio/dio.dart';
 
 class AuthRepository {
   late Dio dio;
@@ -10,7 +11,7 @@ class AuthRepository {
   AuthRepository() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
   }
-  // Phương thức để thực hiện đăng nhập
+
   Future<Response<dynamic>> loginUser(String username, String password) async {
     return dio.post("/signin", data: {
       'username': username,
@@ -59,6 +60,11 @@ class AuthRepository {
       "/resetPassword",
       data: {'username': username, 'newPassword': newPassword, 'otp': otp},
     );
+  }
+
+  Future<Response<dynamic>> verify() async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.get("/verify");
   }
 
 }

@@ -1,6 +1,6 @@
+import 'package:it_forum/dtos/post_tag.dart';
 import 'package:it_forum/models/post.dart';
 import 'package:it_forum/models/user.dart';
-import 'package:it_forum/dtos/post_tag.dart';
 
 
 class Sp {

@@ -1,4 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:it_forum/dtos/series_post.dart';
+
+import '../../../dtos/post_user.dart';
+import '../../../dtos/series_post_user.dart';
+import '../../../models/post.dart';
+import '../../../models/user.dart';
 
 String getMessageFromException(dynamic err) {
   var error = err;
@@ -46,4 +52,47 @@ String getMessageFromException(dynamic err) {
   }
 
   return message;
+}
+
+String getTimeAgo(DateTime dateTime) {
+  final now = DateTime.now();
+  final difference = now.difference(dateTime);
+
+  if (difference.inDays > 365) {
+    return '${dateTime.year} thg ${dateTime.month} ${dateTime.day}, ${dateTime.hour}:${dateTime.minute} ${dateTime.hour < 12 ? "SA" : "CH"}';
+  } else if (difference.inDays > 2) {
+    return 'thg ${dateTime.month} ${dateTime.day}, ${dateTime.hour}:${dateTime.minute} ${dateTime.hour < 12 ? "SA" : "CH"}';
+  } else if (difference.inDays >= 1) {
+    return 'hôm qua, ${dateTime.hour}:${dateTime.minute} ${dateTime.hour < 12 ? "SA" : "CH"}';
+  } else if (difference.inHours >= 1) {
+    return 'khoảng ${difference.inHours} giờ trước';
+  } else if (difference.inMinutes >= 1) {
+    return 'khoảng ${difference.inMinutes} phút trước';
+  } else {
+    return 'vừa xong';
+  }
+}
+
+String convertParam(Map params) => params.entries.map((e) => '${e.key}=${e.value}').join('&');
+
+List<PostUser> convertPostUser(List<Post> posts, List<User> users) {
+  List<PostUser> postUsers = [];
+
+  for (var post in posts) {
+    var user = users.firstWhere((element) => element.username == post.createdBy);
+    postUsers.add(PostUser(post: post, user: user));
+  }
+
+  return postUsers;
+}
+
+List<SeriesPostUser> convertSeriesPostUser(List<SeriesPost> series, List<User> users) {
+  List<SeriesPostUser> seriesPostUsers = [];
+
+  for (var seriesPost in series) {
+    var user = users.firstWhere((element) => element.username == seriesPost.createdBy);
+    seriesPostUsers.add(SeriesPostUser(seriesPost: seriesPost, user: user));
+  }
+
+  return seriesPostUsers;
 }

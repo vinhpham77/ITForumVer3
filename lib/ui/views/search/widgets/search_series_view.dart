@@ -1,7 +1,6 @@
-import 'package:it_forum/ui/views/search/blocs/search_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/ui/views/search/blocs/search_bloc.dart';
 
 import '../../../../dtos/notify_type.dart';
 import '../../../widgets/notification.dart';
@@ -45,7 +44,7 @@ class _SearchSeriesViewState extends State<SearchSeriesView> {
       searchStr = searchStr.substring(index + 1);
     }
 
-    _bloc..add(LoadSeriesEvent(
+    _bloc.add(LoadSeriesEvent(
         fieldSearch: searchField,
         searchContent: searchStr,
         sort: widget.params['sort'] ?? 'DESC',
@@ -76,23 +75,23 @@ class _SearchSeriesViewState extends State<SearchSeriesView> {
             if (state is FollowEmptyState) {
               return Container(
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Không có series nào nào!",
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                 ),
               );
             } else if (state is SeriesLoadedState) {
               return Column(
                 children: [
                   Column(
-                      children: state.seriesPost.resultList
+                      children: state.seriesPostUsers.resultList
                           .map((e) {
                         return SeriesFeedItem(
-                            seriesPost: e);
+                            seriesPostUser: e);
                       }).toList()),
                   Pagination(
                     path: "/viewsearchSeries",
-                    totalItem: state.seriesPost.count,
+                    totalItem: state.seriesPostUsers.count,
                     params: widget.params,
                     selectedPage: int.parse(widget.params['page'] ?? '1'),
                   )

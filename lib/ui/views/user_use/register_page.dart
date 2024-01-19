@@ -1,6 +1,6 @@
-import 'package:it_forum/blocs/register_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:it_forum/blocs/register_bloc.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -58,7 +58,7 @@ class _SignupPageState extends State<SignupPage> {
                             alignment: AlignmentDirectional.centerEnd,
                             children: <Widget>[
                               StreamBuilder(
-                                  stream: bloc.fullnameStream,
+                                  stream: bloc.fullNameStream,
                                   builder: (context, snapshot) => TextField(
                                         style: const TextStyle(
                                             fontSize: 18, color: Colors.black),

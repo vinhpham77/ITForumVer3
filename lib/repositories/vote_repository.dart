@@ -1,9 +1,9 @@
 
 
+import 'package:dio/dio.dart';
 import "package:it_forum/api_config.dart";
 import 'package:it_forum/dtos/vote_dto.dart';
 import 'package:it_forum/ui/common/utils/jwt_interceptor.dart';
-import 'package:dio/dio.dart';
 
 class VoteRepository {
    late Dio dio;

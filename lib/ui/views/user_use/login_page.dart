@@ -1,6 +1,6 @@
-import 'package:it_forum/blocs/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:it_forum/blocs/login_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

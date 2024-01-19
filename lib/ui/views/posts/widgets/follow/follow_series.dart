@@ -1,6 +1,6 @@
-import 'package:it_forum/ui/views/posts/blocs/follow/follow_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/ui/views/posts/blocs/follow/follow_bloc.dart';
 
 import '../../../../../dtos/notify_type.dart';
 import '../../../../widgets/notification.dart';
@@ -67,23 +67,23 @@ class _FollowSeriesState extends State<FollowSeries> {
             if (state is FollowEmptyState) {
               return Container(
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Không có series nào!",
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                 ),
               );
             } else if (state is SeriesFollowLoadedState) {
               return Column(
                 children: [
                   Column(
-                      children: state.seriesPost.resultList
+                      children: state.seriesPostUsers.resultList
                           .map((e) {
                         return SeriesFeedItem(
-                            seriesPost: e);
+                            seriesPostUser: e);
                       }).toList()),
                   Pagination(
                     path: "viewfollow",
-                    totalItem: state.seriesPost.count,
+                    totalItem: state.seriesPostUsers.count,
                     params: widget.params,
                     selectedPage: widget.page,
                   )

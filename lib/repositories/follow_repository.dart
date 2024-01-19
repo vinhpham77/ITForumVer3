@@ -1,6 +1,7 @@
-import "package:it_forum/api_config.dart";
-import "package:it_forum/ui/common/utils/index.dart";
 import 'package:dio/dio.dart';
+import "package:it_forum/api_config.dart";
+
+import '../ui/common/utils/jwt_interceptor.dart';
 
 class FollowRepository {
   late Dio dio;

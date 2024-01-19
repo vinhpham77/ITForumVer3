@@ -1,5 +1,3 @@
-import 'package:it_forum/models/user.dart';
-
 class Series {
   int? id;
   String title;
@@ -7,7 +5,7 @@ class Series {
   int score;
   int commentCount;
   bool isPrivate;
-  User? createdBy;
+  String? createdBy;
   DateTime updatedAt;
 
   Series({
@@ -29,7 +27,7 @@ class Series {
       score: json['score'],
       commentCount: json['commentCount'],
       isPrivate: json['isPrivate'],
-      createdBy: User.fromJson(json['createdBy']),
+      createdBy: json['createdBy'],
       updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
@@ -42,7 +40,7 @@ class Series {
     int? score,
     int? commentCount,
     bool? isPrivate,
-    User? createdBy,
+    String? createdBy,
     DateTime? updatedAt,
   }) {
     return Series(

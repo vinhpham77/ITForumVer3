@@ -1,17 +1,18 @@
-import 'package:it_forum/models/post.dart';
-import 'package:it_forum/models/series.dart';
-import 'package:it_forum/models/sp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:it_forum/models/series.dart';
+
+import '../../../dtos/post_user.dart';
 
 class SeriesContentWidget extends StatefulWidget {
   final Series series;
-  final List<Post> postList;
+  final List<PostUser> postUsers;
 
-  const SeriesContentWidget({super.key, required this.series,required this.postList});
+  const SeriesContentWidget(
+      {super.key, required this.series, required this.postUsers});
 
   @override
-  _SeriesContentWidgetState createState() => _SeriesContentWidgetState();
+  State<SeriesContentWidget> createState() => _SeriesContentWidgetState();
 }
 
 class _SeriesContentWidgetState extends State<SeriesContentWidget> {
@@ -19,27 +20,25 @@ class _SeriesContentWidgetState extends State<SeriesContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Text(
-            widget.series.title,
-            style: const TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Text(
+          widget.series.title,
+          style: const TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+          child: Wrap(
+            spacing: 8.0,
+            children: listTags(widget.postUsers)
+                .map((tag) => buildTagButton(tag))
+                .toList(),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-            child: Wrap(
-              spacing: 8.0,
-              children: listTags(widget.postList)
-                  .map((tag) => buildTagButton(tag))
-                  .toList(),
-            ),
-          ),
-          BodyContentWidget(series: widget.series),
-        ],
-      ),
+        ),
+        BodyContentWidget(series: widget.series),
+      ],
     );
   }
 
@@ -62,8 +61,8 @@ class _SeriesContentWidgetState extends State<SeriesContentWidget> {
     );
   }
 
-  List<String> listTags(List<Post> listPost) {
-    for (var post in listPost) {
+  List<String> listTags(List<PostUser> listPostUser) {
+    for (var post in listPostUser) {
       // listTag.addAll(post.tags);
       listTag.addAll([]);
     }
@@ -105,7 +104,7 @@ class BodyContentWidget extends StatefulWidget {
   const BodyContentWidget({Key? key, required this.series}) : super(key: key);
 
   @override
-  _BodyContentWidgetState createState() => _BodyContentWidgetState();
+  State<BodyContentWidget> createState() => _BodyContentWidgetState();
 }
 
 class _BodyContentWidgetState extends State<BodyContentWidget> {

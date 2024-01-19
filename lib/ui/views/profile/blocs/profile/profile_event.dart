@@ -88,15 +88,15 @@ final class DecreaseSeriesCountEvent extends ProfileSubEvent {
 }
 
 final class DecreasePostsCountEvent extends ProfileSubEvent {
-  final Post post;
+  final PostUser postUser;
 
   const DecreasePostsCountEvent(
       {required super.user,
       required super.isFollowing,
       required super.tagCounts,
       required super.profileStats,
-      required this.post});
+      required this.postUser});
 
   @override
-  List<Object?> get props => [post];
+  List<Object?> get props => [postUser];
 }

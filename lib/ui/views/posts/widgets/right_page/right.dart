@@ -1,11 +1,10 @@
-import 'package:it_forum/ui/views/posts/widgets/right_page/right_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/ui/views/posts/widgets/right_page/right_item.dart';
 
 import '../../../../../dtos/notify_type.dart';
 import '../../../../widgets/notification.dart';
 import '../../blocs/post/post_bloc.dart';
-
 
 class Right extends StatefulWidget {
   final int page;
@@ -14,10 +13,9 @@ class Right extends StatefulWidget {
 
   const Right(
       {super.key,
-        required this.page,
-        required this.limit,
-        required this.isQuestion
-      });
+      required this.page,
+      required this.limit,
+      required this.isQuestion});
 
   @override
   State<Right> createState() => _RightState();
@@ -25,8 +23,9 @@ class Right extends StatefulWidget {
 
 class _RightState extends State<Right> {
   late PostBloc _bloc;
-  late Map<String, String> indexing = widget.isQuestion ? {'title': 'BÀI VIẾT MỚI NHẤT', 'name' : 'bài viết'} :
-  { 'title': 'CÂU HỎI MỚI NHẤT', 'name' : 'hỏi đáp'};
+  late Map<String, String> indexing = widget.isQuestion
+      ? {'title': 'BÀI VIẾT MỚI NHẤT', 'name': 'bài viết'}
+      : {'title': 'CÂU HỎI MỚI NHẤT', 'name': 'hỏi đáp'};
 
   @override
   void initState() {
@@ -35,8 +34,7 @@ class _RightState extends State<Right> {
       ..add(LoadPostsEvent(
           limit: widget.limit,
           page: widget.page,
-          tag: widget.isQuestion ? "HoiDap" : ""
-      ));
+          tag: widget.isQuestion ? "HoiDap" : ""));
   }
 
   @override
@@ -77,20 +75,18 @@ class _RightState extends State<Right> {
                         fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: state.posts.resultList
-                        .map((e) {
-                      return RightItem(
-                          post: e);
-                    }).toList()),
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: state.postUsers.resultList.map((e) {
+                        return RightItem(postUser: e);
+                      }).toList()),
                 ],
               );
             } else if (state is PostsLoadErrorState) {
               return Container(
                 alignment: Alignment.center,
                 child:
-                Text(state.message, style: const TextStyle(fontSize: 16)),
+                    Text(state.message, style: const TextStyle(fontSize: 16)),
               );
             }
 

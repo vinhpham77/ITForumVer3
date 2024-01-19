@@ -1,16 +1,16 @@
+import 'package:dio/dio.dart';
 import "package:it_forum/api_config.dart";
 import "package:it_forum/dtos/series_dto.dart";
-import "package:it_forum/ui/common/utils/index.dart";
-import 'package:dio/dio.dart';
 
 import "../dtos/limit_page.dart";
+import "../ui/common/utils/jwt_interceptor.dart";
 
 class SeriesRepository {
   late Dio dio;
 
   SeriesRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.seriesEndpoint}"));
+        baseUrl: "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.seriesEndpoint}"));
   }
 
   Future<Response<dynamic>> add(SeriesDTO seriesDTO) async {

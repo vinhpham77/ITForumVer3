@@ -1,12 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/dtos/series_dto.dart';
 import 'package:it_forum/ui/common/app_constants.dart';
 import 'package:it_forum/ui/router.dart';
 import 'package:it_forum/ui/views/cu_series/bloc/cu_series_bloc.dart';
 import 'package:it_forum/ui/views/cu_series/widgets/post_item.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../../dtos/series_post.dart';
 import '/ui/widgets/notification.dart';
@@ -181,8 +181,8 @@ class CuSeries extends StatelessWidget {
         context.read<CuSeriesBloc>().add(SwitchModeEvent(
             isEditMode: origin,
             seriesPost: newSeries,
-            selectedPosts: state.selectedPosts,
-            posts: state.posts));
+            selectedPostUsers: state.selectedPostUsers,
+            postUsers: state.postUsers));
       },
       child: Text(text, style: getTextStyle(origin == active)),
     );
@@ -347,14 +347,14 @@ class CuSeries extends StatelessWidget {
             child: Column(
               children: [
                 Column(children: [
-                  for (var post in state.selectedPosts)
+                  for (var postUser in state.selectedPostUsers)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child: PostItem(post: post)),
+                        Expanded(child: PostItem(postUser: postUser)),
                         TextButton(
                           onPressed: () =>
-                              _removeSelectedPost(context, post, state),
+                              _removeSelectedPost(context, postUser, state),
                           child: const Icon(Icons.close,
                               size: 20, color: Colors.black54, opticalSize: 20),
                         ),
@@ -364,7 +364,7 @@ class CuSeries extends StatelessWidget {
                       ],
                     ),
                 ]),
-                if (state.selectedPosts.isEmpty)
+                if (state.selectedPostUsers.isEmpty)
                   Container(
                     alignment: Alignment.center,
                     padding:
@@ -372,7 +372,7 @@ class CuSeries extends StatelessWidget {
                     child: const Text(
                         'Chưa có bài viết nào. Vui lòng thêm tối thiểu 1 bài viết để chia sẻ với mọi người!'),
                   ),
-                if (state.selectedPosts.isNotEmpty)
+                if (state.selectedPostUsers.isNotEmpty)
                   Divider(
                     endIndent: 48,
                     thickness: 1,
@@ -477,12 +477,12 @@ class CuSeries extends StatelessWidget {
   ListView _buildPostListView(BuildContext bottomSheetContext,
       BuildContext context, CuSeriesSubState state) {
     return ListView.builder(
-      itemCount: state.posts.length,
+      itemCount: state.postUsers.length,
       itemBuilder: (listViewContext, index) {
         return PostItem(
-            post: state.posts[index],
+            postUser: state.postUsers[index],
             onTap: () {
-              _addSelectedPost(context, state.posts[index], state);
+              _addSelectedPost(context, state.postUsers[index], state);
               Navigator.of(bottomSheetContext).pop();
             });
       },
@@ -502,7 +502,7 @@ class CuSeries extends StatelessWidget {
       return;
     }
 
-    if (operation == 'Sửa' && state.selectedPosts.isEmpty) {
+    if (operation == 'Sửa' && state.selectedPostUsers.isEmpty) {
       showTopRightSnackBar(
           context, 'Vui lòng thêm ít nhất 1 bài viết', NotifyType.warning);
       return;
@@ -513,8 +513,8 @@ class CuSeries extends StatelessWidget {
         isEditMode: state.isEditMode,
         isCreate: isCreateMode,
         seriesPost: state.seriesPost,
-        selectedPosts: state.selectedPosts,
-        posts: state.posts));
+        selectedPostUsers: state.selectedPostUsers,
+        postUsers: state.postUsers));
   }
 
   SeriesDTO _createDTO(bool isPrivate, CuSeriesSubState state) {
@@ -522,7 +522,7 @@ class CuSeries extends StatelessWidget {
         title: _titleController.text,
         content: _contentController.text,
         isPrivate: isPrivate,
-        postIds: state.selectedPosts.map((e) => e.id).toList());
+        postIds: state.selectedPostUsers.map((e) => e.post.id).toList());
   }
 
   SeriesPost _getNewSeries(CuSeriesSubState state) {
@@ -547,27 +547,27 @@ class CuSeries extends StatelessWidget {
     SeriesPost newSeries = _getNewSeries(state);
 
     context.read<CuSeriesBloc>().add(RemovePostEvent(
-        post: post,
+        postUser: post,
         isEditMode: state.isEditMode,
         seriesPost: newSeries,
-        selectedPosts: state.selectedPosts,
-        posts: state.posts));
+        selectedPostUsers: state.selectedPostUsers,
+        postUsers: state.postUsers));
   }
 
   void _addSelectedPost(BuildContext context, post, CuSeriesSubState state) {
     SeriesPost newSeries = _getNewSeries(state);
 
     context.read<CuSeriesBloc>().add(AddPostEvent(
-        post: post,
+        postUser: post,
         isEditMode: state.isEditMode,
         seriesPost: newSeries,
-        selectedPosts: state.selectedPosts,
-        posts: state.posts));
+        selectedPostUsers: state.selectedPostUsers,
+        postUsers: state.postUsers));
   }
 
   _openModal(BuildContext bottomSheetContext, BuildContext context,
       CuSeriesSubState state) {
-    if (state.posts.isEmpty) {
+    if (state.postUsers.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Row(

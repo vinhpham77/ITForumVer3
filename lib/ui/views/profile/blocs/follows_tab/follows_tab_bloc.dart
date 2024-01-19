@@ -1,14 +1,13 @@
-import 'package:it_forum/dtos/user_stats.dart';
-import 'package:it_forum/ui/common/utils/index.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/dtos/user_stats.dart';
 
 import '../../../../../dtos/result_count.dart';
 import '../../../../../repositories/user_repository.dart';
+import '../../../../common/utils/common_utils.dart';
 
 part 'follows_tab_event.dart';
-
 part 'follows_tab_state.dart';
 
 class FollowsTabBloc extends Bloc<FollowsTabEvent, FollowsTabState> {

@@ -1,14 +1,14 @@
-import 'package:it_forum/ui/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:it_forum/ui/widgets/user_avatar.dart';
 
-import '../../../../../models/post.dart';
-import '../../../common/utils/date_time.dart';
+import '../../../../dtos/post_user.dart';
+import '../../../common/utils/common_utils.dart';
 import '../../../router.dart';
 
 class PostFeedItem extends StatelessWidget {
-  final Post post;
+  final PostUser postUser;
 
-  const PostFeedItem({super.key, required this.post});
+  const PostFeedItem({super.key, required this.postUser});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,12 @@ class PostFeedItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () => appRouter.go('/profile/${post.createdBy!.username}', extra: {}),
+            onTap: () =>
+                appRouter.go('/profile/${postUser.user}', extra: {}),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: UserAvatar(
-                  imageUrl: post.createdBy!.avatarUrl,
+                  imageUrl: postUser.user.avatarUrl,
                   size: 54,
                 )),
           ),
@@ -38,9 +39,11 @@ class PostFeedItem extends StatelessWidget {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () => appRouter.go('/profile/${post.createdBy!.username}', extra: {}),
+                      onTap: () => appRouter.go(
+                          '/profile/${postUser.user.username}',
+                          extra: {}),
                       child: Text(
-                        post.createdBy!.displayName,
+                        postUser.user.displayName,
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w300,
@@ -49,7 +52,7 @@ class PostFeedItem extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      getTimeAgo(post.updatedAt),
+                      getTimeAgo(postUser.post.updatedAt),
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[700],
@@ -61,10 +64,11 @@ class PostFeedItem extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 4),
                   child: InkWell(
-                    onTap: () => {appRouter.go('/posts/${post.id}', extra: {})},
+                    onTap: () =>
+                        {appRouter.go('/posts/${postUser.post.id}', extra: {})},
                     hoverColor: Colors.black12,
                     child: Text(
-                      post.title,
+                      postUser.post.title,
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w400,
@@ -77,7 +81,7 @@ class PostFeedItem extends StatelessWidget {
                 Row(
                   children: [
                     Row(children: [
-                      for (var tag in post.tags)
+                      for (var tag in postUser.post.tags)
                         Container(
                           margin: const EdgeInsets.only(right: 10),
                           padding: const EdgeInsets.symmetric(
@@ -96,12 +100,13 @@ class PostFeedItem extends StatelessWidget {
                           ),
                         ),
                       const SizedBox(width: 16),
-                      buildFieldCount(Icons.comment_outlined, post.commentCount),
                       buildFieldCount(
-                          post.score < 0
+                          Icons.comment_outlined, postUser.post.commentCount),
+                      buildFieldCount(
+                          postUser.post.score < 0
                               ? Icons.trending_down_outlined
                               : Icons.trending_up_outlined,
-                          post.score),
+                          postUser.post.score),
                     ]),
                   ],
                 ),

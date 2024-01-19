@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import "package:it_forum/api_config.dart";
 import "package:it_forum/dtos/post_dto.dart";
-import 'package:dio/dio.dart';
 import 'package:it_forum/ui/common/utils/jwt_interceptor.dart';
 
 import '../dtos/limit_page.dart';
@@ -10,7 +10,7 @@ class PostRepository {
 
   PostRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.postsEndpoint}"));
+        baseUrl: "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.postsEndpoint}"));
   }
 
   get notificationRepository => null;
@@ -28,13 +28,13 @@ class PostRepository {
 
   Future<Response<dynamic>> get(
       {required int page, int? limit, String tag = ""}) async {
-    return dio.get('/get?page=${page}&limit=${limit ?? limitPage}&tag=${tag}');
+    return dio.get('/get?page=$page&limit=${limit ?? limitPage}&tag=$tag');
   }
 
   Future<Response<dynamic>> getFollow(
       {required int page, int? limit, String tag = ""}) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio.get('/get/follow?page=${page}&limit=${limit}&tag=${tag}');
+    return dio.get('/get/follow?page=$page&limit=$limit&tag=$tag');
   }
 
   Future<Response<dynamic>> getByUser(String username,

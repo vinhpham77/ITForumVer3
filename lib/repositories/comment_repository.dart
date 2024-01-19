@@ -1,8 +1,8 @@
 // ignore_for_file: unused_import
 
+import 'package:dio/dio.dart';
 import "package:it_forum/api_config.dart";
 import 'package:it_forum/dtos/sub_comment_dto.dart';
-import 'package:dio/dio.dart';
 
 import '../ui/common/utils/jwt_interceptor.dart';
 

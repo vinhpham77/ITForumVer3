@@ -13,21 +13,21 @@ final class FollowInitialState extends FollowState {}
 final class FollowEmptyState extends FollowState {}
 
 final class PostFollowLoadedState extends FollowState {
-  final ResultCount<Post> posts;
+  final ResultCount<PostUser> postUsers;
 
-  const PostFollowLoadedState({required this.posts});
+  const PostFollowLoadedState({required this.postUsers});
 
   @override
-  List<Object?> get props => [posts];
+  List<Object?> get props => [postUsers];
 }
 
 final class SeriesFollowLoadedState extends FollowState {
-  final ResultCount<SeriesPost> seriesPost;
+  final ResultCount<SeriesPostUser> seriesPostUsers;
 
-  const SeriesFollowLoadedState({required this.seriesPost});
+  const SeriesFollowLoadedState({required this.seriesPostUsers});
 
   @override
-  List<Object?> get props => [seriesPost];
+  List<Object?> get props => [seriesPostUsers];
 }
 
 final class FollowTabErrorState extends FollowState {

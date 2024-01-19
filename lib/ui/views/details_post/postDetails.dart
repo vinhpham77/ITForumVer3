@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:go_router/go_router.dart';
 import 'package:it_forum/dtos/vote_dto.dart';
 import 'package:it_forum/models/bookmarkInfo.dart';
 import 'package:it_forum/models/follow.dart';
@@ -7,21 +11,19 @@ import 'package:it_forum/repositories/follow_repository.dart';
 import 'package:it_forum/repositories/post_repository.dart';
 import 'package:it_forum/repositories/tag_repository.dart';
 import 'package:it_forum/repositories/vote_repository.dart';
-import 'package:it_forum/ui/common/utils/date_time.dart';
 import 'package:it_forum/ui/router.dart';
 import 'package:it_forum/ui/views/series_detail/votes_side.dart';
 import 'package:it_forum/ui/widgets/comment/comment_view.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import '../../../dtos/jwt_payload.dart';
-import '../../../models/post.dart';
 import 'package:markdown/markdown.dart' as markdown;
+import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../dtos/jwt_payload.dart';
+import '../../../dtos/post_user.dart';
+import '../../../models/post.dart';
 import '../../../models/user.dart';
 import '../../../models/vote.dart';
 import '../../../repositories/user_repository.dart';
+import '../../common/utils/common_utils.dart';
 import 'TableOfContents.dart';
 import 'menuAnchor.dart';
 
@@ -46,7 +48,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
   bool isFollow = false;
   bool isLoadingFollow = false;
   bool postsSameAuthorIsNull = false;
-  Post post = Post.empty();
+  PostUser postUser = PostUser.empty();
   String type = "bài viết";
   String username = JwtPayload.sub ?? '';
   int idVote = 0;
@@ -98,7 +100,6 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       setState(() {
         isLoading = true;
       });
-      var loadPostFuture = _loadPost(id);
       await _loadPost(id);
       var postsAuthorFuture =
           _loadPostsByTheSameAuthor(authorPost.username, widget.id);
@@ -134,7 +135,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, BoxConstraints constraints) {
-        return Container(
+        return SizedBox(
           width: constraints.maxWidth,
           // color: Colors.white,
           child: Center(
@@ -171,7 +172,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
   }
 
   Widget _postActions() {
-    return Container(
+    return SizedBox(
       width: 80,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -343,24 +344,22 @@ class _PostDetailsPage extends State<PostDetailsPage> {
               alignment: Alignment.center,
               child: const CircularProgressIndicator(),
             )
-          : Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  _builderAuthorPostContent(),
-                  postPreview,
-                ],
-              ),
-            ),
+          : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              _builderAuthorPostContent(),
+              postPreview,
+            ],
+          ),
     );
   }
 
   getMarkdown() {
-    String titleRaw = post.title;
+    String titleRaw = postUser.post.title;
     String title = titleRaw.isEmpty ? '' : '# **$titleRaw**';
     // String tags = selectedTags.map((tag) => '#${tag.name}').join('\t');
-    String content = post.content;
+    String content = postUser.post.content;
     String tags = "#";
     tags = tags + listTag.join('\t#');
     return '$title \n $content';
@@ -368,19 +367,25 @@ class _PostDetailsPage extends State<PostDetailsPage> {
 
   Future<void> _loadPost(int id) async {
     try {
-      var response = await postRepository.getOneDetails(id);
+      var postResponse = await postRepository.getOneDetails(id);
+      var post = Post.fromJson(postResponse.data);
+      var userResponse = await userRepository.getUser(post.createdBy);
+      var user = User.fromJson(userResponse.data);
+
+      var postUser = PostUser(post: post, user: user);
+
       if (mounted) {
         setState(() async {
-          post = Post.fromJson(response.data);
-          authorPost = post.createdBy;
-          listTag = post.tags;
-          updatedAt = "Cập nhật lần cuối: ${getTimeAgo(post.updatedAt)}";
-          score = post.score;
-          isPrivate = post.isPrivate;
+          postUser = postUser;
+          authorPost = postUser.user;
+          listTag = postUser.post.tags;
+          updatedAt = "Cập nhật lần cuối: ${getTimeAgo(postUser.post.updatedAt)}";
+          score = postUser.post.score;
+          isPrivate = postUser.post.isPrivate;
         });
       }
     } catch (error) {
-      print("loi");
+      print(error);
     }
   }
 
@@ -532,7 +537,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
         children: [
           InkWell(
             onTap: () {
-              appRouter.go("/profile/${post.createdBy.username}/posts");
+              appRouter.go("/profile/${postUser.post.createdBy}/posts");
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
@@ -560,10 +565,10 @@ class _PostDetailsPage extends State<PostDetailsPage> {
               children: [
                 InkWell(
                   onTap: () {
-                    appRouter.go("/profile/${post.createdBy.username}/posts");
+                    appRouter.go("/profile/${postUser.post.createdBy}/posts");
                   },
                   child: Text(
-                    post.createdBy.displayName,
+                    postUser.post.createdBy,
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -571,7 +576,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
                   ),
                 ),
                 const SizedBox(width: 6),
-                Text("@${post.createdBy.username}"),
+                Text("@${postUser.post.createdBy}"),
               ]),
         ),
         SizedBox(
@@ -866,7 +871,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
   }
 
   Widget? _tableOfContents() {
-    List<String> headings = extractHeadingsFromMarkdown(post.content);
+    List<String> headings = extractHeadingsFromMarkdown(postUser.post.content);
     if (headings.isEmpty) {
       return null;
     }

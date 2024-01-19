@@ -1,10 +1,8 @@
-import 'package:it_forum/dtos/jwt_payload.dart';
-import 'package:it_forum/repositories/notification_repository.dart';
-import 'package:it_forum/models/notification.dart' as NotificationModel;
-import 'package:it_forum/ui/router.dart';
-import 'package:it_forum/ui/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:it_forum/dtos/jwt_payload.dart';
+import 'package:it_forum/ui/router.dart';
+import 'package:it_forum/ui/widgets/user_avatar.dart';
 
 class ItemMenu {
   ItemMenu({required this.name, required this.icon, required this.route});
@@ -39,31 +37,13 @@ class _RightHeaderState extends State<RightHeader> {
     ItemMenu(name: "Quên mật khẩu", icon: Icons.vpn_key, route: "/forgotpass"),
     ItemMenu(name: "Đăng xuất", icon: Icons.logout, route: "/publish/post")
   ];
-  List<NotificationModel.Notification> notifications = [];
+
   final searchController = TextEditingController();
-  late NotificationRepository notificationRepository;
+
   @override
   void initState() {
     super.initState();
-    notificationRepository = NotificationRepository();
-    fetchNotifications();
   }
-
-Future<List<NotificationModel.Notification>> fetchNotifications() async {
-  String? username = JwtPayload.sub;
-if (username != null) {
-}
-notifications = formJson((await notificationRepository.getNotificationsByUsername(username)).data);
-setState(() {
-  
-});
-  return notifications;
-}
-List<NotificationModel.Notification> formJson(var json) {
-    return json.map<NotificationModel.Notification>((e) => NotificationModel.Notification.fromJson(e as Map<String, dynamic>)).toList();
-  }
-
-
 
   @override
   void dispose() {
@@ -73,7 +53,6 @@ List<NotificationModel.Notification> formJson(var json) {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
     return Row(
       children: [
         Container(
@@ -207,22 +186,22 @@ List<NotificationModel.Notification> formJson(var json) {
         );
       },
       menuChildren: List<MenuItemButton>.generate(
-              notifications.length,
+              0,
               (int index) => MenuItemButton(
                   onPressed: () =>
-                      {GoRouter.of(context).go('/${notifications[index].type}/${notifications[index].targetId}')},
+                      {},
                   child: Row(
                     children: [
                       ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: UserAvatar(
-                        imageUrl: notifications[index].user.avatarUrl,
+                      child: const UserAvatar(
+                        imageUrl: null,
                         size: 54,
                       )),
                   const SizedBox(width: 12),
-                      Container(
+                      const SizedBox(
                         width: 250,
-                        child: Text(notifications[index].content, softWrap: true,),
+                        child: Text('', softWrap: true,),
                       )
                     ],
                   )

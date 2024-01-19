@@ -1,18 +1,22 @@
-import 'package:it_forum/dtos/series_post.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/dtos/series_post.dart';
 
 import '../../../../../dtos/result_count.dart';
+import '../../../../../dtos/series_post_user.dart';
+import '../../../../../models/user.dart';
+import '../../../../../repositories/auth_repository.dart';
 import '../../../../../repositories/series_repository.dart';
-import '../../../../common/utils/message_from_exception.dart';
+import '../../../../common/utils/common_utils.dart';
 
 part 'series_tab_event.dart';
 part 'series_tab_state.dart';
 
 class SeriesTabBloc extends Bloc<SeriesTabEvent, SeriesTabState> {
   final SeriesRepository _seriesRepository;
+  final AuthRepository _authRepository = AuthRepository();
 
   SeriesTabBloc({required seriesRepository}) :
   _seriesRepository = seriesRepository
@@ -36,7 +40,17 @@ class SeriesTabBloc extends Bloc<SeriesTabEvent, SeriesTabState> {
       if (seriesUsers.resultList.isEmpty) {
         emit(SeriesEmptyState());
       } else {
-        emit(SeriesLoadedState(seriesPosts: seriesUsers));
+        var userResponse = await _authRepository.verify();
+        User user = User.fromJson(userResponse.data);
+
+        List<SeriesPostUser> seriesPostUsers =
+            convertSeriesPostUser(seriesUsers.resultList, [user]);
+
+        ResultCount<SeriesPostUser> seriesPostUserResults =
+            ResultCount<SeriesPostUser>(
+                count: seriesUsers.count, resultList: seriesPostUsers);
+
+        emit(SeriesLoadedState(seriesPostUsers: seriesPostUserResults));
       }
     } catch (error) {
       emit(const SeriesLoadErrorState(
@@ -47,12 +61,12 @@ class SeriesTabBloc extends Bloc<SeriesTabEvent, SeriesTabState> {
   void _confirmDelete(
       ConfirmDeleteEvent event, Emitter<SeriesTabState> emit) async {
     try {
-      await _seriesRepository.delete(event.seriesPost.id!);
-      emit(SeriesDeleteSuccessState(seriesPost: event.seriesPost));
+      await _seriesRepository.delete(event.seriesPostUser.seriesPost.id!);
+      emit(SeriesDeleteSuccessState(seriesPostUser: event.seriesPostUser));
     } catch (error) {
       String message = getMessageFromException(error);
       emit(SeriesDeleteErrorState(
-          message: message, seriesPosts: event.seriesPosts));
+          message: message, seriesPostUsers: event.seriesPostUsers));
     }
   }
 }

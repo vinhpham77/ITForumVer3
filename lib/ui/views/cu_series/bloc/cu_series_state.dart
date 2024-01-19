@@ -10,19 +10,19 @@ sealed class CuSeriesState extends Equatable {
 
 sealed class CuSeriesSubState extends CuSeriesState {
   final SeriesPost? seriesPost;
-  final List<Post> posts;
-  final List<Post> selectedPosts;
+  final List<PostUser> postUsers;
+  final List<PostUser> selectedPostUsers;
   final bool isEditMode;
 
   const CuSeriesSubState({
     required this.isEditMode,
     required this.seriesPost,
-    required this.selectedPosts,
-    required this.posts,
+    required this.selectedPostUsers,
+    required this.postUsers,
   });
 
   @override
-  List<Object?> get props => [isEditMode, seriesPost, selectedPosts, posts];
+  List<Object?> get props => [isEditMode, seriesPost, selectedPostUsers, postUsers];
 }
 
 final class CuSeriesInitState extends CuSeriesState {}
@@ -31,8 +31,8 @@ final class CuSeriesEmptyState extends CuSeriesSubState {
   const CuSeriesEmptyState({
     super.isEditMode = true,
     super.seriesPost,
-    super.selectedPosts = const [],
-    super.posts = const [],
+    super.selectedPostUsers = const [],
+    super.postUsers = const [],
   });
 }
 
@@ -40,8 +40,8 @@ final class CuSeriesLoadedState extends CuSeriesSubState {
   const CuSeriesLoadedState(
       {super.isEditMode = true,
       required super.seriesPost,
-      required super.selectedPosts,
-      required super.posts});
+      required super.selectedPostUsers,
+      required super.postUsers});
 }
 
 sealed class CuSeriesErrorState extends CuSeriesState {
@@ -72,8 +72,8 @@ final class CuOperationErrorState extends CuSeriesSubState {
     required this.message,
     required super.isEditMode,
     required super.seriesPost,
-    required super.selectedPosts,
-    required super.posts,
+    required super.selectedPostUsers,
+    required super.postUsers,
   });
 
   @override
@@ -81,8 +81,8 @@ final class CuOperationErrorState extends CuSeriesSubState {
         message,
         super.isEditMode,
         super.seriesPost,
-        super.selectedPosts,
-        super.posts
+        super.selectedPostUsers,
+        super.postUsers
       ];
 }
 
@@ -108,8 +108,8 @@ final class SwitchModeState extends CuSeriesSubState {
   const SwitchModeState({
     required super.isEditMode,
     required super.seriesPost,
-    required super.selectedPosts,
-    required super.posts,
+    required super.selectedPostUsers,
+    required super.postUsers,
   });
 }
 
@@ -117,8 +117,8 @@ final class AddedPostState extends CuSeriesSubState {
   const AddedPostState({
     required super.isEditMode,
     required super.seriesPost,
-    required super.selectedPosts,
-    required super.posts,
+    required super.selectedPostUsers,
+    required super.postUsers,
   });
 }
 
@@ -126,8 +126,8 @@ final class RemovedPostState extends CuSeriesSubState {
   const RemovedPostState({
     required super.isEditMode,
     required super.seriesPost,
-    required super.selectedPosts,
-    required super.posts,
+    required super.selectedPostUsers,
+    required super.postUsers,
   });
 }
 
@@ -135,8 +135,8 @@ final class CuPrivateSeriesWaitingState extends CuSeriesSubState {
   const CuPrivateSeriesWaitingState({
     required super.isEditMode,
     required super.seriesPost,
-    required super.selectedPosts,
-    required super.posts,
+    required super.selectedPostUsers,
+    required super.postUsers,
   });
 }
 
@@ -144,7 +144,7 @@ final class CuPublicSeriesWaitingState extends CuSeriesSubState {
   const CuPublicSeriesWaitingState({
     required super.isEditMode,
     required super.seriesPost,
-    required super.selectedPosts,
-    required super.posts,
+    required super.selectedPostUsers,
+    required super.postUsers,
   });
 }

@@ -1,14 +1,14 @@
-import 'package:it_forum/ui/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:it_forum/ui/widgets/user_avatar.dart';
 
-import '../../../../../dtos/series_post.dart';
-import '../../../common/utils/date_time.dart';
+import '../../../../dtos/series_post_user.dart';
+import '../../../common/utils/common_utils.dart';
 import '../../../router.dart';
 
 class SeriesFeedItem extends StatelessWidget {
-  final SeriesPost seriesPost;
+  final SeriesPostUser seriesPostUser;
 
-  const SeriesFeedItem({super.key, required this.seriesPost});
+  const SeriesFeedItem({super.key, required this.seriesPostUser});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +18,12 @@ class SeriesFeedItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () => appRouter.go('/profile/${seriesPost.createdBy!.username}', extra: {}),
+            onTap: () => appRouter
+                .go('/profile/${seriesPostUser.user.username}', extra: {}),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: UserAvatar(
-                  imageUrl: seriesPost.createdBy!.avatarUrl,
+                  imageUrl: seriesPostUser.user.avatarUrl,
                   size: 54,
                 )),
           ),
@@ -34,9 +35,11 @@ class SeriesFeedItem extends StatelessWidget {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () => appRouter.go('/profile/${seriesPost.createdBy!.username}', extra: {}),
+                      onTap: () => appRouter.go(
+                          '/profile/${seriesPostUser.user.username}',
+                          extra: {}),
                       child: Text(
-                        seriesPost.createdBy!.displayName,
+                        seriesPostUser.user.displayName,
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w300,
@@ -45,7 +48,7 @@ class SeriesFeedItem extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      getTimeAgo(seriesPost.updatedAt),
+                      getTimeAgo(seriesPostUser.seriesPost.updatedAt),
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[700],
@@ -57,11 +60,12 @@ class SeriesFeedItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 2, bottom: 4),
                   child: InkWell(
-                    onTap: () =>
-                        appRouter.go('/series/${seriesPost.id}', extra: {}),
+                    onTap: () => appRouter.go(
+                        '/series/${seriesPostUser.seriesPost.id}',
+                        extra: {}),
                     hoverColor: Colors.black12,
                     child: Text(
-                      seriesPost.title,
+                      seriesPostUser.seriesPost.title,
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w400,
@@ -73,15 +77,15 @@ class SeriesFeedItem extends StatelessWidget {
                 ),
                 Row(
                   children: [
+                    buildFieldCount(Icons.backup_table_rounded,
+                        seriesPostUser.seriesPost.postIds.length),
+                    buildFieldCount(Icons.comment_outlined,
+                        seriesPostUser.seriesPost.commentCount),
                     buildFieldCount(
-                        Icons.backup_table_rounded, seriesPost.postIds.length),
-                    buildFieldCount(
-                        Icons.comment_outlined, seriesPost.commentCount),
-                    buildFieldCount(
-                        seriesPost.score < 0
+                        seriesPostUser.seriesPost.score < 0
                             ? Icons.trending_down_outlined
                             : Icons.trending_up_outlined,
-                        seriesPost.score)
+                        seriesPostUser.seriesPost.score)
                   ],
                 ),
               ],

@@ -1,14 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/dtos/result_count.dart';
 import 'package:it_forum/ui/views/profile/blocs/posts_tab/posts_tab_provider.dart';
 import 'package:it_forum/ui/views/profile/widgets/posts_tab/post_tab_item.dart';
 import 'package:it_forum/ui/widgets/notification.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../dtos/jwt_payload.dart';
 import '../../../../../dtos/pagination_states.dart';
-import '../../../../../models/post.dart';
+import '../../../../../dtos/post_user.dart';
 import '../../../../widgets/pagination2.dart';
 import '../../blocs/posts_tab/posts_tab_bloc.dart';
 import '../../blocs/profile/profile_bloc.dart';
@@ -42,7 +42,7 @@ class PostsTab extends StatelessWidget {
           if (state is PostsDeleteSuccessState) {
             showTopRightSnackBar(
               context,
-              "Xoá ${target['name']} \"${state.post.title}\" thành công!",
+              "Xoá ${target['name']} \"${state.postUser.post.title}\" thành công!",
               NotifyType.success,
             );
             context.read<PostsTabBloc>().add(LoadPostsEvent(
@@ -59,7 +59,7 @@ class PostsTab extends StatelessWidget {
               profileStats: profileState.profileStats,
               tagCounts: profileState.tagCounts,
               user: profileState.user,
-              post: state.post,
+              postUser: state.postUser,
             ));
           } else if (state is PostsTabErrorState) {
             showTopRightSnackBar(context, state.message, NotifyType.error);
@@ -77,8 +77,8 @@ class PostsTab extends StatelessWidget {
             } else if (state is PostsLoadedState) {
               return Column(
                 children: [
-                  buildPostList(context, state.posts),
-                  buildPagination(state.posts),
+                  buildPostList(context, state.postUsers),
+                  buildPagination(state.postUsers),
                 ],
               );
             } else if (state is PostsLoadErrorState) {
@@ -89,8 +89,8 @@ class PostsTab extends StatelessWidget {
             } else if (state is PostsTabErrorState) {
               return Column(
                 children: [
-                  buildPostList(context, state.posts),
-                  buildPagination(state.posts),
+                  buildPostList(context, state.postUsers),
+                  buildPagination(state.postUsers),
                 ],
               );
             }
@@ -108,10 +108,10 @@ class PostsTab extends StatelessWidget {
       alignment: Alignment.center,
       child: child);
 
-  Pagination2 buildPagination(ResultCount<Post> posts) {
+  Pagination2 buildPagination(ResultCount<PostUser> postUsers) {
     return Pagination2(
         pagingStates: PaginationStates(
-            count: posts.count,
+            count: postUsers.count,
             size: size,
             currentPage: page,
             range: 2,
@@ -119,27 +119,27 @@ class PostsTab extends StatelessWidget {
             params: {}));
   }
 
-  Padding buildPostList(BuildContext context, ResultCount<Post> posts) {
+  Padding buildPostList(BuildContext context, ResultCount<PostUser> postUsers) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
       child: Column(
         children: [
-          for (var post in posts.resultList)
-            buildOneRow(context, post, posts),
+          for (var postUser in postUsers.resultList)
+            buildOneRow(context, postUser, postUsers),
         ],
       ),
     );
   }
 
   Row buildOneRow(
-      BuildContext context, Post post, ResultCount<Post> posts) {
+      BuildContext context, PostUser postUser, ResultCount<PostUser> postUsers) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Container(
             transform: Matrix4.translationValues(-8.0, 0, 0),
-            child: PostTabItem(post: post),
+            child: PostTabItem(postUser: postUser),
           ),
         ),
         if (username == JwtPayload.sub)
@@ -155,7 +155,7 @@ class PostsTab extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
                 textStyle: const TextStyle(fontSize: 13)),
             onPressed: () =>
-                showDeleteConfirmationDialog(context, post, posts),
+                showDeleteConfirmationDialog(context, postUser, postUsers),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -170,7 +170,7 @@ class PostsTab extends StatelessWidget {
   }
 
   Future<void> showDeleteConfirmationDialog(
-      BuildContext context, Post post, ResultCount<Post> posts) async {
+      BuildContext context, PostUser postUser, ResultCount<PostUser> postUsers) async {
     return showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -179,7 +179,7 @@ class PostsTab extends StatelessWidget {
           child: ListBody(
             children: <Widget>[
               Text(
-                  'Bạn có chắc chắn muốn xoá ${target['name']} "${post.title}" không?'),
+                  'Bạn có chắc chắn muốn xoá ${target['name']} "${postUser.post.title}" không?'),
             ],
           ),
         ),
@@ -195,7 +195,7 @@ class PostsTab extends StatelessWidget {
             onPressed: () {
               context
                   .read<PostsTabBloc>()
-                  .add(ConfirmDeleteEvent(post: post, posts: posts));
+                  .add(ConfirmDeleteEvent(postUser: postUser, postUsers: postUsers));
               Navigator.of(dialogContext).pop();
             },
           ),

@@ -1,7 +1,6 @@
-import 'package:it_forum/ui/views/search/blocs/search_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/ui/views/search/blocs/search_bloc.dart';
 
 import '../../../../dtos/notify_type.dart';
 import '../../../widgets/notification.dart';
@@ -45,7 +44,7 @@ class _SearchPostViewState extends State<SearchPostView> {
       searchStr = searchStr.substring(index + 1);
     }
 
-    _bloc..add(LoadPostsEvent(
+    _bloc.add(LoadPostsEvent(
         fieldSearch: searchField,
         searchContent: searchStr,
         sort: widget.params['sort'] ?? 'DESC',
@@ -76,23 +75,23 @@ class _SearchPostViewState extends State<SearchPostView> {
             if (state is FollowEmptyState) {
               return Container(
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Không có bài viết nào nào!",
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                 ),
               );
             } else if (state is PostLoadedState) {
               return Column(
                 children: [
                   Column(
-                      children: state.posts.resultList
+                      children: state.postUsers.resultList
                           .map((e) {
                         return PostFeedItem(
-                            post: e);
+                            postUser: e);
                       }).toList()),
                   Pagination(
                     path: "/viewsearch",
-                    totalItem: state.posts.count,
+                    totalItem: state.postUsers.count,
                     params: widget.params,
                     selectedPage: int.parse(widget.params['page'] ?? '1'),
                   )

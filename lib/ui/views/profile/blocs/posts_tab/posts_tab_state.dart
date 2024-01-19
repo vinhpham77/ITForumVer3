@@ -14,34 +14,34 @@ final class PostsEmptyState extends PostsTabState {}
 
 @immutable
 sealed class PostsSubState extends PostsTabState {
-  final ResultCount<Post> posts;
+  final ResultCount<PostUser> postUsers;
 
-  const PostsSubState({required this.posts});
+  const PostsSubState({required this.postUsers});
 
   @override
-  List<Object?> get props => [posts];
+  List<Object?> get props => [postUsers];
 }
 
 final class PostsLoadedState extends PostsSubState {
-  const PostsLoadedState({required super.posts});
+  const PostsLoadedState({required super.postUsers});
 }
 
 final class PostsDeleteSuccessState extends PostsTabState {
-  final Post post;
+  final PostUser postUser;
 
-  const PostsDeleteSuccessState({required this.post});
+  const PostsDeleteSuccessState({required this.postUser});
 
   @override
-  List<Object?> get props => [post];
+  List<Object?> get props => [postUser];
 }
 
 final class PostsTabErrorState extends PostsSubState {
   final String message;
 
-  const PostsTabErrorState({required this.message, required super.posts});
+  const PostsTabErrorState({required this.message, required super.postUsers});
 
   @override
-  List<Object?> get props => [message, super.posts];
+  List<Object?> get props => [message, super.postUsers];
 }
 
 final class PostsLoadErrorState extends PostsTabState {

@@ -14,29 +14,29 @@ final class SeriesEmptyState extends SeriesTabState {}
 
 @immutable
 final class SeriesSubState extends SeriesTabState {
-  final ResultCount<SeriesPost> seriesPosts;
+  final ResultCount<SeriesPostUser> seriesPostUsers;
 
   const SeriesSubState({
-    required this.seriesPosts,
+    required this.seriesPostUsers,
   });
 
   @override
-  List<Object?> get props => [seriesPosts];
+  List<Object?> get props => [seriesPostUsers];
 }
 
 final class SeriesLoadedState extends SeriesSubState {
   const SeriesLoadedState({
-    required super.seriesPosts,
+    required super.seriesPostUsers,
   });
 }
 
 final class SeriesDeleteSuccessState extends SeriesTabState {
-  final SeriesPost seriesPost;
+  final SeriesPostUser seriesPostUser;
 
-  const SeriesDeleteSuccessState({required this.seriesPost});
+  const SeriesDeleteSuccessState({required this.seriesPostUser});
 
   @override
-  List<Object?> get props => [seriesPost];
+  List<Object?> get props => [seriesPostUser];
 }
 
 @immutable
@@ -54,11 +54,11 @@ final class SeriesDeleteErrorState extends SeriesSubState {
 
   const SeriesDeleteErrorState({
     required this.message,
-    required super.seriesPosts,
+    required super.seriesPostUsers,
   });
 
   @override
-  List<Object?> get props => [message, super.seriesPosts];
+  List<Object?> get props => [message, super.seriesPostUsers];
 }
 
 final class SeriesLoadErrorState extends SeriesTabErrorState {

@@ -81,14 +81,14 @@ class _BookmarkSeriesState extends State<BookmarkSeries> {
               return Column(
                 children: [
                   Column(
-                      children: state.seriesPost.resultList
+                      children: state.seriesPostUsers.resultList
                           .map((e) {
                         return SeriesFeedItem(
-                            seriesPost: e);
+                            seriesPostUser: e);
                       }).toList()),
                   Pagination(
                     path: "viewseries",
-                    totalItem: state.seriesPost.count,
+                    totalItem: state.seriesPostUsers.count,
                     params: widget.params,
                     selectedPage: widget.page,
                   )

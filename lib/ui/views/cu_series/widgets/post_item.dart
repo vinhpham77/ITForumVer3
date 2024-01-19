@@ -1,14 +1,14 @@
-import 'package:it_forum/ui/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:it_forum/ui/widgets/user_avatar.dart';
 
-import '../../../../models/post.dart';
-import '../../../common/utils/date_time.dart';
+import '../../../../dtos/post_user.dart';
+import '../../../common/utils/common_utils.dart';
 
 class PostItem extends StatelessWidget {
-  final Post post;
+  final PostUser postUser;
   final VoidCallback? onTap;
 
-  const PostItem({super.key, required this.post, this.onTap});
+  const PostItem({super.key, required this.postUser, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class PostItem extends StatelessWidget {
           ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: UserAvatar(
-                imageUrl: post.createdBy.avatarUrl,
+                imageUrl: postUser.user.avatarUrl,
                 size: 48,
               )),
           const SizedBox(width: 8),
@@ -42,7 +42,7 @@ class PostItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      post.createdBy.displayName,
+                      postUser.user.displayName,
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -50,7 +50,7 @@ class PostItem extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      getTimeAgo(post.updatedAt),
+                      getTimeAgo(postUser.post.updatedAt),
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.black54,
@@ -61,7 +61,7 @@ class PostItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 2, bottom: 4),
                   child: Text(
-                    post.title,
+                    postUser.post.title,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -75,7 +75,7 @@ class PostItem extends StatelessWidget {
                       : MainAxisAlignment.spaceBetween,
                   children: [
                     Row(children: [
-                      for (var tag in post.tags)
+                      for (var tag in postUser.post.tags)
                         Container(
                           margin: const EdgeInsets.only(right: 8),
                           padding: const EdgeInsets.symmetric(
@@ -105,7 +105,7 @@ class PostItem extends StatelessWidget {
                             color: Colors.black87,
                           ),
                           const SizedBox(width: 2),
-                          Text('${post.commentCount}',
+                          Text('${postUser.post.commentCount}',
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.black87)),
                         ],
@@ -115,13 +115,13 @@ class PostItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(
-                            post.score < 0
+                            postUser.post.score < 0
                                 ? Icons.trending_down_outlined
                                 : Icons.trending_up_outlined,
                             size: 16,
                             color: Colors.black87,
                           ),
-                          Text('${post.score}',
+                          Text('${postUser.post.score}',
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.black87)),
                         ],

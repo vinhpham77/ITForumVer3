@@ -83,14 +83,14 @@ class _PostsFeedState extends State<PostsFeed> {
               return Column(
                 children: [
                   Column(
-                      children: state.posts.resultList
+                      children: state.postUsers.resultList
                           .map((e) {
                         return PostFeedItem(
-                            post: e);
+                            postUser: e);
                       }).toList()),
                   Pagination(
                     path: indexing['path'] ?? '',
-                    totalItem: state.posts.count,
+                    totalItem: state.postUsers.count,
                     params: widget.params,
                     selectedPage: widget.page,
                   )

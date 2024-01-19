@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:it_forum/ui/views/posts/widgets/bookmark/bookmark_feed.dart';
 import 'package:it_forum/ui/views/posts/widgets/follow/follow_feed.dart';
 import 'package:it_forum/ui/views/posts/widgets/left_menu.dart';
 import 'package:it_forum/ui/views/posts/widgets/post/posts_feed.dart';
 import 'package:it_forum/ui/views/posts/widgets/right_page/right.dart';
 import 'package:it_forum/ui/views/posts/widgets/series/series_feed.dart';
-import 'package:flutter/material.dart';
 
 import '../../../dtos/jwt_payload.dart';
 import '../../common/app_constants.dart';

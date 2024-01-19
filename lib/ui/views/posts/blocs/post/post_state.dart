@@ -13,12 +13,12 @@ final class PostsInitialState extends PostState {}
 final class PostsEmptyState extends PostState {}
 
 final class PostsLoadedState extends PostState {
-  final ResultCount<Post> posts;
+  final ResultCount<PostUser> postUsers;
 
-  const PostsLoadedState({required this.posts});
+  const PostsLoadedState({required this.postUsers});
 
   @override
-  List<Object?> get props => [posts];
+  List<Object?> get props => [postUsers];
 }
 
 final class PostsTabErrorState extends PostState {

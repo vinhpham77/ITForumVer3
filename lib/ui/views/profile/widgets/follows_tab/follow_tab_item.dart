@@ -1,7 +1,7 @@
-import 'package:it_forum/ui/views/profile/blocs/follow_item/follow_item_provider.dart';
-import 'package:it_forum/ui/widgets/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/ui/views/profile/blocs/follow_item/follow_item_provider.dart';
+import 'package:it_forum/ui/widgets/notification.dart';
 
 import '../../../../../dtos/notify_type.dart';
 import '../../../../../dtos/user_stats.dart';

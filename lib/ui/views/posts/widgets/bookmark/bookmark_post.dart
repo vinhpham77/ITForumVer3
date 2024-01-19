@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -87,14 +86,14 @@ class _BookmarkPostState extends State<BookmarkPost> {
               return Column(
                 children: [
                   Column(
-                      children: state.posts.resultList
+                      children: state.postUsers.resultList
                           .map((e) {
                         return PostFeedItem(
-                            post: e);
+                            postUser: e);
                       }).toList()),
                   Pagination(
                     path: indexing['path'] ?? '',
-                    totalItem: state.posts.count,
+                    totalItem: state.postUsers.count,
                     params: widget.params,
                     selectedPage: widget.page,
                   )

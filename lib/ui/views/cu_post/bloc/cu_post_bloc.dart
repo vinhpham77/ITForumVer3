@@ -1,8 +1,8 @@
-import 'package:it_forum/dtos/result_count.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/dtos/result_count.dart';
 
 import '../../../../dtos/jwt_payload.dart';
 import '../../../../dtos/post_dto.dart';
@@ -10,10 +10,9 @@ import '../../../../models/post.dart';
 import '../../../../models/tag.dart';
 import '../../../../repositories/post_repository.dart';
 import '../../../../repositories/tag_repository.dart';
-import '../../../common/utils/message_from_exception.dart';
+import '../../../common/utils/common_utils.dart';
 
 part 'cu_post_event.dart';
-
 part 'cu_post_state.dart';
 
 class CuPostBloc extends Bloc<CuPostEvent, CuPostState> {

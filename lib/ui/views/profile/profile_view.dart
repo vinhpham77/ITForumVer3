@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/dtos/jwt_payload.dart';
 import 'package:it_forum/ui/common/app_constants.dart';
 import 'package:it_forum/ui/views/profile/blocs/profile/profile_bloc.dart';
@@ -8,8 +10,6 @@ import 'package:it_forum/ui/views/profile/widgets/posts_tab/posts_tab.dart';
 import 'package:it_forum/ui/views/profile/widgets/series_tab/series_tab.dart';
 import 'package:it_forum/ui/views/profile/widgets/tag_chart.dart';
 import 'package:it_forum/ui/widgets/user_avatar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../dtos/notify_type.dart';
 import '../../router.dart';

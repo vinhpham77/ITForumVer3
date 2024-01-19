@@ -1,5 +1,5 @@
-import 'package:it_forum/dtos/profile_stats.dart';
 import 'package:flutter/material.dart';
+import 'package:it_forum/dtos/profile_stats.dart';
 
 class CountStats extends StatelessWidget {
   final ProfileStats profileStats;

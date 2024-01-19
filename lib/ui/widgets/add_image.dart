@@ -1,18 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../api_config.dart';
 import '../../dtos/notify_type.dart';
 import '../../repositories/image_repository.dart';
-import '../common/utils/message_from_exception.dart';
+import '../common/utils/common_utils.dart';
 import 'notification.dart';
 
 typedef ImageCallback = Function(String imagePath);
 
 class AddImage extends StatefulWidget {
   final ImageCallback imageCallback;
-  AddImage({required this.imageCallback});
+  const AddImage({super.key, required this.imageCallback});
 
   @override
   State<AddImage> createState() => _AddImageState();
@@ -26,7 +25,7 @@ class _AddImageState extends State<AddImage> {
     return IconButton(
       onPressed: getImage,
       tooltip: 'Add image',
-      icon: Icon(Icons.image),
+      icon: const Icon(Icons.image),
     );
   }
 

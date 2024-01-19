@@ -1,6 +1,6 @@
-import 'package:it_forum/ui/views/posts/widgets/series_feed_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/ui/views/posts/widgets/series_feed_item.dart';
 
 import '../../../../../dtos/notify_type.dart';
 import '../../../../widgets/notification.dart';
@@ -40,7 +40,7 @@ class _SeriesFeedState extends State<SeriesFeed> {
   @override
   void didUpdateWidget(SeriesFeed oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _bloc..add(LoadSeriesEvent(
+    _bloc.add(LoadSeriesEvent(
       limit: widget.limit,
       page: widget.page,
     ));
@@ -68,23 +68,23 @@ class _SeriesFeedState extends State<SeriesFeed> {
             if (state is SeriesEmptyState) {
               return Container(
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Không có series nào!",
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                 ),
               );
             } else if (state is SeriesLoadedState) {
               return Column(
                 children: [
                   Column(
-                      children: state.seriesPost.resultList
+                      children: state.seriesPostUsers.resultList
                           .map((e) {
                         return SeriesFeedItem(
-                            seriesPost: e);
+                            seriesPostUser: e);
                       }).toList()),
                   Pagination(
                     path: "viewseries",
-                    totalItem: state.seriesPost.count,
+                    totalItem: state.seriesPostUsers.count,
                     params: widget.params,
                     selectedPage: widget.page,
                   )

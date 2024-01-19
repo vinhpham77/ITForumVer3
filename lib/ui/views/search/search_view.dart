@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/post_aggregation.dart';
 import 'package:it_forum/dtos/result_count.dart';
 import 'package:it_forum/ui/common/app_constants.dart';
@@ -5,7 +6,6 @@ import 'package:it_forum/ui/router.dart';
 import 'package:it_forum/ui/views/search/widgets/search_post_view.dart';
 import 'package:it_forum/ui/views/search/widgets/search_series_view.dart';
 import 'package:it_forum/ui/views/search/widgets/search_tap_view.dart';
-import 'package:flutter/material.dart';
 
 import '../posts/posts_view.dart';
 

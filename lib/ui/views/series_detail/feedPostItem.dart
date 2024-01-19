@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/post_aggregation.dart';
 import 'package:it_forum/ui/views/series_detail/tags.dart';
 import 'package:it_forum/ui/widgets/user_avatar.dart';
-import 'package:flutter/material.dart';
 
 class PostFeedItemSeries extends StatefulWidget {
   final PostAggregation postAggregation;

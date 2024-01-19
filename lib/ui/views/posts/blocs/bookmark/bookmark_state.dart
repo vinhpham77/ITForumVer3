@@ -13,21 +13,21 @@ final class BookmarkInitialState extends BookmarkState {}
 final class BookmarkEmptyState extends BookmarkState {}
 
 final class BookmarkPostLoadedState extends BookmarkState {
-  final ResultCount<Post> posts;
+  final ResultCount<PostUser> postUsers;
 
-  const BookmarkPostLoadedState({required this.posts});
+  const BookmarkPostLoadedState({required this.postUsers});
 
   @override
-  List<Object?> get props => [posts];
+  List<Object?> get props => [postUsers];
 }
 
 final class BookmarkSeriesLoadedState extends BookmarkState {
-  final ResultCount<SeriesPost> seriesPost;
+  final ResultCount<SeriesPostUser> seriesPostUsers;
 
-  const BookmarkSeriesLoadedState({required this.seriesPost});
+  const BookmarkSeriesLoadedState({required this.seriesPostUsers});
 
   @override
-  List<Object?> get props => [seriesPost];
+  List<Object?> get props => [seriesPostUsers];
 }
 
 final class BookmarkTabErrorState extends BookmarkState {

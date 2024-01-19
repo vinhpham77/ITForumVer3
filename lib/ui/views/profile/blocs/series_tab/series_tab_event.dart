@@ -9,14 +9,14 @@ sealed class SeriesTabEvent extends Equatable {
 }
 
 final class SeriesSubEvent extends SeriesTabEvent {
-  final ResultCount<SeriesPost> seriesPosts;
+  final ResultCount<SeriesPostUser> seriesPostUsers;
 
   const SeriesSubEvent({
-    required this.seriesPosts,
+    required this.seriesPostUsers,
   });
 
   @override
-  List<Object?> get props => [seriesPosts];
+  List<Object?> get props => [seriesPostUsers];
 }
 
 final class LoadSeriesEvent extends SeriesTabEvent {
@@ -32,17 +32,17 @@ final class LoadSeriesEvent extends SeriesTabEvent {
 }
 
 final class ConfirmDeleteEvent extends SeriesSubEvent {
-  final SeriesPost seriesPost;
+  final SeriesPostUser seriesPostUser;
 
   const ConfirmDeleteEvent({
-    required this.seriesPost,
-    required super.seriesPosts,
+    required this.seriesPostUser,
+    required super.seriesPostUsers,
   });
 
   @override
-  List<Object?> get props => [seriesPost, seriesPosts];
+  List<Object?> get props => [seriesPostUser, seriesPostUsers];
 }
 
 final class CancelDeleteEvent extends SeriesSubEvent {
-  const CancelDeleteEvent({required super.seriesPosts});
+  const CancelDeleteEvent({required super.seriesPostUsers});
 }

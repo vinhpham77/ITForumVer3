@@ -1,1 +1,0 @@
-String convertParam(Map params) => params.entries.map((e) => '${e.key}=${e.value}').join('&');

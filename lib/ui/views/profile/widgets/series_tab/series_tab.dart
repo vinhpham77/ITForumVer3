@@ -1,12 +1,12 @@
-import 'package:it_forum/dtos/series_post.dart';
-import 'package:it_forum/ui/views/profile/blocs/series_tab/series_tab_provider.dart';
-import 'package:it_forum/ui/views/profile/widgets/series_tab/series_tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/ui/views/profile/blocs/series_tab/series_tab_provider.dart';
+import 'package:it_forum/ui/views/profile/widgets/series_tab/series_tab_item.dart';
 
 import '../../../../../dtos/jwt_payload.dart';
 import '../../../../../dtos/notify_type.dart';
 import '../../../../../dtos/pagination_states.dart';
+import '../../../../../dtos/series_post_user.dart';
 import '../../../../widgets/notification.dart';
 import '../../../../widgets/pagination2.dart';
 import '../../blocs/profile/profile_bloc.dart';
@@ -34,7 +34,7 @@ class SeriesTab extends StatelessWidget {
           if (state is SeriesDeleteSuccessState) {
             showTopRightSnackBar(
               context,
-              "Xoá series \"${state.seriesPost.title}\" thành công!",
+              "Xoá series \"${state.seriesPostUser.seriesPost.title}\" thành công!",
               NotifyType.success,
             );
 
@@ -50,7 +50,6 @@ class SeriesTab extends StatelessWidget {
 
             context.read<SeriesTabBloc>().add(
                 LoadSeriesEvent(username: username, page: page, size: size));
-
           } else if (state is SeriesDeleteErrorState) {
             showTopRightSnackBar(
               context,
@@ -103,22 +102,22 @@ class SeriesTab extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
       child: Column(
         children: [
-          for (var seriesPost in state.seriesPosts.resultList)
-            buildOneRow(context, seriesPost, state),
+          for (var seriesPostUser in state.seriesPostUsers.resultList)
+            buildOneRow(context, seriesPostUser, state),
         ],
       ),
     );
   }
 
-  Row buildOneRow(
-      BuildContext context, SeriesPost seriesPost, SeriesSubState state) {
+  Row buildOneRow(BuildContext context, SeriesPostUser seriesPostUser,
+      SeriesSubState state) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Container(
             transform: Matrix4.translationValues(-8.0, 0, 0),
-            child: SeriesTabItem(seriesPost: seriesPost),
+            child: SeriesTabItem(seriesPostUser: seriesPostUser),
           ),
         ),
         if (username == JwtPayload.sub)
@@ -134,7 +133,7 @@ class SeriesTab extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
                 textStyle: const TextStyle(fontSize: 13)),
             onPressed: () =>
-                showDeleteConfirmationDialog(context, seriesPost, state),
+                showDeleteConfirmationDialog(context, seriesPostUser, state),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -148,8 +147,8 @@ class SeriesTab extends StatelessWidget {
     );
   }
 
-  Future<void> showDeleteConfirmationDialog(
-      BuildContext context, SeriesPost seriesPost, SeriesSubState state) async {
+  Future<void> showDeleteConfirmationDialog(BuildContext context,
+      SeriesPostUser seriesPostUser, SeriesSubState state) async {
     return showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -158,7 +157,7 @@ class SeriesTab extends StatelessWidget {
           child: ListBody(
             children: <Widget>[
               Text(
-                  'Bạn có chắc chắn muốn xoá series "${seriesPost.title}" không?'),
+                  'Bạn có chắc chắn muốn xoá series "${seriesPostUser.seriesPost.title}" không?'),
             ],
           ),
         ),
@@ -173,8 +172,8 @@ class SeriesTab extends StatelessWidget {
             child: const Text('Xác nhận'),
             onPressed: () {
               context.read<SeriesTabBloc>().add(ConfirmDeleteEvent(
-                    seriesPost: seriesPost,
-                    seriesPosts: state.seriesPosts,
+                    seriesPostUser: seriesPostUser,
+                    seriesPostUsers: state.seriesPostUsers,
                   ));
               Navigator.of(dialogContext).pop();
             },
@@ -187,7 +186,7 @@ class SeriesTab extends StatelessWidget {
   Pagination2 buildPagination(SeriesSubState state) {
     return Pagination2(
         pagingStates: PaginationStates(
-            count: state.seriesPosts.count,
+            count: state.seriesPostUsers.count,
             size: size,
             currentPage: page,
             range: 2,

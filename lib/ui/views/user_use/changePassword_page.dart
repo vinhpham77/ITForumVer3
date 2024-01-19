@@ -1,7 +1,7 @@
-import 'package:it_forum/blocs/changePassword_bloc.dart';
-import 'package:it_forum/dtos/jwt_payload.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:it_forum/blocs/changePassword_bloc.dart';
+import 'package:it_forum/dtos/jwt_payload.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});

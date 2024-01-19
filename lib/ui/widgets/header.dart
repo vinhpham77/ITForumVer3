@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:it_forum/ui/common/app_constants.dart';
 import 'package:it_forum/ui/widgets/header/left_header.dart';
-import 'package:flutter/material.dart';
 
 import 'header/right_header.dart';
 

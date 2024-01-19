@@ -1,13 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/jwt_payload.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/repositories/auth_repository.dart';
-import 'package:it_forum/ui/common/utils/message_from_exception.dart';
 import 'package:it_forum/ui/widgets/notification.dart';
 import 'package:it_forum/validators/validations.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../ui/common/utils/common_utils.dart';
 import '../ui/common/utils/jwt_interceptor.dart';
 
 class LoginBloc {
@@ -20,8 +21,8 @@ class LoginBloc {
 
   Stream get passStream => _passController.stream;
 
-  Stream get getloginStatusController => loginStatusController.stream;
-  static String usernameGlobal = JwtPayload.sub?? '';
+  Stream get getLoginStatusController => loginStatusController.stream;
+  static String usernameGlobal = JwtPayload.sub ?? '';
   late BuildContext context;
 
   LoginBloc(this.context);

@@ -1,12 +1,11 @@
-import 'package:it_forum/ui/common/utils/index.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../repositories/follow_repository.dart';
+import '../../../../common/utils/common_utils.dart';
 
 part 'follow_item_event.dart';
-
 part 'follow_item_state.dart';
 
 class FollowItemBloc extends Bloc<FollowItemEvent, FollowItemState> {

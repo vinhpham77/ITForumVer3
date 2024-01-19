@@ -1,30 +1,35 @@
+import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/dtos/series_dto.dart';
 import 'package:it_forum/models/series.dart';
 import 'package:it_forum/repositories/series_repository.dart';
-import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../dtos/jwt_payload.dart';
+import '../../../../dtos/post_user.dart';
 import '../../../../dtos/result_count.dart';
 import '../../../../dtos/series_post.dart';
 import '../../../../models/post.dart';
+import '../../../../models/user.dart';
+import '../../../../repositories/auth_repository.dart';
 import '../../../../repositories/post_repository.dart';
-import '../../../common/utils/message_from_exception.dart';
+import '../../../common/utils/common_utils.dart';
 
 part 'cu_series_event.dart';
-
 part 'cu_series_state.dart';
 
 class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
+  final AuthRepository _authRepository;
   final SeriesRepository _seriesRepository;
   final PostRepository _postRepository;
 
   CuSeriesBloc(
-      {required PostRepository postRepository,
+      {required AuthRepository authRepository,
+      required PostRepository postRepository,
       required SeriesRepository seriesRepository})
       : _postRepository = postRepository,
+        _authRepository = authRepository,
         _seriesRepository = seriesRepository,
         super(CuSeriesInitState()) {
     on<InitEmptySeriesEvent>(_initEmptySeries);
@@ -40,8 +45,8 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
     emit(const CuSeriesEmptyState(
       seriesPost: null,
       isEditMode: true,
-      posts: [],
-      selectedPosts: [],
+      postUsers: [],
+      selectedPostUsers: [],
     ));
   }
 
@@ -54,17 +59,38 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
         return;
       }
 
-      var response = await _seriesRepository.getOne(event.id);
-      SeriesPost seriesPost = SeriesPost.fromJson(response.data);
+      var userResponseFuture = _authRepository.verify();
+      var seriesResponseFuture = _seriesRepository.getOne(event.id);
+      var postResultCountJsonFuture =
+          _postRepository.getByUser(JwtPayload.sub!);
 
-      var resultCountJson = await _postRepository.getByUser(JwtPayload.sub!);
+      var results = await Future.wait([
+        userResponseFuture,
+        seriesResponseFuture,
+        postResultCountJsonFuture
+      ]);
+
+      var userResponse = results[0];
+      var seriesResponse = results[1];
+      var postResultCountJson = results[2];
+
+      var user = User.fromJson(userResponse.data);
+      SeriesPost seriesPost = SeriesPost.fromJson(seriesResponse.data);
       ResultCount<Post> resultCount =
-          ResultCount.fromJson(resultCountJson.data, Post.fromJson);
+          ResultCount.fromJson(postResultCountJson.data, Post.fromJson);
+
       List<Post> posts = resultCount.resultList.map((e) => e).toList();
-      List<Post> selectedPosts = [];
-      posts.removeWhere((postUser) {
-        if (seriesPost.postIds.contains(postUser.id)) {
-          selectedPosts.add(postUser);
+      List<PostUser> selectPostUsers = [];
+      List<PostUser> postUsers = posts
+          .map((post) => PostUser(
+                post: post,
+                user: user,
+              ))
+          .toList();
+
+      postUsers.removeWhere((postUser) {
+        if (seriesPost.postIds.contains(postUser.post.id)) {
+          selectPostUsers.add(postUser);
           return true;
         }
         return false;
@@ -73,8 +99,8 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
       emit(CuSeriesLoadedState(
         seriesPost: seriesPost,
         isEditMode: true,
-        posts: posts,
-        selectedPosts: selectedPosts,
+        postUsers: postUsers,
+        selectedPostUsers: selectPostUsers,
       ));
     } catch (error) {
       if (error is DioException) {
@@ -99,14 +125,14 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
         emit(CuPrivateSeriesWaitingState(
             seriesPost: event.seriesPost,
             isEditMode: event.isEditMode,
-            selectedPosts: event.selectedPosts,
-            posts: event.posts));
+            selectedPostUsers: event.selectedPostUsers,
+            postUsers: event.postUsers));
       } else {
         emit(CuPublicSeriesWaitingState(
             seriesPost: event.seriesPost,
             isEditMode: event.isEditMode,
-            selectedPosts: event.selectedPosts,
-            posts: event.posts));
+            selectedPostUsers: event.selectedPostUsers,
+            postUsers: event.postUsers));
       }
 
       Response<dynamic> response;
@@ -135,8 +161,8 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
             message: message,
             seriesPost: event.seriesPost,
             isEditMode: event.isEditMode,
-            posts: event.posts,
-            selectedPosts: event.selectedPosts));
+            postUsers: event.postUsers,
+            selectedPostUsers: event.selectedPostUsers));
       }
     }
   }
@@ -145,32 +171,32 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
     emit(SwitchModeState(
       seriesPost: event.seriesPost,
       isEditMode: event.isEditMode,
-      posts: event.posts,
-      selectedPosts: event.selectedPosts,
+      postUsers: event.postUsers,
+      selectedPostUsers: event.selectedPostUsers,
     ));
   }
 
   void _addPost(AddPostEvent event, Emitter<CuSeriesState> emit) {
-    var posts = [...event.posts];
-    posts.remove(event.post);
-    event.selectedPosts.add(event.post);
+    var postUsers = [...event.postUsers];
+    postUsers.remove(event.postUser);
+    event.selectedPostUsers.add(event.postUser);
 
     emit(AddedPostState(
       seriesPost: event.seriesPost,
       isEditMode: event.isEditMode,
-      posts: posts,
-      selectedPosts: event.selectedPosts,
+      postUsers: postUsers,
+      selectedPostUsers: event.selectedPostUsers,
     ));
   }
 
   void _removePost(RemovePostEvent event, Emitter<CuSeriesState> emit) {
-    var posts = [...event.posts, event.post];
-    event.selectedPosts.remove(event.post);
+    var postUsers = [...event.postUsers, event.postUser];
+    event.selectedPostUsers.remove(event.postUser);
     emit(RemovedPostState(
       seriesPost: event.seriesPost,
       isEditMode: event.isEditMode,
-      posts: posts,
-      selectedPosts: event.selectedPosts,
+      postUsers: postUsers,
+      selectedPostUsers: event.selectedPostUsers,
     ));
   }
 }

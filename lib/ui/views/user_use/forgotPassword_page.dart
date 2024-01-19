@@ -1,7 +1,6 @@
-import 'package:it_forum/blocs/forgotPassword_bloc.dart';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:it_forum/blocs/forgotPassword_bloc.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});

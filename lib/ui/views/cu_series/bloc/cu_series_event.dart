@@ -12,59 +12,59 @@ final class InitEmptySeriesEvent extends CuSeriesEvent {}
 
 sealed class CuSeriesSubEvent extends CuSeriesEvent {
   final SeriesPost? seriesPost;
-  final List<Post> posts;
-  final List<Post> selectedPosts;
+  final List<PostUser> postUsers;
+  final List<PostUser> selectedPostUsers;
   final bool isEditMode;
 
   const CuSeriesSubEvent({
     required this.isEditMode,
     required this.seriesPost,
-    required this.selectedPosts,
-    required this.posts,
+    required this.selectedPostUsers,
+    required this.postUsers,
   });
 
   @override
   List<Object?> get props =>
-      [isEditMode, seriesPost, selectedPosts, posts];
+      [isEditMode, seriesPost, selectedPostUsers, postUsers];
 }
 
 final class AddPostEvent extends CuSeriesSubEvent {
-  final Post post;
+  final PostUser postUser;
 
   const AddPostEvent(
-      {required this.post,
+      {required this.postUser,
       required super.isEditMode,
       required super.seriesPost,
-      required super.selectedPosts,
-      required super.posts});
+      required super.selectedPostUsers,
+      required super.postUsers});
 
   @override
   List<Object?> get props => [
-        post,
+        postUser,
         super.isEditMode,
         super.seriesPost,
-        super.selectedPosts,
-        super.posts
+        super.selectedPostUsers,
+        super.postUsers
       ];
 }
 
 final class RemovePostEvent extends CuSeriesSubEvent {
-  final Post post;
+  final PostUser postUser;
 
   const RemovePostEvent(
-      {required this.post,
+      {required this.postUser,
       required super.isEditMode,
       required super.seriesPost,
-      required super.selectedPosts,
-      required super.posts});
+      required super.selectedPostUsers,
+      required super.postUsers});
 
   @override
   List<Object?> get props => [
-        post,
+        postUser,
         super.isEditMode,
         super.seriesPost,
-        super.selectedPosts,
-        super.posts
+        super.selectedPostUsers,
+        super.postUsers
       ];
 }
 
@@ -86,16 +86,16 @@ final class CuSeriesOperationEvent extends CuSeriesSubEvent {
         required this.isCreate,
       required super.isEditMode,
       required super.seriesPost,
-      required super.selectedPosts,
-      required super.posts});
+      required super.selectedPostUsers,
+      required super.postUsers});
 
   @override
   List<Object?> get props => [
         seriesDTO,
         super.isEditMode,
         super.seriesPost,
-        super.selectedPosts,
-        super.posts,
+        super.selectedPostUsers,
+        super.postUsers,
         isCreate
       ];
 }
@@ -107,16 +107,16 @@ final class UpdateSeriesEvent extends CuSeriesSubEvent {
       {required this.seriesDTO,
       required super.isEditMode,
       required super.seriesPost,
-      required super.selectedPosts,
-      required super.posts});
+      required super.selectedPostUsers,
+      required super.postUsers});
 
   @override
   List<Object?> get props => [
         seriesDTO,
         super.isEditMode,
         super.seriesPost,
-        super.selectedPosts,
-        super.posts
+        super.selectedPostUsers,
+        super.postUsers
       ];
 }
 
@@ -124,6 +124,6 @@ final class SwitchModeEvent extends CuSeriesSubEvent {
   const SwitchModeEvent(
       {required super.isEditMode,
       required super.seriesPost,
-      required super.selectedPosts,
-      required super.posts});
+      required super.selectedPostUsers,
+      required super.postUsers});
 }

@@ -2,13 +2,13 @@
 
 import 'dart:html';
 
+import 'package:dio/src/response.dart';
+import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/repositories/post_repository.dart';
 import 'package:it_forum/repositories/series_repository.dart';
 import 'package:it_forum/ui/router.dart';
 import 'package:it_forum/ui/widgets/notification.dart';
-import 'package:dio/src/response.dart';
-import 'package:flutter/material.dart';
 
 class MoreHoriz extends StatefulWidget {
   final String username;

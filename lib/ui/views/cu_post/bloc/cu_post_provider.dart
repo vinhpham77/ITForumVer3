@@ -1,7 +1,7 @@
-import 'package:it_forum/repositories/post_repository.dart';
-import 'package:it_forum/repositories/tag_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/repositories/post_repository.dart';
+import 'package:it_forum/repositories/tag_repository.dart';
 
 import 'cu_post_bloc.dart';
 
@@ -11,10 +11,7 @@ class CuPostBlocProvider extends StatelessWidget {
   final bool isQuestion;
 
   const CuPostBlocProvider(
-      {super.key,
-      required this.child,
-      this.id,
-      required this.isQuestion});
+      {super.key, required this.child, this.id, required this.isQuestion});
 
   @override
   Widget build(BuildContext context) {

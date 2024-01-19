@@ -1,6 +1,6 @@
-import 'package:it_forum/ui/views/profile/blocs/series_tab/series_tab_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_forum/ui/views/profile/blocs/series_tab/series_tab_bloc.dart';
 
 import '../../../../../repositories/series_repository.dart';
 

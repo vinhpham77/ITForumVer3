@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../models/post.dart';
+import '../../../../../dtos/post_user.dart';
 import '../../../../router.dart';
 
 class RightItem extends StatelessWidget {
-  final Post post;
+  final PostUser postUser;
 
-  const RightItem({super.key, required this.post});
+  const RightItem({super.key, required this.postUser});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,9 @@ class RightItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () =>
-                appRouter.push('/posts/${post.id}', extra: {}),
+            onTap: () => appRouter.push('/posts/${postUser.post.id}', extra: {}),
             child: Text(
-              post.title,
+              postUser.post.title,
               style: const TextStyle(fontSize: 16),
               softWrap: true,
             ),
@@ -30,18 +29,18 @@ class RightItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Icon(
-                post.score < 0 ? Icons.arrow_downward : Icons.arrow_upward,
+                postUser.post.score < 0 ? Icons.arrow_downward : Icons.arrow_upward,
                 size: 16,
                 color: Colors.black87,
               ),
-              Text('${post.score}',
+              Text('${postUser.post.score}',
                   style: const TextStyle(fontSize: 12, color: Colors.black87)),
             ],
           ),
           InkWell(
             onTap: () {},
             child: Text(
-              post.createdBy.displayName,
+              postUser.user.displayName,
               style: const TextStyle(color: Colors.black38),
             ),
           ),

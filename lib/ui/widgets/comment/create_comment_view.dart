@@ -1,20 +1,18 @@
-import 'package:it_forum/models/comment_details.dart';
-import 'package:it_forum/ui/widgets/add_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:it_forum/models/comment_details.dart';
+import 'package:it_forum/ui/widgets/add_image.dart';
 
 import '../../../dtos/jwt_payload.dart';
 import '../../../dtos/notify_type.dart';
-import '../../../dtos/sub_comment_aggregate.dart';
 import '../../../dtos/sub_comment_dto.dart';
 import '../../../repositories/comment_repository.dart';
-import '../../common/utils/message_from_exception.dart';
+import '../../common/utils/common_utils.dart';
 import '../notification.dart';
 import '../user_avatar.dart';
 
-typedef CommentChangedCallback = Function(
-    CommentDetails commentDetails);
+typedef CommentChangedCallback = Function(CommentDetails commentDetails);
 
 class CreateCommentView extends StatefulWidget {
   final int postId;
@@ -125,12 +123,14 @@ class _CreateCommentViewState extends State<CreateCommentView> {
                           height: 36,
                           width: 100,
                           child: FloatingActionButton(
-                            backgroundColor: const Color.fromRGBO(96, 120, 254, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(96, 120, 254, 1),
                             onPressed: () {
                               if (!validateOnPressed()) return;
                               Future<Response<dynamic>> future;
                               if (widget.context == '') {
-                                future = commentRepository.add(widget.postId,
+                                future = commentRepository.add(
+                                    widget.postId,
                                     widget.type,
                                     createCommentDto(widget.subId));
                               } else {
@@ -141,13 +141,12 @@ class _CreateCommentViewState extends State<CreateCommentView> {
                                     createCommentDto(null));
                               }
                               future.then((response) {
-                                widget.callback(CommentDetails.fromJson(
-                                    response.data));
+                                widget.callback(
+                                    CommentDetails.fromJson(response.data));
 
                                 _contentController.text = "";
                               }).catchError((error) {
-                                String message =
-                                    getMessageFromException(error);
+                                String message = getMessageFromException(error);
                                 showTopRightSnackBar(
                                     context, message, NotifyType.error);
                               });

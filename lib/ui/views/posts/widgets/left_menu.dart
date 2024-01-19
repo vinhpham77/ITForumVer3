@@ -1,6 +1,5 @@
-import 'package:it_forum/ui/router.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:it_forum/ui/router.dart';
 
 import '../posts_view.dart';
 

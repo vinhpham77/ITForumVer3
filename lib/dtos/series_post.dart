@@ -1,6 +1,3 @@
-
-import 'package:it_forum/models/user.dart';
-
 class SeriesPost {
   int? id;
   String title;
@@ -10,7 +7,7 @@ class SeriesPost {
   int commentCount;
   bool isPrivate;
   DateTime updatedAt;
-  User? createdBy;
+  String? createdBy;
 
   SeriesPost(
       {required this.id,
@@ -33,7 +30,7 @@ class SeriesPost {
       commentCount: json['commentCount'],
       isPrivate: json['isPrivate'],
       updatedAt: DateTime.parse(json['updatedAt']),
-      createdBy: User.fromJson(json['createdBy']),
+      createdBy: json['createdBy'],
     );
   }
 
@@ -46,7 +43,7 @@ class SeriesPost {
     int? commentCount,
     bool? isPrivate,
     DateTime? updatedAt,
-    User? createdBy,
+    String? createdBy,
   }) {
     return SeriesPost(
       id: id ?? this.id,

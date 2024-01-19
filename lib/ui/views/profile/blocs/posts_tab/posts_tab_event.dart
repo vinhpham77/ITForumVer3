@@ -26,22 +26,22 @@ final class LoadPostsEvent extends PostsTabEvent {
 }
 
 final class PostsTabSubEvent extends PostsTabEvent {
-  final ResultCount<Post> posts;
+  final ResultCount<PostUser> postUsers;
 
-  const PostsTabSubEvent({required this.posts});
+  const PostsTabSubEvent({required this.postUsers});
 
   @override
-  List<Object?> get props => [posts];
+  List<Object?> get props => [postUsers];
 }
 
 final class ConfirmDeleteEvent extends PostsTabSubEvent {
-  final Post post;
+  final PostUser postUser;
 
   const ConfirmDeleteEvent({
-    required this.post,
-    required super.posts,
+    required this.postUser,
+    required super.postUsers,
   });
 
   @override
-  List<Object?> get props => [post, posts];
+  List<Object?> get props => [postUser, postUsers];
 }
