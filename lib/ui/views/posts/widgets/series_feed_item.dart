@@ -21,11 +21,10 @@ class SeriesFeedItem extends StatelessWidget {
             onTap: () => appRouter
                 .go('/profile/${seriesPostUser.user.username}', extra: {}),
             child: ClipOval(
-                
                 child: UserAvatar(
-                  imageUrl: seriesPostUser.user.avatarUrl,
-                  size: 54,
-                )),
+              imageUrl: seriesPostUser.user.avatarUrl,
+              size: 54,
+            )),
           ),
           const SizedBox(width: 12),
           Expanded(

@@ -7,7 +7,6 @@ import '../../../../widgets/pagination.dart';
 import '../../blocs/post/post_bloc.dart';
 import '../post_feed_item.dart';
 
-
 class PostsFeed extends StatefulWidget {
   final int page;
   final int limit;
@@ -16,11 +15,10 @@ class PostsFeed extends StatefulWidget {
 
   const PostsFeed(
       {super.key,
-        required this.page,
-        required this.limit,
-        required this.isQuestion,
-        required this.params
-      });
+      required this.page,
+      required this.limit,
+      required this.isQuestion,
+      required this.params});
 
   @override
   State<PostsFeed> createState() => _PostsFeedState();
@@ -28,8 +26,9 @@ class PostsFeed extends StatefulWidget {
 
 class _PostsFeedState extends State<PostsFeed> {
   late PostBloc _bloc;
-  late Map<String, String> indexing = widget.isQuestion ? {'name' : 'hỏi đáp', 'path': '/viewquestion'} :
-    {'name' : 'bài viết', 'path': '/viewposts'};
+  late Map<String, String> indexing = widget.isQuestion
+      ? {'name': 'hỏi đáp', 'path': '/viewquestion'}
+      : {'name': 'bài viết', 'path': '/viewposts'};
 
   @override
   void initState() {
@@ -38,8 +37,7 @@ class _PostsFeedState extends State<PostsFeed> {
       ..add(LoadPostsEvent(
           limit: widget.limit,
           page: widget.page,
-          tag: widget.isQuestion ? "HoiDap" : ""
-      ));
+          tag: widget.isQuestion ? "HoiDap" : ""));
   }
 
   @override
@@ -48,8 +46,7 @@ class _PostsFeedState extends State<PostsFeed> {
     _bloc.add(LoadPostsEvent(
         limit: widget.limit,
         page: widget.page,
-        tag: widget.isQuestion ? "HoiDap" : ""
-    ));
+        tag: widget.isQuestion ? "HoiDap" : ""));
   }
 
   @override
@@ -83,11 +80,9 @@ class _PostsFeedState extends State<PostsFeed> {
               return Column(
                 children: [
                   Column(
-                      children: state.postUsers.resultList
-                          .map((e) {
-                        return PostFeedItem(
-                            postUser: e);
-                      }).toList()),
+                      children: state.postUsers.resultList.map((e) {
+                    return PostFeedItem(postUser: e);
+                  }).toList()),
                   Pagination(
                     path: indexing['path'] ?? '',
                     totalItem: state.postUsers.count,
@@ -100,7 +95,7 @@ class _PostsFeedState extends State<PostsFeed> {
               return Container(
                 alignment: Alignment.center,
                 child:
-                Text(state.message, style: const TextStyle(fontSize: 16)),
+                    Text(state.message, style: const TextStyle(fontSize: 16)),
               );
             }
 

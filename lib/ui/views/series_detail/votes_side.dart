@@ -8,7 +8,8 @@ class VoteSection extends StatelessWidget {
   final Function() onUpVote;
   final Function() onDownVote;
 
-  const VoteSection({super.key,
+  const VoteSection({
+    super.key,
     required this.stateVote,
     required this.upVote,
     required this.downVote,
@@ -16,6 +17,7 @@ class VoteSection extends StatelessWidget {
     required this.onUpVote,
     required this.onDownVote,
   });
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +28,7 @@ class VoteSection extends StatelessWidget {
               icon: const Icon(
                 Icons.arrow_drop_up,
               ),
-              onPressed: () => !stateVote ? onUpVote() : null   ,
+              onPressed: () => !stateVote ? onUpVote() : null,
               iconSize: 36,
               color: upVote ? Colors.blue : null),
           Text('$score', style: const TextStyle(fontSize: 20)),

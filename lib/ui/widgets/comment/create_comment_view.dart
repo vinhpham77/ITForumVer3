@@ -98,7 +98,6 @@ class _CreateCommentViewState extends State<CreateCommentView> {
                   child: InkWell(
                     onTap: () {},
                     child: ClipOval(
-                      
                       child: UserAvatar(
                         imageUrl: JwtPayload.avatarUrl,
                         size: 32,

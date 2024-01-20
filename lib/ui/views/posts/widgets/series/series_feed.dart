@@ -7,7 +7,6 @@ import '../../../../widgets/notification.dart';
 import '../../../../widgets/pagination.dart';
 import '../../blocs/series/series_bloc.dart';
 
-
 class SeriesFeed extends StatefulWidget {
   final int page;
   final int limit;
@@ -15,10 +14,9 @@ class SeriesFeed extends StatefulWidget {
 
   const SeriesFeed(
       {super.key,
-        required this.page,
-        required this.limit,
-        required this.params
-      });
+      required this.page,
+      required this.limit,
+      required this.params});
 
   @override
   State<SeriesFeed> createState() => _SeriesFeedState();
@@ -32,8 +30,8 @@ class _SeriesFeedState extends State<SeriesFeed> {
     super.initState();
     _bloc = SeriesBloc()
       ..add(LoadSeriesEvent(
-          limit: widget.limit,
-          page: widget.page,
+        limit: widget.limit,
+        page: widget.page,
       ));
   }
 
@@ -77,11 +75,9 @@ class _SeriesFeedState extends State<SeriesFeed> {
               return Column(
                 children: [
                   Column(
-                      children: state.seriesPostUsers.resultList
-                          .map((e) {
-                        return SeriesFeedItem(
-                            seriesPostUser: e);
-                      }).toList()),
+                      children: state.seriesPostUsers.resultList.map((e) {
+                    return SeriesFeedItem(seriesPostUser: e);
+                  }).toList()),
                   Pagination(
                     path: "viewseries",
                     totalItem: state.seriesPostUsers.count,
@@ -94,7 +90,7 @@ class _SeriesFeedState extends State<SeriesFeed> {
               return Container(
                 alignment: Alignment.center,
                 child:
-                Text(state.message, style: const TextStyle(fontSize: 16)),
+                    Text(state.message, style: const TextStyle(fontSize: 16)),
               );
             }
 

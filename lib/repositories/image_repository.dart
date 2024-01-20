@@ -13,7 +13,8 @@ class ImageRepository {
 
   ImageRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.imagesEndpoint}"));
+        baseUrl:
+            "${ApiConfig.userServiceBaseUrl}/${ApiConfig.imagesEndpoint}"));
   }
 
   Future<Response<dynamic>> upload(XFile file) async {

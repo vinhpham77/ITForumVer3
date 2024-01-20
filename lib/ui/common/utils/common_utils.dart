@@ -22,9 +22,8 @@ String getMessageFromException(dynamic err) {
 
   if (errorMessage is Map<String, dynamic>) {
     Map<String, dynamic> data = errorMessage;
-    message = data.entries
-        .map((entry) => "${entry.key}: ${entry.value}")
-        .join("\n");
+    message =
+        data.entries.map((entry) => "${entry.key}: ${entry.value}").join("\n");
   } else if (errorMessage is String && errorMessage.isNotEmpty) {
     message = errorMessage;
   } else if (error.type == DioExceptionType.connectionTimeout) {
@@ -40,7 +39,8 @@ String getMessageFromException(dynamic err) {
   } else if (error.response?.statusCode == 401) {
     message = "Vui lòng đăng nhập!";
   } else if (error.response?.statusCode == 403) {
-    message = "Bạn không thể thực hiện thao tác này! Vui lòng đăng nhập với tư cách khác!";
+    message =
+        "Bạn không thể thực hiện thao tác này! Vui lòng đăng nhập với tư cách khác!";
   } else if (error.response?.statusCode == 404) {
     message = "Không tìm thấy dữ liệu!";
   } else if (error.response?.statusCode == 500) {
@@ -73,24 +73,28 @@ String getTimeAgo(DateTime dateTime) {
   }
 }
 
-String convertParam(Map params) => params.entries.map((e) => '${e.key}=${e.value}').join('&');
+String convertParam(Map params) =>
+    params.entries.map((e) => '${e.key}=${e.value}').join('&');
 
 List<PostUser> convertPostUser(List<Post> posts, List<User> users) {
   List<PostUser> postUsers = [];
 
   for (var post in posts) {
-    var user = users.firstWhere((element) => element.username == post.createdBy);
+    var user =
+        users.firstWhere((element) => element.username == post.createdBy);
     postUsers.add(PostUser(post: post, user: user));
   }
 
   return postUsers;
 }
 
-List<SeriesPostUser> convertSeriesPostUser(List<SeriesPost> series, List<User> users) {
+List<SeriesPostUser> convertSeriesPostUser(
+    List<SeriesPost> series, List<User> users) {
   List<SeriesPostUser> seriesPostUsers = [];
 
   for (var seriesPost in series) {
-    var user = users.firstWhere((element) => element.username == seriesPost.createdBy);
+    var user =
+        users.firstWhere((element) => element.username == seriesPost.createdBy);
     seriesPostUsers.add(SeriesPostUser(seriesPost: seriesPost, user: user));
   }
 

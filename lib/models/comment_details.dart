@@ -10,15 +10,14 @@ class CommentDetails {
   int left;
   int right;
 
-  CommentDetails({
-    required this.id,
-    required this.comment,
-    required this.createdBy,
-    required this.content,
-    required this.updatedAt,
-    required this.left,
-    required this.right
-  });
+  CommentDetails(
+      {required this.id,
+      required this.comment,
+      required this.createdBy,
+      required this.content,
+      required this.updatedAt,
+      required this.left,
+      required this.right});
 
   factory CommentDetails.fromJson(Map<String, dynamic> json) {
     return CommentDetails(
@@ -31,5 +30,4 @@ class CommentDetails {
       right: json['right'],
     );
   }
-
 }

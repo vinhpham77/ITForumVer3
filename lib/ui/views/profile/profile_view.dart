@@ -174,11 +174,11 @@ class Profile extends StatelessWidget {
                     children: [
                       for (int index = 0; index < tabs.length; index++)
                         CustomTab(
-                            isActive: index == selectedIndex,
-                            onTap: () => appRouter.go(tabs[index]['path']!,
-                                extra: {'size': size}),
-                            label: '${tabs[index]['title']}',
-                            ),
+                          isActive: index == selectedIndex,
+                          onTap: () => appRouter
+                              .go(tabs[index]['path']!, extra: {'size': size}),
+                          label: '${tabs[index]['title']}',
+                        ),
                     ],
                   ),
                 ),
@@ -203,11 +203,10 @@ class Profile extends StatelessWidget {
           Row(
             children: [
               ClipOval(
-                  
                   child: UserAvatar(
-                    imageUrl: state.user.avatarUrl,
-                    size: 68,
-                  )),
+                imageUrl: state.user.avatarUrl,
+                size: 68,
+              )),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: Column(

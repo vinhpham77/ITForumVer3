@@ -1,4 +1,3 @@
-
 import 'bookmarkInfo.dart';
 
 class Bookmark {
@@ -18,7 +17,6 @@ class Bookmark {
         bookmarkInfoList: List<BookmarkInfo>.from(json['bookmarkInfoList']),
         username: json['username']);
   }
-
 
 // Sử dụng hàm parsePostDetailDTO để chuyển đổi response.data thành đối tượng PostDetailDTO
 //   static  List<PostDetailDTO> parsePostDetailDTOList(String responseBody) {

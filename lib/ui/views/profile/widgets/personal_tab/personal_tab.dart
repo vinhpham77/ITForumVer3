@@ -39,7 +39,8 @@ class PersonalTab extends StatelessWidget {
             if (state is PersonalTabErrorState) {
               showTopRightSnackBar(context, state.message, NotifyType.error);
             } else if (state is UserUpdatedState) {
-              showTopRightSnackBar(context, "Cập nhật thông tin thành công", NotifyType.success);
+              showTopRightSnackBar(
+                  context, "Cập nhật thông tin thành công", NotifyType.success);
             }
           },
           child: BlocBuilder<PersonalTabBloc, PersonalTabState>(
@@ -48,7 +49,8 @@ class PersonalTab extends StatelessWidget {
                 displayNameController.text = state.user.displayName;
                 bioController.text = state.user.bio ?? '';
                 emailController.text = state.user.email;
-                dateController.text = getBirthdateText(state.user.birthdate) ?? '';
+                dateController.text =
+                    getBirthdateText(state.user.birthdate) ?? '';
                 displayNameFocusNode.addListener(() {
                   if (!displayNameFocusNode.hasFocus) {
                     _formKey.currentState!.validate();
@@ -131,25 +133,25 @@ class PersonalTab extends StatelessWidget {
           const SizedBox(height: 16),
           _buildBioArea(context, state),
           const SizedBox(height: 16),
-      FilledButton(
-        onPressed: isUpdating
-            ? null
-            : () {
-          updateProfile(context, state);
-        },
-        child: Stack(
-            alignment: Alignment.center,
-            children: [
-              const Text('Cập nhật', style: TextStyle(fontSize: 16)),
-              if (isUpdating)
-                const SizedBox(
-                  height: 16,
-                  width: 16,
-                  child: CircularProgressIndicator(),
-                )
-            ],
-          ),
-      )
+          FilledButton(
+            onPressed: isUpdating
+                ? null
+                : () {
+                    updateProfile(context, state);
+                  },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                const Text('Cập nhật', style: TextStyle(fontSize: 16)),
+                if (isUpdating)
+                  const SizedBox(
+                    height: 16,
+                    width: 16,
+                    child: CircularProgressIndicator(),
+                  )
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -181,7 +183,9 @@ class PersonalTab extends StatelessWidget {
         ),
         Divider(color: Colors.grey.shade500),
         const SizedBox(height: 16),
-        state.isEditingMode ? _buildBioEditor() : _buildBioContainer(context, state),
+        state.isEditingMode
+            ? _buildBioEditor()
+            : _buildBioContainer(context, state),
       ],
     );
   }
@@ -230,9 +234,8 @@ class PersonalTab extends StatelessWidget {
           return;
         }
 
-        context.read<PersonalTabBloc>().add(SwitchModeEvent(
-            user: getNewUser(state),
-            isEditingMode: origin));
+        context.read<PersonalTabBloc>().add(
+            SwitchModeEvent(user: getNewUser(state), isEditingMode: origin));
       },
       child: Text(text, style: _getTextStyle(origin == active)),
     );
@@ -272,38 +275,41 @@ class PersonalTab extends StatelessWidget {
     return Column(
       children: [
         ClipOval(
-            child: UserAvatar(size: 160, imageUrl: state.user.avatarUrl),
+          child: UserAvatar(size: 160, imageUrl: state.user.avatarUrl),
         ),
         SizedBox(height: (state.user.avatarUrl != null ? 24 : 8)),
         Row(
           children: [
             FilledButton(
-              onPressed: isChangingAvatar ? null : () {
-                 context.read<PersonalTabBloc>().add(ChangeAvatarEvent(
-                      user: getNewUser(state),
-                      isEditingMode: state.isEditingMode));
-              },
+              onPressed: isChangingAvatar
+                  ? null
+                  : () {
+                      context.read<PersonalTabBloc>().add(ChangeAvatarEvent(
+                          user: getNewUser(state),
+                          isEditingMode: state.isEditingMode));
+                    },
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  const Text('Thay đổi',
-                      style: TextStyle(color: Colors.white)),
+                  const Text('Thay đổi', style: TextStyle(color: Colors.white)),
                   if (isChangingAvatar)
-                      const SizedBox(
-                        height: 16,
-                        width: 16,
-                        child: CircularProgressIndicator(),
-                      )
+                    const SizedBox(
+                      height: 16,
+                      width: 16,
+                      child: CircularProgressIndicator(),
+                    )
                 ],
               ),
             ),
             const SizedBox(width: 16),
             TextButton(
-              onPressed: isChangingAvatar ? null : () {
-                context.read<PersonalTabBloc>().add(DeleteAvatarEvent(
-                    user: getNewUser(state),
-                    isEditingMode: state.isEditingMode));
-              },
+              onPressed: isChangingAvatar
+                  ? null
+                  : () {
+                      context.read<PersonalTabBloc>().add(DeleteAvatarEvent(
+                          user: getNewUser(state),
+                          isEditingMode: state.isEditingMode));
+                    },
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all(Colors.deepOrange[100]),
@@ -347,16 +353,14 @@ class PersonalTab extends StatelessWidget {
                   initialValue: state.user.username,
                   readOnly: true,
                   decoration: const InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    fillColor: Colors.black12,
-                    filled: true
-                  ),
-
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      fillColor: Colors.black12,
+                      filled: true),
                   style: const TextStyle(fontSize: 16),
                 )),
             Row(
@@ -379,7 +383,8 @@ class PersonalTab extends StatelessWidget {
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 0.0, horizontal: 12.0),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
                             ),
                             hintText: 'Nhập tên hiển thị của bạn'),
                         style: const TextStyle(fontSize: 16),
@@ -407,10 +412,11 @@ class PersonalTab extends StatelessWidget {
                         return null;
                       },
                       decoration: const InputDecoration(
-                          contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 12.0),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
                           ),
                           hintText: 'Nhập email của bạn'),
                       style: const TextStyle(fontSize: 16),
@@ -441,10 +447,11 @@ class PersonalTab extends StatelessWidget {
                         return null;
                       },
                       decoration: const InputDecoration(
-                          contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 12.0),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
                           ),
                           hintText: 'Nhập ngày sinh (dd/MM/yyyy)'),
                       style: const TextStyle(fontSize: 16),
@@ -455,51 +462,59 @@ class PersonalTab extends StatelessWidget {
                 Expanded(
                   child: _buildFormField(
                     'Giới tính',
-                    Wrap(alignment: WrapAlignment.center, spacing: 6.0, children: [
-                      InputChip(
-                          label: const Text('Nam'),
-                          selected: state.user.gender != null && state.user.gender!,
-                          onSelected: (bool selected) {
-                            bool? gender;
+                    Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 6.0,
+                        children: [
+                          InputChip(
+                              label: const Text('Nam'),
+                              selected: state.user.gender != null &&
+                                  state.user.gender!,
+                              onSelected: (bool selected) {
+                                bool? gender;
 
-                            if (state.user.gender == null || state.user.gender == false) {
-                              gender = true;
-                            }
-                            else {
-                              gender = null;
-                            }
+                                if (state.user.gender == null ||
+                                    state.user.gender == false) {
+                                  gender = true;
+                                } else {
+                                  gender = null;
+                                }
 
-                            context.read<PersonalTabBloc>().add(ChangeGenderEvent(
-                                user: getNewUser(state),
-                                gender: gender,
-                                isEditingMode: state.isEditingMode));
-                          },
-                          selectedColor: Theme.of(context).primaryColor.withOpacity(0.4)
-                      ),
-                      InputChip(
-                          label: const Text('Nữ'),
-                          selected: state.user.gender != null && state.user.gender == false,
-                          onSelected: (bool selected) {
-                            bool? gender;
+                                context.read<PersonalTabBloc>().add(
+                                    ChangeGenderEvent(
+                                        user: getNewUser(state),
+                                        gender: gender,
+                                        isEditingMode: state.isEditingMode));
+                              },
+                              selectedColor: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4)),
+                          InputChip(
+                              label: const Text('Nữ'),
+                              selected: state.user.gender != null &&
+                                  state.user.gender == false,
+                              onSelected: (bool selected) {
+                                bool? gender;
 
-                            if (state.user.gender == null || state.user.gender == true) {
-                              gender = false;
-                            }
-                            else {
-                              gender = null;
-                            }
+                                if (state.user.gender == null ||
+                                    state.user.gender == true) {
+                                  gender = false;
+                                } else {
+                                  gender = null;
+                                }
 
-                            context.read<PersonalTabBloc>().add(ChangeGenderEvent(
-                                user: getNewUser(state),
-                                gender: gender,
-                                isEditingMode: state.isEditingMode));
-                          },
-                          selectedColor: Theme.of(context).primaryColor.withOpacity(0.4)
-                      ),
-                    ]),
+                                context.read<PersonalTabBloc>().add(
+                                    ChangeGenderEvent(
+                                        user: getNewUser(state),
+                                        gender: gender,
+                                        isEditingMode: state.isEditingMode));
+                              },
+                              selectedColor: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.4)),
+                        ]),
                   ),
                 ),
-
               ],
             )
           ],
@@ -674,11 +689,13 @@ class PersonalTab extends StatelessWidget {
     final text = bioController.text;
     final textSelection = bioController.selection;
     final String newText;
-    final int cursorPosition = textSelection.isValid ? textSelection.end : text.length;
+    final int cursorPosition =
+        textSelection.isValid ? textSelection.end : text.length;
 
     newText = text.replaceRange(cursorPosition, cursorPosition, input);
 
-    final textSelectionNew = TextSelection.collapsed(offset: cursorPosition + input.length);
+    final textSelectionNew =
+        TextSelection.collapsed(offset: cursorPosition + input.length);
 
     bioController.text = newText;
     bioController.selection = textSelectionNew;
@@ -699,13 +716,12 @@ class PersonalTab extends StatelessWidget {
     }
 
     UserDTO newUser = UserDTO(
-      email: emailController.text,
-      gender: state.user.gender,
-      birthdate: date,
-      avatarUrl: state.user.avatarUrl,
-      bio: bioController.text,
-      displayName: displayNameController.text
-    );
+        email: emailController.text,
+        gender: state.user.gender,
+        birthdate: date,
+        avatarUrl: state.user.avatarUrl,
+        bio: bioController.text,
+        displayName: displayNameController.text);
 
     context.read<PersonalTabBloc>().add(UpdateProfileEvent(
         newUser: newUser,

@@ -4,6 +4,7 @@ import 'package:it_forum/blocs/forgotPassword_bloc.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
+
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
@@ -13,6 +14,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   bool showOtpInput = false;
   late ForgotPasswordBloc bloc;
+
   @override
   Widget build(BuildContext context) {
     bloc = ForgotPasswordBloc(context);
@@ -104,6 +106,4 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       GoRouter.of(context).go("/resetPass");
     }
   }
-
-  
 }

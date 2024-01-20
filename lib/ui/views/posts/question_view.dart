@@ -12,27 +12,32 @@ import '../../common/app_constants.dart';
 
 class QuestionView extends StatefulWidget {
   const QuestionView({super.key, this.indexSelected = 0, required this.params});
+
   final Map<String, String> params;
   final int indexSelected;
+
   @override
   _QuestionViewState createState() => _QuestionViewState();
 }
 
 class _QuestionViewState extends State<QuestionView> {
   late List<NavigationPost> listSelectBtn;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    if(JwtPayload.sub == null) {
+    if (JwtPayload.sub == null) {
       listSelectBtn = navi;
     } else {
       listSelectBtn = naviSignin;
@@ -61,7 +66,11 @@ class _QuestionViewState extends State<QuestionView> {
                   ),
                   const SizedBox(
                     width: 280,
-                    child: Right(page: 1, limit: 5, isQuestion: false,),
+                    child: Right(
+                      page: 1,
+                      limit: 5,
+                      isQuestion: false,
+                    ),
                   )
                 ],
               ),
@@ -73,16 +82,49 @@ class _QuestionViewState extends State<QuestionView> {
   }
 
   List<NavigationPost> get naviSignin => [
-    NavigationPost(index: 0, text: "Mới nhất", path: "/viewquestion",
-      widget: PostsFeed(page: getPage(widget.params['page'] ?? "1"), limit: 10, isQuestion: true, params: widget.params,)),
-    NavigationPost(index: 1, text: "Đang theo dõi", path: "/viewquestionfollow",
-      widget: FollowPost(page: getPage(widget.params['page'] ?? "1"), limit: 10, isQuestion: true, params: widget.params,)),
-    NavigationPost(index: 2, text: "Đã Bookmark", path: "/viewquestionbookmark}",
-      widget: BookmarkPost(username: JwtPayload.sub!, page: getPage(widget.params['page'] ?? "1"), limit: 10, isQuestion: true, params: widget.params,)),
-  ];
+        NavigationPost(
+            index: 0,
+            text: "Mới nhất",
+            path: "/viewquestion",
+            widget: PostsFeed(
+              page: getPage(widget.params['page'] ?? "1"),
+              limit: 10,
+              isQuestion: true,
+              params: widget.params,
+            )),
+        NavigationPost(
+            index: 1,
+            text: "Đang theo dõi",
+            path: "/viewquestionfollow",
+            widget: FollowPost(
+              page: getPage(widget.params['page'] ?? "1"),
+              limit: 10,
+              isQuestion: true,
+              params: widget.params,
+            )),
+        NavigationPost(
+            index: 2,
+            text: "Đã Bookmark",
+            path: "/viewquestionbookmark}",
+            widget: BookmarkPost(
+              username: JwtPayload.sub!,
+              page: getPage(widget.params['page'] ?? "1"),
+              limit: 10,
+              isQuestion: true,
+              params: widget.params,
+            )),
+      ];
 
   List<NavigationPost> get navi => [
-    NavigationPost(index: 0, text: "Mới nhất", path: "/viewquestion",
-        widget: PostsFeed(page: getPage(widget.params['page'] ?? "1"), limit: 10, isQuestion: true, params: widget.params,)),
-  ];
+        NavigationPost(
+            index: 0,
+            text: "Mới nhất",
+            path: "/viewquestion",
+            widget: PostsFeed(
+              page: getPage(widget.params['page'] ?? "1"),
+              limit: 10,
+              isQuestion: true,
+              params: widget.params,
+            )),
+      ];
 }

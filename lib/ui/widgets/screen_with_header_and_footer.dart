@@ -14,9 +14,7 @@ class ScreenWithHeaderAndFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery
-        .of(context)
-        .size;
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size(screenSize.width, 60), child: const Header()),

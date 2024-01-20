@@ -24,14 +24,12 @@ class PostFeedItem extends StatelessWidget {
           InkWell(
             onTap: postUser.user == null
                 ? null
-                : () =>
-                appRouter.go('/profile/${postUser.user}', extra: {}),
+                : () => appRouter.go('/profile/${postUser.user}', extra: {}),
             child: ClipOval(
-                
                 child: UserAvatar(
-                  imageUrl: postUser.user.avatarUrl,
-                  size: 54,
-                )),
+              imageUrl: postUser.user.avatarUrl,
+              size: 54,
+            )),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -44,8 +42,8 @@ class PostFeedItem extends StatelessWidget {
                       onTap: postUser.user == null
                           ? null
                           : () => appRouter.go(
-                          '/profile/${postUser.user.username}',
-                          extra: {}),
+                              '/profile/${postUser.user.username}',
+                              extra: {}),
                       child: Text(
                         postUser.user.displayName,
                         style: TextStyle(

@@ -27,39 +27,40 @@ class Pagination2 extends StatelessWidget {
     );
   }
 
-  Row _buildPaginationRow(BuildContext context, int min, int max, int totalPages) {
+  Row _buildPaginationRow(
+      BuildContext context, int min, int max, int totalPages) {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (pagingStates.currentPage > 1)
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (pagingStates.currentPage > 1)
+          buildPaginationButton(
+            context,
+            route: pagingStates.path,
+            params: convertParams(pagingStates.currentPage - 1),
+            child: const Icon(Icons.chevron_left),
+          ),
+        for (int i = min; i <= max; i++)
+          if (i == pagingStates.currentPage)
+            buildPaginationButton(
+              context,
+              child: Text(i.toString()),
+            )
+          else
             buildPaginationButton(
               context,
               route: pagingStates.path,
-              params: convertParams(pagingStates.currentPage - 1),
-              child: const Icon(Icons.chevron_left),
+              params: convertParams(i),
+              child: Text(i.toString()),
             ),
-          for (int i = min; i <= max; i++)
-            if (i == pagingStates.currentPage)
-              buildPaginationButton(
-                context,
-                child: Text(i.toString()),
-              )
-            else
-              buildPaginationButton(
-                context,
-                route: pagingStates.path,
-                params: convertParams(i),
-                child: Text(i.toString()),
-              ),
-          if (pagingStates.currentPage < totalPages)
-            buildPaginationButton(
-              context,
-              route: pagingStates.path,
-              params: convertParams(pagingStates.currentPage + 1),
-              child: const Icon(Icons.chevron_right),
-            ),
-        ],
-      );
+        if (pagingStates.currentPage < totalPages)
+          buildPaginationButton(
+            context,
+            route: pagingStates.path,
+            params: convertParams(pagingStates.currentPage + 1),
+            child: const Icon(Icons.chevron_right),
+          ),
+      ],
+    );
   }
 
   buildPaginationButton(BuildContext context,

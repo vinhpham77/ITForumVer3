@@ -51,7 +51,7 @@ class PostsTab extends StatelessWidget {
                   limit: size,
                   isQuestion: isQuestion,
                 ));
-           final ProfileBloc profileBloc = context.read<ProfileBloc>();
+            final ProfileBloc profileBloc = context.read<ProfileBloc>();
             final profileState = profileBloc.state as ProfileSubState;
 
             profileBloc.add(DecreasePostsCountEvent(
@@ -131,8 +131,8 @@ class PostsTab extends StatelessWidget {
     );
   }
 
-  Row buildOneRow(
-      BuildContext context, PostUser postUser, ResultCount<PostUser> postUsers) {
+  Row buildOneRow(BuildContext context, PostUser postUser,
+      ResultCount<PostUser> postUsers) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -169,8 +169,8 @@ class PostsTab extends StatelessWidget {
     );
   }
 
-  Future<void> showDeleteConfirmationDialog(
-      BuildContext context, PostUser postUser, ResultCount<PostUser> postUsers) async {
+  Future<void> showDeleteConfirmationDialog(BuildContext context,
+      PostUser postUser, ResultCount<PostUser> postUsers) async {
     return showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -193,9 +193,8 @@ class PostsTab extends StatelessWidget {
           TextButton(
             child: const Text('Xác nhận'),
             onPressed: () {
-              context
-                  .read<PostsTabBloc>()
-                  .add(ConfirmDeleteEvent(postUser: postUser, postUsers: postUsers));
+              context.read<PostsTabBloc>().add(
+                  ConfirmDeleteEvent(postUser: postUser, postUsers: postUsers));
               Navigator.of(dialogContext).pop();
             },
           ),

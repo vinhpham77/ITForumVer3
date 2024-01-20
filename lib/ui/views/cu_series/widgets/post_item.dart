@@ -29,11 +29,10 @@ class PostItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipOval(
-              
               child: UserAvatar(
-                imageUrl: postUser.user.avatarUrl,
-                size: 48,
-              )),
+            imageUrl: postUser.user.avatarUrl,
+            size: 48,
+          )),
           const SizedBox(width: 8),
           Expanded(
             child: Column(

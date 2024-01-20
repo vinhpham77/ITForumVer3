@@ -9,7 +9,8 @@ class BookmarkRepository {
 
   BookmarkRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.bookmarksEndpoint}"));
+        baseUrl:
+            "${ApiConfig.userServiceBaseUrl}/${ApiConfig.bookmarksEndpoint}"));
   }
 
   // Future<Response<dynamic>> delete(int id) {
@@ -30,13 +31,15 @@ class BookmarkRepository {
   Future<Response<dynamic>> unBookmark(
       String username, BookmarkInfo bookmarkInfo) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio.delete('/unBookmark?username=$username', data: bookmarkInfo.toJson());
+    return dio.delete('/unBookmark?username=$username',
+        data: bookmarkInfo.toJson());
   }
 
   Future<Response<dynamic>> checkBookmark(
       String username, BookmarkInfo bookmarkInfo) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio.post('/isBookmark?username=username', data: bookmarkInfo.toJson());
+    return dio.post('/isBookmark?username=username',
+        data: bookmarkInfo.toJson());
   }
 
   Future<Response<dynamic>> getBookmarkByUsername(String username) async {

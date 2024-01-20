@@ -345,13 +345,13 @@ class _PostDetailsPage extends State<PostDetailsPage> {
               child: const CircularProgressIndicator(),
             )
           : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _builderAuthorPostContent(),
-              postPreview,
-            ],
-          ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _builderAuthorPostContent(),
+                postPreview,
+              ],
+            ),
     );
   }
 
@@ -379,7 +379,8 @@ class _PostDetailsPage extends State<PostDetailsPage> {
           postUser = postUser;
           authorPost = postUser.user;
           listTag = postUser.post.tags;
-          updatedAt = "Cập nhật lần cuối: ${getTimeAgo(postUser.post.updatedAt)}";
+          updatedAt =
+              "Cập nhật lần cuối: ${getTimeAgo(postUser.post.updatedAt)}";
           score = postUser.post.score;
           isPrivate = postUser.post.isPrivate;
         });
@@ -540,7 +541,6 @@ class _PostDetailsPage extends State<PostDetailsPage> {
               appRouter.go("/profile/${postUser.post.createdBy}/posts");
             },
             child: ClipOval(
-              
               child: _buildPostImage(authorPost.avatarUrl ?? ""),
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:it_forum/blocs/register_bloc.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
+
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
@@ -99,9 +100,8 @@ class _SignupPageState extends State<SignupPage> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                  width:
-                                      16), // Add some space between the text fields
+                              const SizedBox(width: 16),
+                              // Add some space between the text fields
                               Expanded(
                                 child: StreamBuilder(
                                   stream: bloc.userStream,
@@ -232,7 +232,6 @@ class _SignupPageState extends State<SignupPage> {
         _emailController.text,
         _fullnameController.text);
     if (isValid) {
-     
       GoRouter.of(context).go("/login");
     }
   }
@@ -246,6 +245,4 @@ class _SignupPageState extends State<SignupPage> {
   void clickOnSignin(context) {
     GoRouter.of(context).go("/login");
   }
-
-  
 }

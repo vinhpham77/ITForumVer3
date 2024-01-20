@@ -36,8 +36,7 @@ class CustomTab extends StatelessWidget {
                   ? Theme.of(context).primaryColor
                   : Theme.of(context).textTheme.bodyLarge!.color,
             ),
-          )
-      ),
+          )),
     );
   }
 }

@@ -15,15 +15,20 @@ class ForgotPasswordBloc {
   final AuthRepository _userRepository = AuthRepository();
   final StreamController _userController = StreamController();
   final StreamController _usernameController = StreamController();
+
   Stream get user => _userController.stream;
+
   Stream get usernameStream => _usernameController.stream;
+
   Stream get emailStream => _emailController.stream;
+
   Stream get getLoginStatusController => loginStatusController.stream;
   String username = "";
   static String requestName = "";
   late BuildContext context;
 
   ForgotPasswordBloc(this.context);
+
   Future<bool> isValidInfo(String username) {
     Future<bool> isValid;
     if (!Validations.isValidUsername(username)) {
@@ -34,7 +39,7 @@ class ForgotPasswordBloc {
 
     var future = _userRepository.forgotPassUser(username);
     isValid = future.then((response) {
-      requestName=response.data;
+      requestName = response.data;
       return Future<bool>.value(true);
     }).catchError((error) {
       String message = getMessageFromException(error);

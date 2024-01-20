@@ -22,6 +22,7 @@ class Post {
     required this.createdBy,
     required this.updatedAt,
   });
+
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
       id: json['id'],

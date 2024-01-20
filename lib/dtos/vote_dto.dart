@@ -23,7 +23,7 @@ class VoteDTO {
       'targetId': targetId,
       'username': username ?? '',
       'voteType': voteType,
-      'targetType':targetType
+      'targetType': targetType
     };
   }
 }

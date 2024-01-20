@@ -9,17 +9,19 @@ class FollowId {
     required this.follower,
     required this.followed,
   });
+
   // Phương thức tạo FollowId rỗng
   factory FollowId.empty() {
     return FollowId(follower: '', followed: '');
   }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is FollowId &&
-              runtimeType == other.runtimeType &&
-              follower == other.follower &&
-              followed == other.followed;
+      other is FollowId &&
+          runtimeType == other.runtimeType &&
+          follower == other.follower &&
+          followed == other.followed;
 
   @override
   int get hashCode => follower.hashCode ^ followed.hashCode;

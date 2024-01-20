@@ -5,8 +5,9 @@ class ContentRepository {
   late Dio dio;
 
   ContentRepository() {
-    dio = Dio(
-        BaseOptions(baseUrl: "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.contentEndpoint}"));
+    dio = Dio(BaseOptions(
+        baseUrl:
+            "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.contentEndpoint}"));
   }
 
   Future<Response<dynamic>> getStats(String username) async {

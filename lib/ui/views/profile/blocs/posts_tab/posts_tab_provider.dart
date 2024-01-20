@@ -25,7 +25,8 @@ class PostsTabBlocProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<PostsTabBloc>(
       create: (context) {
-        final bloc = PostsTabBloc(postRepository: PostRepository(), userRepository: UserRepository())
+        final bloc = PostsTabBloc(
+            postRepository: PostRepository(), userRepository: UserRepository())
           ..add(LoadPostsEvent(
             username: username,
             page: page,

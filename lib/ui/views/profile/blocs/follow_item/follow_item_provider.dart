@@ -8,12 +8,14 @@ class FollowItemBlocProvider extends StatelessWidget {
   final Widget child;
   final bool isFollowersTab;
 
-  const FollowItemBlocProvider({super.key, required this.child, required this.isFollowersTab});
+  const FollowItemBlocProvider(
+      {super.key, required this.child, required this.isFollowersTab});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FollowItemBloc>(
-      create: (context) => FollowItemBloc(followRepository: FollowRepository(), isFollowing: isFollowersTab),
+      create: (context) => FollowItemBloc(
+          followRepository: FollowRepository(), isFollowing: isFollowersTab),
       child: child,
     );
   }

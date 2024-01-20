@@ -68,11 +68,10 @@ class FollowTabItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ClipOval(
-              
               child: UserAvatar(
-                imageUrl: userStats.avatarUrl,
-                size: 54,
-              )),
+            imageUrl: userStats.avatarUrl,
+            size: 54,
+          )),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

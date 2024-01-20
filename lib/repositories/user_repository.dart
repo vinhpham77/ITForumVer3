@@ -9,7 +9,8 @@ import '../ui/common/utils/jwt_interceptor.dart';
 
 class UserRepository {
   late Dio dio;
-  final String baseUrl = "${ApiConfig.userServiceBaseUrl}/${ApiConfig.usersEndpoint}";
+  final String baseUrl =
+      "${ApiConfig.userServiceBaseUrl}/${ApiConfig.usersEndpoint}";
 
   UserRepository() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));

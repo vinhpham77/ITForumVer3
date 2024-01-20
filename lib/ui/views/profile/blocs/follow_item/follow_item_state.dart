@@ -41,10 +41,9 @@ final class UnfollowSuccessState extends FollowItemSubState {
 final class FollowOperationErrorState extends FollowItemSubState {
   final String message;
 
-  const FollowOperationErrorState({required this.message, required super.isFollowing});
+  const FollowOperationErrorState(
+      {required this.message, required super.isFollowing});
 
   @override
   List<Object> get props => [message, isFollowing];
 }
-
-

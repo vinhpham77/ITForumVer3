@@ -25,6 +25,5 @@ class TagListWidget extends StatelessWidget {
         child: Text("#$tag"),
       ),
     );
-
   }
 }

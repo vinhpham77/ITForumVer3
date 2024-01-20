@@ -5,8 +5,9 @@ class TagRepository {
   late Dio dio;
 
   TagRepository() {
-    dio = Dio(
-        BaseOptions(baseUrl: "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.tagsEndpoint}"));
+    dio = Dio(BaseOptions(
+        baseUrl:
+            "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.tagsEndpoint}"));
   }
 
   Future<Response<dynamic>> get({int? page, int? size}) async {

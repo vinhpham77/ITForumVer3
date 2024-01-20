@@ -13,8 +13,7 @@ final class FollowsTabInitialState extends FollowsTabState {
 }
 
 final class FollowsEmptyState extends FollowsSubState {
-  const FollowsEmptyState(
-      {required super.userStatsList});
+  const FollowsEmptyState({required super.userStatsList});
 }
 
 @immutable
@@ -28,8 +27,7 @@ sealed class FollowsSubState extends FollowsTabState {
 }
 
 final class FollowsLoadedState extends FollowsSubState {
-  const FollowsLoadedState(
-      {required super.userStatsList});
+  const FollowsLoadedState({required super.userStatsList});
 }
 
 final class FollowsLoadErrorState extends FollowsTabState {

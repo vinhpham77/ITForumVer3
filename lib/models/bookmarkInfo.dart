@@ -8,10 +8,9 @@ class BookmarkInfo {
   });
 
   factory BookmarkInfo.fromJson(Map<String, dynamic> json) {
-    return BookmarkInfo(
-        targetId: json['targetId'],
-        type: json['type']);
+    return BookmarkInfo(targetId: json['targetId'], type: json['type']);
   }
+
   Map<String, dynamic> toJson() {
     return {
       'targetId': targetId,

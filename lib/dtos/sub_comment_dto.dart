@@ -5,15 +5,13 @@ class SubCommentDto {
 
   final String content;
 
-  SubCommentDto({
-    this.subCommentFatherId,
-    required this.username,
-    required this.content
-  });
+  SubCommentDto(
+      {this.subCommentFatherId, required this.username, required this.content});
 
   Map<String, dynamic> toJson() {
     return {
-      'subCommentFatherId': subCommentFatherId == null ? "" : subCommentFatherId,
+      'subCommentFatherId':
+          subCommentFatherId == null ? "" : subCommentFatherId,
       'username': username,
       'content': content,
     };

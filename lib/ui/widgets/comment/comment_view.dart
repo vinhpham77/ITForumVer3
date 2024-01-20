@@ -73,11 +73,14 @@ class _CommentState extends State<CommentView> {
                         ),
                       )
                     : CreateCommentView(
-                        postId: widget.postId, type: widget.isSeries, callback: upComment),
+                        postId: widget.postId,
+                        type: widget.isSeries,
+                        callback: upComment),
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: listSubCommentView(paddingLeft: 0, commentShows: _comments),
+                child:
+                    listSubCommentView(paddingLeft: 0, commentShows: _comments),
               )
             ],
           ),
@@ -87,12 +90,14 @@ class _CommentState extends State<CommentView> {
   }
 
   Future getComment({int? subId}) async {
-    var future = _commentRepository.getSubComment(widget.postId, widget.isSeries, subId);
+    var future =
+        _commentRepository.getSubComment(widget.postId, widget.isSeries, subId);
     future.then((response) {
-      _comments = response == null ? []
+      _comments = response == null
+          ? []
           : response.data
               .map<CommentShow>((e) =>
-                CommentShow(commentDetails: CommentDetails.fromJson(e)))
+                  CommentShow(commentDetails: CommentDetails.fromJson(e)))
               .toList();
       setState(() {});
     }).catchError((error) {
@@ -113,7 +118,8 @@ class _CommentState extends State<CommentView> {
   }
 
   Widget subCommentView(
-      {required CommentShow commentShow, required List<CommentShow> commentShows}) {
+      {required CommentShow commentShow,
+      required List<CommentShow> commentShows}) {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black26, width: 1),
@@ -167,7 +173,8 @@ class _CommentState extends State<CommentView> {
                             return;
                           }
                           setState(() {
-                            if (!commentShow.isReply) commentShow.isReply = true;
+                            if (!commentShow.isReply)
+                              commentShow.isReply = true;
                           });
                         },
                         child: const Text(
@@ -179,7 +186,8 @@ class _CommentState extends State<CommentView> {
                         width: 12,
                       ),
                       menuComment(
-                          username: commentShow.commentDetails.createdBy.username,
+                          username:
+                              commentShow.commentDetails.createdBy.username,
                           commentShow: commentShow,
                           commentShows: commentShows),
                     ],
@@ -203,8 +211,8 @@ class _CommentState extends State<CommentView> {
                         subId: commentShow.commentDetails.id,
                         callback: (CommentDetails subCom) {
                           setState(() {
-                            commentShow.commentShows.insert(
-                                0, CommentShow(commentDetails: subCom));
+                            commentShow.commentShows
+                                .insert(0, CommentShow(commentDetails: subCom));
                             commentShow.isReply = false;
                           });
                         })
@@ -216,24 +224,24 @@ class _CommentState extends State<CommentView> {
           ),
           commentShow.commentShows.isEmpty
               ? Container()
-              : listSubCommentView(paddingLeft: 24, commentShows: commentShow.commentShows),
+              : listSubCommentView(
+                  paddingLeft: 24, commentShows: commentShow.commentShows),
           Container(
             padding: const EdgeInsets.only(left: 32),
             child: (commentShow.commentDetails.right >
-                    commentShow.commentDetails.left + 1 &&
+                        commentShow.commentDetails.left + 1 &&
                     !commentShow.isShowChildren)
                 ? InkWell(
                     onTap: () {
                       Future<Response<dynamic>> future =
-                          _commentRepository.getSubComment(
-                              widget.postId, widget.isSeries, commentShow.commentDetails.id);
+                          _commentRepository.getSubComment(widget.postId,
+                              widget.isSeries, commentShow.commentDetails.id);
                       future.then((response) {
                         commentShow.commentShows = response == null
                             ? []
                             : response.data
                                 .map<CommentShow>((e) => CommentShow(
-                                    commentDetails:
-                                        CommentDetails.fromJson(e)))
+                                    commentDetails: CommentDetails.fromJson(e)))
                                 .toList();
                         commentShow.isShowChildren = true;
                         setState(() {});
@@ -264,7 +272,6 @@ class _CommentState extends State<CommentView> {
           child: InkWell(
             onTap: () {},
             child: ClipOval(
-              
               child: UserAvatar(
                 imageUrl: user.avatarUrl,
                 size: 32,
@@ -281,7 +288,8 @@ class _CommentState extends State<CommentView> {
                   onTap: () {},
                   child: Text(
                     user.displayName,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w400),
                   ),
                 ),
                 const SizedBox(
@@ -371,7 +379,8 @@ class _CommentState extends State<CommentView> {
               ]);
   }
 
-  List<Widget> menuSignIn(List<CommentShow> commentShows, CommentShow commentShow) {
+  List<Widget> menuSignIn(
+      List<CommentShow> commentShows, CommentShow commentShow) {
     return <Widget>[
       MenuItemButton(
           onPressed: () {
@@ -434,13 +443,13 @@ class _CommentState extends State<CommentView> {
                   softWrap: false,
                 ),
                 onPressed: () {
-                  var future =
-                      _commentRepository.deleteSubComment(widget.postId, widget.isSeries, subId);
+                  var future = _commentRepository.deleteSubComment(
+                      widget.postId, widget.isSeries, subId);
                   future.then((response) {
                     bool result = response.data;
                     if (!result) return;
-                    int index = commentShows.indexWhere(
-                        (item) => item.commentDetails.id == subId);
+                    int index = commentShows
+                        .indexWhere((item) => item.commentDetails.id == subId);
                     if (index == -1) return;
                     setState(() {
                       commentShows.removeAt(index);

@@ -9,10 +9,10 @@ import '../../../../../dtos/series_post.dart';
 import '../../../../../dtos/series_post_user.dart';
 import '../../../../../models/post.dart';
 import '../../../../../models/user.dart';
+import '../../../../../repositories/follow_repository.dart';
 import '../../../../../repositories/post_repository.dart';
 import '../../../../../repositories/series_repository.dart';
 import '../../../../../repositories/user_repository.dart';
-import '../../../../../repositories/follow_repository.dart';
 import '../../../../common/utils/common_utils.dart';
 
 part 'follow_event.dart';
@@ -38,7 +38,10 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
           .toList();
       List<String> usernames = users.map((e) => e.username).toList();
       Response<dynamic> response = await _postRepository.getInUsernames(
-          username: usernames, page: event.page, limit: event.limit, tag: event.tag);
+          username: usernames,
+          page: event.page,
+          limit: event.limit,
+          tag: event.tag);
 
       ResultCount<Post> posts =
           ResultCount.fromJson(response.data, Post.fromJson);
@@ -80,13 +83,12 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
       if (seriesPosts.resultList.isEmpty) {
         emit(FollowEmptyState());
       } else {
-
         List<SeriesPostUser> seriesPostUsers =
-        convertSeriesPostUser(seriesPosts.resultList, users);
+            convertSeriesPostUser(seriesPosts.resultList, users);
 
         ResultCount<SeriesPostUser> seriesPostUserResults =
-        ResultCount<SeriesPostUser>(
-            count: seriesPosts.count, resultList: seriesPostUsers);
+            ResultCount<SeriesPostUser>(
+                count: seriesPosts.count, resultList: seriesPostUsers);
 
         emit(SeriesFollowLoadedState(seriesPostUsers: seriesPostUserResults));
       }

@@ -1,4 +1,3 @@
-
 import 'package:it_forum/models/user.dart';
 
 class SubCommentAggreGate {
@@ -10,15 +9,14 @@ class SubCommentAggreGate {
   int right;
   User user;
 
-  SubCommentAggreGate({
-    required this.id,
-    required this.username,
-    required this.content,
-    required this.updatedAt,
-    required this.left,
-    required this.right,
-    required this.user
-  });
+  SubCommentAggreGate(
+      {required this.id,
+      required this.username,
+      required this.content,
+      required this.updatedAt,
+      required this.left,
+      required this.right,
+      required this.user});
 
   factory SubCommentAggreGate.fromJson(Map<String, dynamic> json) {
     return SubCommentAggreGate(

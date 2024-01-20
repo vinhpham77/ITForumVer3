@@ -385,7 +385,8 @@ class CuPost extends StatelessWidget {
   }
 
   Container _buildActionContainer(BuildContext context, CuPostSubState state) {
-    bool isWaiting = state is CuPublicPostWaitingState || state is CuPrivatePostWaitingState;
+    bool isWaiting =
+        state is CuPublicPostWaitingState || state is CuPrivatePostWaitingState;
 
     return Container(
         margin: const EdgeInsets.only(top: 16),
@@ -393,9 +394,11 @@ class CuPost extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             FilledButton(
-              onPressed: isWaiting ? null : () {
-                savePost(context, false, state);
-              },
+              onPressed: isWaiting
+                  ? null
+                  : () {
+                      savePost(context, false, state);
+                    },
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -416,10 +419,13 @@ class CuPost extends StatelessWidget {
                 children: [
                   TextButton(
                     style: TextButton.styleFrom(),
-                    onPressed: isWaiting ? null : () {
-                      savePost(context, true, state);
-                    },
-                    child: const Text('Lưu tạm', style: TextStyle(fontSize: 16)),
+                    onPressed: isWaiting
+                        ? null
+                        : () {
+                            savePost(context, true, state);
+                          },
+                    child:
+                        const Text('Lưu tạm', style: TextStyle(fontSize: 16)),
                   ),
                   if (state is CuPrivatePostWaitingState)
                     const SizedBox(

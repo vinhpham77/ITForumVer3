@@ -38,7 +38,8 @@ final appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('home'),
         child: ScreenWithHeaderAndFooter(
           body: PostsView(params: {}),
@@ -47,13 +48,15 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/not-found',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
           key: ValueKey('not-found'),
           child: ScreenWithHeaderAndFooter(body: NotFound())),
     ),
     GoRoute(
       path: '/forbidden',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('forbidden'),
         child: ScreenWithHeaderAndFooter(
           body: Forbidden(),
@@ -126,7 +129,8 @@ final appRouter = GoRouter(
         }),
     GoRoute(
       path: '/search',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('search'),
         child: ScreenWithHeaderAndFooter(
           body: SearchView(params: {}, indexSelected: 0),
@@ -135,7 +139,8 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/viewsearch',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('viewsearch'),
         child: ScreenWithHeaderAndFooter(
           body: SearchView(params: {}, indexSelected: 0),
@@ -156,7 +161,8 @@ final appRouter = GoRouter(
         }),
     GoRoute(
       path: '/viewsearchSeries',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('viewsearchSeries'),
         child: ScreenWithHeaderAndFooter(
           body: SearchView(params: {}, indexSelected: 1),
@@ -177,7 +183,8 @@ final appRouter = GoRouter(
         }),
     GoRoute(
       path: '/publish/post',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('post-create'),
         child: ScreenWithHeaderAndFooter(
           body: CuPost(),
@@ -186,14 +193,16 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/publish/series',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('series-create'),
         child: ScreenWithHeaderAndFooter(body: CuSeries()),
       ),
     ),
     GoRoute(
       path: '/publish/ask',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('ask-create'),
         child: ScreenWithHeaderAndFooter(
           body: CuPost(isQuestion: true),
@@ -202,7 +211,8 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/posts',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('posts'),
         child: ScreenWithHeaderAndFooter(
           body: PostsView(params: {}),
@@ -216,21 +226,23 @@ final appRouter = GoRouter(
             key: state.pageKey,
             child: ScreenWithHeaderAndFooter(
               body:
-                  PostDetailsPage(id: int.parse(state.pathParameters['pid']!)),
+              PostDetailsPage(id: int.parse(state.pathParameters['pid']!)),
             ));
       },
     ),
     GoRoute(
       path: '/posts/:pid/edit',
-      pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          child: ScreenWithHeaderAndFooter(
-            body: CuPost(id: int.tryParse(state.pathParameters['pid']!)),
-          )),
+      pageBuilder: (context, state) =>
+          MaterialPage<void>(
+              key: state.pageKey,
+              child: ScreenWithHeaderAndFooter(
+                body: CuPost(id: int.tryParse(state.pathParameters['pid']!)),
+              )),
     ),
     GoRoute(
       path: '/series',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('series'),
         child: ScreenWithHeaderAndFooter(
           body: Text("series"),
@@ -239,24 +251,27 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/series/:pid',
-      pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          child: ScreenWithHeaderAndFooter(
-            body: SeriesDetail(id: int.parse(state.pathParameters['pid']!)),
-          )),
+      pageBuilder: (context, state) =>
+          MaterialPage<void>(
+              key: state.pageKey,
+              child: ScreenWithHeaderAndFooter(
+                body: SeriesDetail(id: int.parse(state.pathParameters['pid']!)),
+              )),
     ),
     GoRoute(
       path: '/series/:pid/edit',
-      pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          child: ScreenWithHeaderAndFooter(
-            body: CuSeries(id: int.tryParse(state.pathParameters['pid']!)),
-          )),
+      pageBuilder: (context, state) =>
+          MaterialPage<void>(
+              key: state.pageKey,
+              child: ScreenWithHeaderAndFooter(
+                body: CuSeries(id: int.tryParse(state.pathParameters['pid']!)),
+              )),
     ),
     GoRoute(
       name: 'login',
       path: '/login',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
         key: ValueKey('login'),
         child: LoginPage(),
       ),
@@ -264,27 +279,32 @@ final appRouter = GoRouter(
     GoRoute(
       name: 'onepost',
       path: '/onepost',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
           key: ValueKey('onepost'), child: Text("test")),
     ),
     GoRoute(
       path: '/register',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
           key: ValueKey('register'), child: SignupPage()),
     ),
     GoRoute(
       path: '/forgotpass',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
           key: ValueKey('forgotpass'), child: ForgotPasswordPage()),
     ),
     GoRoute(
       path: '/changepass',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
           key: ValueKey('changepass'), child: ChangePasswordPage()),
     ),
     GoRoute(
       path: '/resetpass',
-      pageBuilder: (context, state) => const MaterialPage<void>(
+      pageBuilder: (context, state) =>
+      const MaterialPage<void>(
           key: ValueKey('resetpass'), child: ResetPasswordPage()),
     ),
     GoRoute(
@@ -305,7 +325,7 @@ final appRouter = GoRouter(
             child: ScreenWithHeaderAndFooter(
               body: PostsView(
                   params:
-                      convertQuery(query: state.pathParameters["query"] ?? "")),
+                  convertQuery(query: state.pathParameters["query"] ?? "")),
             ));
       },
     ),
@@ -316,7 +336,7 @@ final appRouter = GoRouter(
             key: const ValueKey("viewseries"),
             child: ScreenWithHeaderAndFooter(
               body:
-                  PostsView(indexSelected: 1, params: convertQuery(query: "")),
+              PostsView(indexSelected: 1, params: convertQuery(query: "")),
             ));
       },
     ),
@@ -329,7 +349,7 @@ final appRouter = GoRouter(
               body: PostsView(
                   indexSelected: 1,
                   params:
-                      convertQuery(query: state.pathParameters["query"] ?? "")),
+                  convertQuery(query: state.pathParameters["query"] ?? "")),
             ));
       },
     ),
@@ -340,7 +360,7 @@ final appRouter = GoRouter(
             key: const ValueKey("viewfollow"),
             child: ScreenWithHeaderAndFooter(
               body:
-                  PostsView(indexSelected: 2, params: convertQuery(query: "")),
+              PostsView(indexSelected: 2, params: convertQuery(query: "")),
             ));
       },
     ),
@@ -353,7 +373,7 @@ final appRouter = GoRouter(
               body: PostsView(
                   indexSelected: 2,
                   params:
-                      convertQuery(query: state.pathParameters["query"] ?? "")),
+                  convertQuery(query: state.pathParameters["query"] ?? "")),
             ));
       },
     ),
@@ -364,7 +384,7 @@ final appRouter = GoRouter(
             key: const ValueKey("viewbookmark"),
             child: ScreenWithHeaderAndFooter(
               body:
-                  PostsView(indexSelected: 3, params: convertQuery(query: "")),
+              PostsView(indexSelected: 3, params: convertQuery(query: "")),
             ));
       },
     ),
@@ -377,7 +397,7 @@ final appRouter = GoRouter(
               body: PostsView(
                   indexSelected: 3,
                   params:
-                      convertQuery(query: state.pathParameters["query"] ?? "")),
+                  convertQuery(query: state.pathParameters["query"] ?? "")),
             ));
       },
     ),
@@ -389,83 +409,91 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/profile/:username/posts',
-      pageBuilder: (context, state) => MaterialPage<void>(
-        key: UniqueKey(),
-        child: ScreenWithHeaderAndFooter(
-          body: Profile(
-            username: state.pathParameters['username']!,
-            selectedIndex: 0,
-            params: state.extra as Map<String, dynamic>? ?? {},
+      pageBuilder: (context, state) =>
+          MaterialPage<void>(
+            key: UniqueKey(),
+            child: ScreenWithHeaderAndFooter(
+              body: Profile(
+                username: state.pathParameters['username']!,
+                selectedIndex: 0,
+                params: state.extra as Map<String, dynamic>? ?? {},
+              ),
+            ),
           ),
-        ),
-      ),
     ),
     GoRoute(
       path: '/profile/:username/questions',
-      pageBuilder: (context, state) => MaterialPage<void>(
-        key: UniqueKey(),
-        child: ScreenWithHeaderAndFooter(
-          body: Profile(
-            username: state.pathParameters['username']!,
-            selectedIndex: 1,
-            params: state.extra as Map<String, dynamic>? ?? {},
+      pageBuilder: (context, state) =>
+          MaterialPage<void>(
+            key: UniqueKey(),
+            child: ScreenWithHeaderAndFooter(
+              body: Profile(
+                username: state.pathParameters['username']!,
+                selectedIndex: 1,
+                params: state.extra as Map<String, dynamic>? ?? {},
+              ),
+            ),
           ),
-        ),
-      ),
     ),
     GoRoute(
       path: '/profile/:username/series',
-      pageBuilder: (context, state) => MaterialPage<void>(
-        key: UniqueKey(),
-        child: ScreenWithHeaderAndFooter(
-            body: Profile(
-                username: state.pathParameters['username']!,
-                selectedIndex: 2,
-                params: state.extra as Map<String, dynamic>? ?? {})),
-      ),
+      pageBuilder: (context, state) =>
+          MaterialPage<void>(
+            key: UniqueKey(),
+            child: ScreenWithHeaderAndFooter(
+                body: Profile(
+                    username: state.pathParameters['username']!,
+                    selectedIndex: 2,
+                    params: state.extra as Map<String, dynamic>? ?? {})),
+          ),
     ),
     GoRoute(
         path: '/profile/:username/bookmarks',
-        pageBuilder: (context, state) => MaterialPage<void>(
-            key: UniqueKey(),
-            child: ScreenWithHeaderAndFooter(
-              body: Profile(
-                  username: state.pathParameters['username']!,
-                  selectedIndex: 3,
-                  params: state.extra as Map<String, dynamic>? ?? {}),
-            ))),
+        pageBuilder: (context, state) =>
+            MaterialPage<void>(
+                key: UniqueKey(),
+                child: ScreenWithHeaderAndFooter(
+                  body: Profile(
+                      username: state.pathParameters['username']!,
+                      selectedIndex: 3,
+                      params: state.extra as Map<String, dynamic>? ?? {}),
+                ))),
     GoRoute(
         path: '/profile/:username/followings',
-        pageBuilder: (context, state) => MaterialPage<void>(
-            key: UniqueKey(),
-            child: ScreenWithHeaderAndFooter(
-              body: Profile(
-                  username: state.pathParameters['username']!,
-                  selectedIndex: 4,
-                  params: state.extra as Map<String, dynamic>? ?? {}),
-            ))),
+        pageBuilder: (context, state) =>
+            MaterialPage<void>(
+                key: UniqueKey(),
+                child: ScreenWithHeaderAndFooter(
+                  body: Profile(
+                      username: state.pathParameters['username']!,
+                      selectedIndex: 4,
+                      params: state.extra as Map<String, dynamic>? ?? {}),
+                ))),
     GoRoute(
         path: '/profile/:username/followers',
-        pageBuilder: (context, state) => MaterialPage<void>(
-            key: UniqueKey(),
-            child: ScreenWithHeaderAndFooter(
-              body: Profile(
-                  username: state.pathParameters['username']!,
-                  selectedIndex: 5,
-                  params: state.extra as Map<String, dynamic>? ?? {}),
-            ))),
+        pageBuilder: (context, state) =>
+            MaterialPage<void>(
+                key: UniqueKey(),
+                child: ScreenWithHeaderAndFooter(
+                  body: Profile(
+                      username: state.pathParameters['username']!,
+                      selectedIndex: 5,
+                      params: state.extra as Map<String, dynamic>? ?? {}),
+                ))),
     GoRoute(
         path: '/profile/:username/personal',
-        pageBuilder: (context, state) => MaterialPage<void>(
-            key: UniqueKey(),
-            child: ScreenWithHeaderAndFooter(
-              body: Profile(
-                  username: state.pathParameters['username']!,
-                  selectedIndex: 6,
-                  params: state.extra as Map<String, dynamic>? ?? {}),
-            ))),
+        pageBuilder: (context, state) =>
+            MaterialPage<void>(
+                key: UniqueKey(),
+                child: ScreenWithHeaderAndFooter(
+                  body: Profile(
+                      username: state.pathParameters['username']!,
+                      selectedIndex: 6,
+                      params: state.extra as Map<String, dynamic>? ?? {}),
+                ))),
   ],
-  errorPageBuilder: (context, state) => const MaterialPage<void>(
+  errorPageBuilder: (context, state) =>
+  const MaterialPage<void>(
       key: ValueKey('not-found'),
       child: ScreenWithHeaderAndFooter(body: NotFound())),
 );

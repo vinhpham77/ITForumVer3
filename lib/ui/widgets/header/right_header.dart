@@ -14,7 +14,6 @@ class ItemMenu {
 
 class RightHeader extends StatefulWidget {
   const RightHeader({super.key});
-  
 
   @override
   State<RightHeader> createState() => _RightHeaderState();
@@ -152,63 +151,62 @@ class _RightHeaderState extends State<RightHeader> {
           ),
           const SizedBox(width: 10),
           MenuAnchor(
-      builder: (BuildContext context, MenuController controller, Widget? child) {
-        return IconButton(
-          onPressed: () {
-            if (controller.isOpen) {
-              controller.close();
-            } else {
-              controller.open();
-            }
-          },
-          icon: Stack(
-            children: [
-              const Icon(Icons.notifications_none),
-              Positioned(
-                right: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  constraints: const BoxConstraints(
-                    minWidth: 16,
-                    minHeight: 16,
-                  ),
+            builder: (BuildContext context, MenuController controller,
+                Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  if (controller.isOpen) {
+                    controller.close();
+                  } else {
+                    controller.open();
+                  }
+                },
+                icon: Stack(
+                  children: [
+                    const Icon(Icons.notifications_none),
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                iconSize: 24,
+                splashRadius: 16,
+                tooltip: 'Thông báo',
+              );
+            },
+            menuChildren: List<MenuItemButton>.generate(
+                0,
+                (int index) => MenuItemButton(
+                    onPressed: () => {},
+                    child: Row(
+                      children: [
+                        ClipOval(
+                            child: const UserAvatar(
+                          imageUrl: null,
+                          size: 54,
+                        )),
+                        const SizedBox(width: 12),
+                        const SizedBox(
+                          width: 250,
+                          child: Text(
+                            '',
+                            softWrap: true,
+                          ),
+                        )
+                      ],
+                    ))),
           ),
-          iconSize: 24,
-          splashRadius: 16,
-          tooltip: 'Thông báo',
-        );
-      },
-      menuChildren: List<MenuItemButton>.generate(
-              0,
-              (int index) => MenuItemButton(
-                  onPressed: () =>
-                      {},
-                  child: Row(
-                    children: [
-                      ClipOval(
-                      
-                      child: const UserAvatar(
-                        imageUrl: null,
-                        size: 54,
-                      )),
-                  const SizedBox(width: 12),
-                      const SizedBox(
-                        width: 250,
-                        child: Text('', softWrap: true,),
-                      )
-                    ],
-                  )
-                  )
-            ),
-      
-    ),
           const SizedBox(width: 10),
           MenuAnchor(
             builder: (BuildContext context, MenuController controller,
@@ -222,7 +220,6 @@ class _RightHeaderState extends State<RightHeader> {
                   }
                 },
                 icon: ClipOval(
-                    
                     child: UserAvatar(
                         imageUrl: JwtPayload.avatarUrl ?? '', size: 32)),
                 iconSize: 32,
@@ -249,5 +246,3 @@ class _RightHeaderState extends State<RightHeader> {
         ],
       );
 }
-  
-

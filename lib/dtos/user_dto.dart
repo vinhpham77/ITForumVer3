@@ -6,7 +6,13 @@ class UserDTO {
   final String? bio;
   final String displayName;
 
-  UserDTO({required this.email, required this.gender, required this.birthdate, required this.avatarUrl, required this.bio, required this.displayName});
+  UserDTO(
+      {required this.email,
+      required this.gender,
+      required this.birthdate,
+      required this.avatarUrl,
+      required this.bio,
+      required this.displayName});
 
   Map<String, dynamic> toJson() {
     return {

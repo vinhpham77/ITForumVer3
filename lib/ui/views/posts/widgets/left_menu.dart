@@ -16,7 +16,9 @@ class LeftMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: listSelectBtn.map((selectBtn) {
-          return selectBtn.isSelected ? buttonSelected(selectBtn.index) : buttonSelect(selectBtn.index);
+          return selectBtn.isSelected
+              ? buttonSelected(selectBtn.index)
+              : buttonSelect(selectBtn.index);
         }).toList(),
       ),
     );
@@ -26,14 +28,22 @@ class LeftMenu extends StatelessWidget {
     return Container(
       width: 180,
       child: TextButton(
-        child:  Align(
+        child: Align(
           alignment: Alignment.centerLeft,
-          child: Text(listSelectBtn[index].text, style: TextStyle(color: Colors.black),),
+          child: Text(
+            listSelectBtn[index].text,
+            style: TextStyle(color: Colors.black),
+          ),
         ),
         onPressed: () => appRouter.go(listSelectBtn[index].path, extra: {}),
-        onHover: (value) {listSelectBtn[index].isSelected = value;},
+        onHover: (value) {
+          listSelectBtn[index].isSelected = value;
+        },
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(listSelectBtn[index].isSelected ? Color.fromRGBO(242, 238, 242, 1) : Colors.white),
+          backgroundColor: MaterialStateProperty.all(
+              listSelectBtn[index].isSelected
+                  ? Color.fromRGBO(242, 238, 242, 1)
+                  : Colors.white),
         ),
       ),
     );
@@ -43,13 +53,16 @@ class LeftMenu extends StatelessWidget {
     return Container(
       width: 180,
       child: TextButton(
-        child:  Align(
+        child: Align(
           alignment: Alignment.centerLeft,
-          child: Text(listSelectBtn[index].text, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          child: Text(listSelectBtn[index].text,
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         ),
         onPressed: () => appRouter.go(listSelectBtn[index].path, extra: {}),
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color.fromRGBO(242, 242, 242, 1)),
+          backgroundColor:
+              MaterialStateProperty.all(Color.fromRGBO(242, 242, 242, 1)),
         ),
       ),
     );

@@ -338,7 +338,6 @@ class _SeriesDetailState extends State<SeriesDetail> {
                     appRouter.go("/profile/${authorSeries.username}/posts");
                   },
                   child: ClipOval(
-                    
                     child:
                         UserAvatar(imageUrl: authorSeries.avatarUrl, size: 48),
                   ),

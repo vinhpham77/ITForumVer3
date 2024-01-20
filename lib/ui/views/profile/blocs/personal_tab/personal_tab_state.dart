@@ -17,7 +17,6 @@ sealed class PersonalTabSubState extends PersonalTabState {
 
   const PersonalTabSubState({required this.user, required this.isEditingMode});
 
-
   @override
   List<Object?> get props => [user, isEditingMode];
 }
@@ -30,7 +29,9 @@ final class PersonalTabErrorState extends PersonalTabSubState {
   final String message;
 
   const PersonalTabErrorState(
-      {required super.user, required this.message, required super.isEditingMode});
+      {required super.user,
+      required this.message,
+      required super.isEditingMode});
 
   @override
   List<Object?> get props => [super.user, message, super.isEditingMode];
@@ -50,7 +51,8 @@ final class AvatarChangedState extends PersonalTabSubState {
 }
 
 final class AvatarChangingState extends PersonalTabSubState {
-  const AvatarChangingState({required super.user, required super.isEditingMode});
+  const AvatarChangingState(
+      {required super.user, required super.isEditingMode});
 }
 
 final class UserUpdatingState extends PersonalTabSubState {

@@ -1,4 +1,3 @@
-
 import 'package:it_forum/models/comment_details.dart';
 
 class CommentShow {
@@ -8,7 +7,11 @@ class CommentShow {
   bool isShowChildren;
   bool isEdit;
 
-  CommentShow({required this.commentDetails, List<CommentShow>? commentShows, this.isReply = false, this.isShowChildren = false, this.isEdit = false})
+  CommentShow(
+      {required this.commentDetails,
+      List<CommentShow>? commentShows,
+      this.isReply = false,
+      this.isShowChildren = false,
+      this.isEdit = false})
       : commentShows = commentShows ?? [];
-
 }

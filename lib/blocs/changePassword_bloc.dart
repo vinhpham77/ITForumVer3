@@ -59,7 +59,7 @@ class ChangePasswordBloc {
     _repassController.sink.add("");
 
     var future =
-    _userRepository.changePassUser(username, currentPassword, newPassword);
+        _userRepository.changePassUser(username, currentPassword, newPassword);
     isValid = future.then((response) {
       showTopRightSnackBar(
           context, 'Đổi mật khẩu thành công!', NotifyType.success);

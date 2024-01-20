@@ -52,7 +52,7 @@ class _StickySidebarState extends State<StickySidebar> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _load();
-        });
+    });
   }
 
   // @override
@@ -79,7 +79,6 @@ class _StickySidebarState extends State<StickySidebar> {
                 InkWell(
                   onTap: () {},
                   child: ClipOval(
-                    
                     child: UserAvatar(
                         imageUrl: widget.authorSeries.avatarUrl, size: 48),
                   ),
@@ -101,8 +100,7 @@ class _StickySidebarState extends State<StickySidebar> {
                         });
                       },
                       child: GestureDetector(
-                        onTap: () {
-                        },
+                        onTap: () {},
                         child: Text(
                           widget.authorSeries.displayName,
                           style: TextStyle(
@@ -129,7 +127,9 @@ class _StickySidebarState extends State<StickySidebar> {
                             isFollow
                                 ? const Icon(Icons.check)
                                 : const Icon(Icons.add),
-                            isFollow ? const Text("Đã theo dõi") : const Text('Theo dõi'),
+                            isFollow
+                                ? const Text("Đã theo dõi")
+                                : const Text('Theo dõi'),
                           ],
                         ),
                       ),
@@ -201,8 +201,7 @@ class _StickySidebarState extends State<StickySidebar> {
           const SizedBox(width: 16),
           IconButton(
             icon: const Icon(Icons.link),
-            onPressed: () =>
-                _sharePost('http://localhost:8000/posts/$idPost'),
+            onPressed: () => _sharePost('http://localhost:8000/posts/$idPost'),
           ),
           const SizedBox(width: 16),
           IconButton(

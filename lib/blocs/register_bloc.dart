@@ -18,9 +18,13 @@ class RegisterBloc {
   final AuthRepository _userRepository = AuthRepository();
 
   Stream get userStream => _userController.stream;
+
   Stream get passStream => _passController.stream;
+
   Stream get fullNameStream => _fullNameController.stream;
+
   Stream get rePasswordController => _rePasswordController.stream;
+
   Stream get emailController => _emailController.stream;
 
   Stream get getLoginStatusController => loginStatusController.stream;
@@ -29,6 +33,7 @@ class RegisterBloc {
   late BuildContext context;
 
   RegisterBloc(this.context);
+
   Future<bool> isValidInfo(String username, String password, String rePassword,
       String email, String displayName) async {
     Future<bool> isValid;
@@ -61,7 +66,7 @@ class RegisterBloc {
     }
     _rePasswordController.sink.add("");
     var future =
-    _userRepository.registerUser(username, password, email, displayName);
+        _userRepository.registerUser(username, password, email, displayName);
     isValid = future.then((response) {
       showTopRightSnackBar(context, 'Đăng ký thành công!', NotifyType.success);
       return Future<bool>.value(true);

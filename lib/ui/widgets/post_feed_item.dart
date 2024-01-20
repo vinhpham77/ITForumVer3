@@ -16,7 +16,7 @@
 //                 InkWell(
 //                   onTap: () {},
 //                   child: ClipOval(
-//                     
+//
 //                     child: _buildPostImage(postAggregation.user.avatarUrl ?? ""),
 //                   ),
 //                 ),

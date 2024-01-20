@@ -21,8 +21,7 @@ final class PersonalTabSubEvent extends PersonalTabEvent {
   final User user;
   final bool isEditingMode;
 
-  const PersonalTabSubEvent(
-      {required this.user, required this.isEditingMode});
+  const PersonalTabSubEvent({required this.user, required this.isEditingMode});
 
   @override
   List<Object?> get props => [user, isEditingMode];
@@ -36,19 +35,20 @@ final class SwitchModeEvent extends PersonalTabSubEvent {
 }
 
 final class ChangeAvatarEvent extends PersonalTabSubEvent {
-  const ChangeAvatarEvent(
-      {required super.user, required super.isEditingMode});
+  const ChangeAvatarEvent({required super.user, required super.isEditingMode});
 }
 
 final class DeleteAvatarEvent extends PersonalTabSubEvent {
-  const DeleteAvatarEvent(
-      {required super.user, required super.isEditingMode});
+  const DeleteAvatarEvent({required super.user, required super.isEditingMode});
 }
 
 final class ChangeGenderEvent extends PersonalTabSubEvent {
   final bool? gender;
 
-  const ChangeGenderEvent({required this.gender, required super.user, required super.isEditingMode});
+  const ChangeGenderEvent(
+      {required this.gender,
+      required super.user,
+      required super.isEditingMode});
 
   @override
   List<Object?> get props => [gender, super.user, super.isEditingMode];
@@ -58,7 +58,9 @@ final class UpdateProfileEvent extends PersonalTabSubEvent {
   final UserDTO newUser;
 
   const UpdateProfileEvent(
-      {required this.newUser, required super.user, required super.isEditingMode});
+      {required this.newUser,
+      required super.user,
+      required super.isEditingMode});
 
   @override
   List<Object?> get props => [newUser, super.user, super.isEditingMode];
