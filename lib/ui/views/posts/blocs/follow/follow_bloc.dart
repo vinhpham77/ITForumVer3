@@ -12,6 +12,7 @@ import '../../../../../models/user.dart';
 import '../../../../../repositories/post_repository.dart';
 import '../../../../../repositories/series_repository.dart';
 import '../../../../../repositories/user_repository.dart';
+import '../../../../../repositories/follow_repository.dart';
 import '../../../../common/utils/common_utils.dart';
 
 part 'follow_event.dart';
@@ -21,6 +22,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
   final PostRepository _postRepository = PostRepository();
   final SeriesRepository _seriesRepository = SeriesRepository();
   final UserRepository _userRepository = UserRepository();
+  final FollowRepository _followRepository = FollowRepository();
 
   FollowBloc() : super(FollowInitialState()) {
     on<LoadPostsFollowEvent>(_loadPostsFollow);
@@ -30,8 +32,13 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
   Future<void> _loadPostsFollow(
       LoadPostsFollowEvent event, Emitter<FollowState> emit) async {
     try {
-      Response<dynamic> response = await _postRepository.getFollow(
-          page: event.page, limit: event.limit, tag: event.tag);
+      var followResponse = await _followRepository.getFollowed();
+      List<User> users = (followResponse.data as List<dynamic>)
+          .map((e) => User.fromJson(e))
+          .toList();
+      List<String> usernames = users.map((e) => e.username).toList();
+      Response<dynamic> response = await _postRepository.getInUsernames(
+          username: usernames, page: event.page, limit: event.limit, tag: event.tag);
 
       ResultCount<Post> posts =
           ResultCount.fromJson(response.data, Post.fromJson);
@@ -39,14 +46,6 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
       if (posts.resultList.isEmpty) {
         emit(FollowEmptyState());
       } else {
-        List<String> usernames =
-            posts.resultList.map((e) => e.createdBy).toList();
-
-        var userResponse = await _userRepository.getUsers(usernames);
-        List<User> users = (userResponse.data as List<dynamic>)
-            .map((e) => User.fromJson(e))
-            .toList();
-
         List<PostUser> postUsers = convertPostUser(posts.resultList, users);
 
         ResultCount<PostUser> postUserResults =
@@ -63,7 +62,14 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
   Future<void> _loadSeriesFollow(
       LoadSeriesFollowEvent event, Emitter<FollowState> emit) async {
     try {
-      Response<dynamic> response = await _seriesRepository.getFollow(
+      var followResponse = await _followRepository.getFollowed();
+      List<User> users = (followResponse.data as List<dynamic>)
+          .map((e) => User.fromJson(e))
+          .toList();
+      List<String> usernames = users.map((e) => e.username).toList();
+
+      Response<dynamic> response = await _seriesRepository.getInUsernames(
+        username: usernames,
         page: event.page,
         limit: event.limit,
       );
@@ -74,13 +80,6 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
       if (seriesPosts.resultList.isEmpty) {
         emit(FollowEmptyState());
       } else {
-        List<String> usernames =
-        seriesPosts.resultList.map((e) => e.createdBy!).toList();
-
-        var userResponse = await _userRepository.getUsers(usernames);
-        List<User> users = (userResponse.data as List<dynamic>)
-            .map((e) => User.fromJson(e))
-            .toList();
 
         List<SeriesPostUser> seriesPostUsers =
         convertSeriesPostUser(seriesPosts.resultList, users);

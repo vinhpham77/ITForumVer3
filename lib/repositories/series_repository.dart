@@ -75,4 +75,9 @@ class SeriesRepository {
   }) async {
     return dio.get('/search?searchField=$fieldSearch&search=$searchContent&sort=$sort&sortField=$sortField&page=$page&limit=${limit ?? limitPage}');
   }
+
+  Future<Response<dynamic>> getInUsernames(
+      {required List<String> username, required int page, int? limit}) async {
+    return dio.get('/get/in_usernames?username=$username&page=$page&limit=$limit');
+  }
 }

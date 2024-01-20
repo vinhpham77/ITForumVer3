@@ -22,7 +22,9 @@ class PostFeedItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () =>
+            onTap: postUser.user == null
+                ? null
+                : () =>
                 appRouter.go('/profile/${postUser.user}', extra: {}),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
@@ -39,7 +41,9 @@ class PostFeedItem extends StatelessWidget {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () => appRouter.go(
+                      onTap: postUser.user == null
+                          ? null
+                          : () => appRouter.go(
                           '/profile/${postUser.user.username}',
                           extra: {}),
                       child: Text(

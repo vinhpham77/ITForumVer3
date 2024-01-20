@@ -47,4 +47,9 @@ class FollowRepository {
   Future<Response<dynamic>> totalFollower(String followedId) async {
     return dio.get('/totalFollower/$followedId');
   }
+
+  Future<Response<dynamic>> getFollowed() async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.get("/get/followed");
+  }
 }
