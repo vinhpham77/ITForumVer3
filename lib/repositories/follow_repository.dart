@@ -52,4 +52,8 @@ class FollowRepository {
     dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.get("/get/followed");
   }
+
+  Future<Response<dynamic>> getStats(String username) async {
+    return dio.get("/stats/$username");
+  }
 }

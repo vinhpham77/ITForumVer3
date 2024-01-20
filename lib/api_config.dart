@@ -12,4 +12,5 @@ class ApiConfig {
   static const String imagesEndpoint = 'images';
   static const String commentsEndpoint = 'comments';
   static const String notificationsEndpoint = 'notification';
+  static const String contentEndpoint = 'content';
 }

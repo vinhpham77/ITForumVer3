@@ -13,16 +13,6 @@ class ProfileStats {
     required this.followerCount,
   });
 
-  factory ProfileStats.fromJson(Map<String, dynamic> json) {
-    return ProfileStats(
-      postCount: json['postCount'],
-      questionCount: json['questionCount'],
-      seriesCount: json['seriesCount'],
-      followingCount: json['followingCount'],
-      followerCount: json['followerCount'],
-    );
-  }
-
   // copyWith
   ProfileStats copyWith({
     int? postCount,

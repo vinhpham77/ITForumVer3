@@ -29,14 +29,6 @@ class UserRepository {
     });
   }
 
-  Future<Response<dynamic>> getTagCounts(String username) async {
-    return dio.get("/$username/tags");
-  }
-
-  Future<Response<dynamic>> getStats(String username) async {
-    return dio.get("/stats/$username");
-  }
-
   Future<Response<dynamic>> getUsers(List<String> usernames) {
     return dio.post("/list", data: jsonEncode(usernames));
   }

@@ -5,8 +5,6 @@ class Vote {
   final bool voteType;
   final DateTime updatedAt;
 
-  // Thêm các trường khác tương ứng với dữ liệu user từ API
-
   Vote({
     required this.targetId,
     required this.targetType,

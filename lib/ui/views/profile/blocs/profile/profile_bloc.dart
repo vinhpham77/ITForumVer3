@@ -5,11 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/dtos/jwt_payload.dart';
 import 'package:it_forum/repositories/user_repository.dart';
 
+import '../../../../../dtos/ContentStats.dart';
+import '../../../../../dtos/follow_stats.dart';
 import '../../../../../dtos/post_user.dart';
 import '../../../../../dtos/profile_stats.dart';
 import '../../../../../dtos/tag_count.dart';
 import '../../../../../models/user.dart';
+import '../../../../../repositories/content_repository.dart';
 import '../../../../../repositories/follow_repository.dart';
+import '../../../../../repositories/tag_repository.dart';
 import '../../../../common/utils/common_utils.dart';
 
 part 'profile_event.dart';
@@ -18,12 +22,18 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final UserRepository _userRepository;
   final FollowRepository _followRepository;
+  final TagRepository _tagRepository;
+  final ContentRepository _contentRepository;
 
-  ProfileBloc(
-      {required UserRepository userRepository,
-      required FollowRepository followRepository})
-      : _userRepository = userRepository,
+  ProfileBloc({
+    required UserRepository userRepository,
+    required TagRepository tagRepository,
+    required FollowRepository followRepository,
+    required ContentRepository contentRepository,
+  })  : _userRepository = userRepository,
+        _tagRepository = tagRepository,
         _followRepository = followRepository,
+        _contentRepository = contentRepository,
         super(ProfileInitialState()) {
     on<LoadProfileEvent>(_loadProfile);
     on<FollowEvent>(_follow);
@@ -59,18 +69,30 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           tagCounts: const [],
           profileStats: null));
 
-      var statsFuture = _userRepository.getStats(event.username);
-      var tagCountsFuture = _userRepository.getTagCounts(event.username);
-      final statResponses = await Future.wait([statsFuture, tagCountsFuture]);
+      var followStatsFuture = _followRepository.getStats(event.username);
+      var contentStatsFuture = _contentRepository.getStats(event.username);
+      var tagCountsFuture = _tagRepository.getTagCounts(event.username);
+      final statResponses = await Future.wait(
+          [followStatsFuture, contentStatsFuture, tagCountsFuture]);
 
-      Response<dynamic> responseStats = statResponses[0];
-      Response<dynamic> responseTagCount = statResponses[1];
+      Response<dynamic> followStatsResponse = statResponses[0];
+      Response<dynamic> contentStatsResponse = statResponses[1];
+      Response<dynamic> tagCountsResponse = statResponses[2];
 
-      List<TagCount> tagCounts = responseTagCount.data
+      List<TagCount> tagCounts = tagCountsResponse.data
           .map<TagCount>((dynamic item) => TagCount.fromJson(item))
           .toList();
 
-      ProfileStats profileStats = ProfileStats.fromJson(responseStats.data);
+      FollowStats followStats = FollowStats.fromJson(followStatsResponse.data);
+      ContentStats contentStats =
+          ContentStats.fromJson(contentStatsResponse.data);
+
+      ProfileStats profileStats = ProfileStats(
+          followerCount: followStats.followerCount,
+          followingCount: followStats.followingCount,
+          postCount: contentStats.postCount,
+          seriesCount: contentStats.seriesCount,
+          questionCount: contentStats.questionCount);
 
       emit(ProfileAllLoadedState(
           user: user,

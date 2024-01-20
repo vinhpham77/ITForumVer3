@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 
   Widget buildMaterialApp({bool isLoading = false}) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'ITForum',
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.light,
