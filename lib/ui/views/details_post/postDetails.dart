@@ -369,7 +369,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
     try {
       var postResponse = await postRepository.getOneDetails(id);
       var post = Post.fromJson(postResponse.data);
-      var userResponse = await userRepository.getUser(post.createdBy);
+      var userResponse = await userRepository.get(post.createdBy);
       var user = User.fromJson(userResponse.data);
 
       var postUser = PostUser(post: post, user: user);
@@ -391,7 +391,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
 
   Future<void> _loadUser(String username) async {
     if (JwtPayload.sub != null) {
-      var futureUser = await userRepository.getUser(username);
+      var futureUser = await userRepository.get(username);
       if (mounted) {
         user = User.fromJson(futureUser.data);
       }
@@ -539,8 +539,8 @@ class _PostDetailsPage extends State<PostDetailsPage> {
             onTap: () {
               appRouter.go("/profile/${postUser.post.createdBy}/posts");
             },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
+            child: ClipOval(
+              
               child: _buildPostImage(authorPost.avatarUrl ?? ""),
             ),
           ),

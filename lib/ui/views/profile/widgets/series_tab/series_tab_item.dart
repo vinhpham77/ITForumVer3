@@ -17,8 +17,8 @@ class SeriesTabItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(50),
+          ClipOval(
+              
               child: UserAvatar(
                 imageUrl: seriesPostUser.user.avatarUrl,
                 size: 54,

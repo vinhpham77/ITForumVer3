@@ -26,8 +26,8 @@ class PostFeedItem extends StatelessWidget {
                 ? null
                 : () =>
                 appRouter.go('/profile/${postUser.user}', extra: {}),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
+            child: ClipOval(
+                
                 child: UserAvatar(
                   imageUrl: postUser.user.avatarUrl,
                   size: 54,

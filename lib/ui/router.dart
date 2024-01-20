@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:it_forum/ui/views/cu_post/cu_post_view.dart';
@@ -141,7 +140,8 @@ final appRouter = GoRouter(
         child: ScreenWithHeaderAndFooter(
           body: SearchView(params: {}, indexSelected: 0),
         ),
-      ),),
+      ),
+    ),
     GoRoute(
         path: '/viewsearch/:query',
         pageBuilder: (context, state) {
@@ -215,7 +215,8 @@ final appRouter = GoRouter(
         return MaterialPage<void>(
             key: state.pageKey,
             child: ScreenWithHeaderAndFooter(
-              body: PostDetailsPage(id: int.parse(state.pathParameters['pid']!)),
+              body:
+                  PostDetailsPage(id: int.parse(state.pathParameters['pid']!)),
             ));
       },
     ),

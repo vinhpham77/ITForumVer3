@@ -97,8 +97,8 @@ class _CreateCommentViewState extends State<CreateCommentView> {
                   padding: const EdgeInsets.all(16),
                   child: InkWell(
                     onTap: () {},
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
+                    child: ClipOval(
+                      
                       child: UserAvatar(
                         imageUrl: JwtPayload.avatarUrl,
                         size: 32,

@@ -263,8 +263,8 @@ class _CommentState extends State<CommentView> {
           padding: const EdgeInsets.only(right: 8, bottom: 8),
           child: InkWell(
             onTap: () {},
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
+            child: ClipOval(
+              
               child: UserAvatar(
                 imageUrl: user.avatarUrl,
                 size: 32,

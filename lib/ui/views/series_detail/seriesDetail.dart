@@ -312,7 +312,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
   Future<void> _loadScoreSeries(int postId) async {
     var futureSp = await seriesRepository.getOne(postId);
     Series series = Series.fromJson(futureSp.data);
-    var futureUser = await userRepository.getUser(series.createdBy!);
+    var futureUser = await userRepository.get(series.createdBy!);
 
     updateAt = series.updatedAt;
     if (mounted) {
@@ -337,8 +337,8 @@ class _SeriesDetailState extends State<SeriesDetail> {
                   onTap: () {
                     appRouter.go("/profile/${authorSeries.username}/posts");
                   },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
+                  child: ClipOval(
+                    
                     child:
                         UserAvatar(imageUrl: authorSeries.avatarUrl, size: 48),
                   ),
@@ -590,7 +590,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
 
   Future<void> _loadUser(String username) async {
     if (JwtPayload.sub != null) {
-      var futureUser = await userRepository.getUser(username);
+      var futureUser = await userRepository.get(username);
       user = User.fromJson(futureUser.data);
     }
   }
