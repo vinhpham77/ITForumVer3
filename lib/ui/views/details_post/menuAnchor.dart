@@ -5,6 +5,7 @@ import 'dart:html';
 import 'package:dio/src/response.dart';
 import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/notify_type.dart';
+import 'package:it_forum/repositories/comment_repository.dart';
 import 'package:it_forum/repositories/post_repository.dart';
 import 'package:it_forum/repositories/series_repository.dart';
 import 'package:it_forum/ui/router.dart';
@@ -31,6 +32,7 @@ class MoreHoriz extends StatefulWidget {
 class _MoreHorizState extends State<MoreHoriz> {
   SeriesRepository seriesRepository = SeriesRepository();
   PostRepository postRepository = PostRepository();
+  CommentRepository commentRepository=CommentRepository();
 
   @override
   void dispose() {
@@ -158,6 +160,12 @@ class _MoreHorizState extends State<MoreHoriz> {
             TextButton(
               onPressed: () {
                 deleteSeries(widget.idContent, widget.type);
+                if(widget.type=='series') {
+                  commentRepository.delete(widget.idContent, true);
+                } else{
+                  commentRepository.delete(widget.idContent, false);
+                }
+
               },
               child: Text("Xóa"),
             ),
@@ -183,6 +191,7 @@ class _MoreHorizState extends State<MoreHoriz> {
             TextButton(
               onPressed: () {
                 deleteSeries(widget.idContent, widget.type);
+
               },
               child: Text("Thêm"),
             ),
