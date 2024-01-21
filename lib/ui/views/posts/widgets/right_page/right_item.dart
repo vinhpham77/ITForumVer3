@@ -18,7 +18,8 @@ class RightItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () => appRouter.push('/posts/${postUser.post.id}', extra: {}),
+            onTap: () =>
+                appRouter.push('/posts/${postUser.post.id}', extra: {}),
             child: Text(
               postUser.post.title,
               style: const TextStyle(fontSize: 16),
@@ -29,7 +30,9 @@ class RightItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Icon(
-                postUser.post.score < 0 ? Icons.arrow_downward : Icons.arrow_upward,
+                postUser.post.score < 0
+                    ? Icons.arrow_downward
+                    : Icons.arrow_upward,
                 size: 16,
                 color: Colors.black87,
               ),

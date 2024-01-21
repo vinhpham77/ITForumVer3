@@ -20,9 +20,11 @@ sealed class FollowItemSubEvent extends FollowItemEvent {
 }
 
 final class HandleFollowItemEvent extends FollowItemSubEvent {
-  const HandleFollowItemEvent({required super.isFollowed, required super.username});
+  const HandleFollowItemEvent(
+      {required super.isFollowed, required super.username});
 }
 
 final class HandleUnfollowItemEvent extends FollowItemSubEvent {
-  const HandleUnfollowItemEvent({required super.isFollowed, required super.username});
+  const HandleUnfollowItemEvent(
+      {required super.isFollowed, required super.username});
 }

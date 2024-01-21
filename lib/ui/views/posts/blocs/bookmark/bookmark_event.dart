@@ -14,12 +14,11 @@ final class LoadBookmarkPostEvent extends BookmarkEvent {
   final int limit;
   final String tag;
 
-  const LoadBookmarkPostEvent({
-    required this.username,
-    required this.page,
-    required this.limit,
-    required this.tag
-  });
+  const LoadBookmarkPostEvent(
+      {required this.username,
+      required this.page,
+      required this.limit,
+      required this.tag});
 
   @override
   List<Object?> get props => [page, limit, tag];

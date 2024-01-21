@@ -29,10 +29,8 @@ class _SearchPostViewState extends State<SearchPostView> {
 
   @override
   void didUpdateWidget(SearchPostView oldWidget) {
-
     super.didUpdateWidget(oldWidget);
     loadPost();
-
   }
 
   void loadPost() {
@@ -50,8 +48,7 @@ class _SearchPostViewState extends State<SearchPostView> {
         sort: widget.params['sort'] ?? 'DESC',
         sortField: widget.params['sortField'] ?? 'updatedAt',
         page: widget.params['page'] ?? '1',
-        limit: int.parse(widget.params['limit'] ?? "10")
-      ));
+        limit: int.parse(widget.params['limit'] ?? "10")));
   }
 
   @override
@@ -60,6 +57,7 @@ class _SearchPostViewState extends State<SearchPostView> {
     super.dispose();
     _bloc.close();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -84,11 +82,9 @@ class _SearchPostViewState extends State<SearchPostView> {
               return Column(
                 children: [
                   Column(
-                      children: state.postUsers.resultList
-                          .map((e) {
-                        return PostFeedItem(
-                            postUser: e);
-                      }).toList()),
+                      children: state.postUsers.resultList.map((e) {
+                    return PostFeedItem(postUser: e);
+                  }).toList()),
                   Pagination(
                     path: "/viewsearch",
                     totalItem: state.postUsers.count,
@@ -101,7 +97,7 @@ class _SearchPostViewState extends State<SearchPostView> {
               return Container(
                 alignment: Alignment.center,
                 child:
-                Text(state.message, style: const TextStyle(fontSize: 16)),
+                    Text(state.message, style: const TextStyle(fontSize: 16)),
               );
             }
 

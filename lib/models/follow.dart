@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:it_forum/models/user.dart';
 
 import 'FollowId.dart';
+
 @immutable
 class Follow {
   FollowId id;
@@ -18,7 +19,7 @@ class Follow {
   });
 
   Follow.empty()
-      : id =FollowId.empty(),
+      : id = FollowId.empty(),
         followed = User.empty(),
         follower = User.empty(),
         createdAt = DateTime.now();

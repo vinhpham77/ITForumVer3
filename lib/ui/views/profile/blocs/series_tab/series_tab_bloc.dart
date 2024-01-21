@@ -18,9 +18,9 @@ class SeriesTabBloc extends Bloc<SeriesTabEvent, SeriesTabState> {
   final SeriesRepository _seriesRepository;
   final AuthRepository _authRepository = AuthRepository();
 
-  SeriesTabBloc({required seriesRepository}) :
-  _seriesRepository = seriesRepository
-  , super(SeriesInitialState()) {
+  SeriesTabBloc({required seriesRepository})
+      : _seriesRepository = seriesRepository,
+        super(SeriesInitialState()) {
     on<LoadSeriesEvent>(_loadSeries);
     on<ConfirmDeleteEvent>(_confirmDelete);
   }

@@ -74,12 +74,11 @@ class _MoreHorizState extends State<MoreHoriz> {
       menuChildren: [
         MenuItemButton(
           onPressed: () {
-            if(widget.type=='series') {
+            if (widget.type == 'series') {
               appRouter.go("/series/${widget.idContent}/edit");
             } else {
               appRouter.go("/posts/${widget.idContent}/edit");
             }
-
           },
           child: const Row(
             children: [
@@ -196,38 +195,32 @@ class _MoreHorizState extends State<MoreHoriz> {
   Future<void> deleteSeries(int id, String type) async {
     Response future;
     if (type == 'bài viết') {
-      var future =  postRepository.delete(id);
+      var future = postRepository.delete(id);
       future.then((respone) {
         if (respone.statusCode == 204) {
-          showTopRightSnackBar(context, "Xóa bài viết thành công", NotifyType.success);
+          showTopRightSnackBar(
+              context, "Xóa bài viết thành công", NotifyType.success);
           appRouter.go("/");
-
         } else {
           print('Lỗi khi xóa: ${respone.data}');
         }
-      }).catchError((error){
+      }).catchError((error) {
         print("lỗi xóa bài viết");
       });
-
-
-
     } else {
       if (type == 'series') {
-        var future =  seriesRepository.delete(id);
+        var future = seriesRepository.delete(id);
         future.then((respone) {
           if (respone.statusCode == 204) {
-            showTopRightSnackBar(context, "Xóa series thành công", NotifyType.success);
+            showTopRightSnackBar(
+                context, "Xóa series thành công", NotifyType.success);
             appRouter.go("/");
-
           } else {
             print('Lỗi khi xóa: ${respone.data}');
           }
-        }).catchError((error){
+        }).catchError((error) {
           print("lỗi xóa series");
         });
-
-
-
       }
     }
   }

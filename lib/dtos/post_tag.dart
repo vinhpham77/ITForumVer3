@@ -1,4 +1,3 @@
-
 import 'package:it_forum/models/user.dart';
 
 class PostTag {
@@ -21,7 +20,7 @@ class PostTag {
       required this.commentCount,
       required this.isPrivate,
       required this.updatedAt,
-        required this.createdBy});
+      required this.createdBy});
 
   factory PostTag.fromJson(Map<String, dynamic> json) {
     return PostTag(

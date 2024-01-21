@@ -6,8 +6,7 @@ class SeriesPostUser {
   SeriesPost seriesPost;
   User user;
 
-  SeriesPostUser(
-      {required this.seriesPost, required this.user});
+  SeriesPostUser({required this.seriesPost, required this.user});
 
   SeriesPostUser copyWith({
     SeriesPost? seriesPost,

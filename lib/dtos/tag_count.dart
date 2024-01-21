@@ -7,7 +7,7 @@ class TagCount {
   TagCount.fromJson(Map<String, dynamic> json)
       : tag = json['tag'],
         count = json['count'];
-  
+
   TagCount copyWith({
     String? tag,
     int? count,

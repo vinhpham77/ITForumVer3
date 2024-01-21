@@ -1,12 +1,12 @@
 class Validations {
   // Kiểm tra độ dài tối thiểu của tên người dùng
   static bool isValidUsername(String username) {
-    return username.trim().length >2;
+    return username.trim().length > 2;
   }
 
   // Kiểm tra độ dài tối thiểu của mật khẩu
   static bool isValidPassword(String password) {
-    return password.trim().length >2;
+    return password.trim().length > 2;
   }
 
   // Kiểm tra hai mật khẩu có giống nhau không
@@ -26,6 +26,6 @@ class Validations {
 
   // Kiểm tra độ dài tối thiểu của tên hiển thị
   static bool isValidDisplayName(String displayName) {
-    return displayName.trim().length >2;
+    return displayName.trim().length > 2;
   }
 }

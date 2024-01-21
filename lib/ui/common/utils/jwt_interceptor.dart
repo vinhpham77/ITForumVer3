@@ -86,7 +86,8 @@ class JwtInterceptor extends Interceptor {
       html.document.cookie = 'refresh_token=$refreshToken';
       dio.options.extra['Cookie'] = html.document.cookie;
 
-      var response = await dio.get('${ApiConfig.userServiceBaseUrl}/auth/refresh-token');
+      var response =
+          await dio.get('${ApiConfig.userServiceBaseUrl}/auth/refresh-token');
       parseJwt(response.data['token'], needToNavigate: true);
       bool success =
           await prefs.setString('accessToken', response.data['token']);

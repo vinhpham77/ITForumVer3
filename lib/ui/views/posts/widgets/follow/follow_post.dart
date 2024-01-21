@@ -15,11 +15,10 @@ class FollowPost extends StatefulWidget {
 
   const FollowPost(
       {super.key,
-        required this.page,
-        required this.limit,
-        required this.isQuestion,
-        required this.params
-      });
+      required this.page,
+      required this.limit,
+      required this.isQuestion,
+      required this.params});
 
   @override
   State<FollowPost> createState() => _FollowPostState();
@@ -27,8 +26,9 @@ class FollowPost extends StatefulWidget {
 
 class _FollowPostState extends State<FollowPost> {
   late FollowBloc _bloc;
-  late Map<String, String> indexing = widget.isQuestion ? {'name' : 'hỏi đáp', 'path': '/viewquestionfollow'} :
-  {'name' : 'bài viết', 'path': '/viewfollow'};
+  late Map<String, String> indexing = widget.isQuestion
+      ? {'name': 'hỏi đáp', 'path': '/viewquestionfollow'}
+      : {'name': 'bài viết', 'path': '/viewfollow'};
 
   @override
   void initState() {
@@ -37,20 +37,17 @@ class _FollowPostState extends State<FollowPost> {
       ..add(LoadPostsFollowEvent(
           limit: widget.limit,
           page: widget.page,
-          tag: widget.isQuestion ? "HoiDap" : ""
-      ));
+          tag: widget.isQuestion ? "HoiDap" : ""));
   }
 
   @override
   void didUpdateWidget(FollowPost oldWidget) {
-
     super.didUpdateWidget(oldWidget);
-    _bloc..add(LoadPostsFollowEvent(
-        limit: widget.limit,
-        page: widget.page,
-        tag: widget.isQuestion ? "HoiDap" : ""
-    ));
-
+    _bloc
+      ..add(LoadPostsFollowEvent(
+          limit: widget.limit,
+          page: widget.page,
+          tag: widget.isQuestion ? "HoiDap" : ""));
   }
 
   @override
@@ -84,11 +81,9 @@ class _FollowPostState extends State<FollowPost> {
               return Column(
                 children: [
                   Column(
-                      children: state.postUsers.resultList
-                          .map((e) {
-                        return PostFeedItem(
-                            postUser: e);
-                      }).toList()),
+                      children: state.postUsers.resultList.map((e) {
+                    return PostFeedItem(postUser: e);
+                  }).toList()),
                   Pagination(
                     path: indexing['path'] ?? '',
                     totalItem: state.postUsers.count,
@@ -101,7 +96,7 @@ class _FollowPostState extends State<FollowPost> {
               return Container(
                 alignment: Alignment.center,
                 child:
-                Text(state.message, style: const TextStyle(fontSize: 16)),
+                    Text(state.message, style: const TextStyle(fontSize: 16)),
               );
             }
 

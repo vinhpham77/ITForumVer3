@@ -16,7 +16,7 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     return Container(
       height: headerHeight,
-      decoration: const BoxDecoration (
+      decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(
             color: Colors.black26,
@@ -24,19 +24,17 @@ class _HeaderState extends State<Header> {
             offset: Offset(0, 2),
           )
         ],
-      color: Colors.white,
+        color: Colors.white,
       ),
       child: Center(
-        child:
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: horizontalSpace),
-            constraints: const BoxConstraints(maxWidth: maxContent),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [LeftHeader(), RightHeader()],
-            ),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: horizontalSpace),
+          constraints: const BoxConstraints(maxWidth: maxContent),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [LeftHeader(), RightHeader()],
           ),
-
+        ),
       ),
     );
     //);

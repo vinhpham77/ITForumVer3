@@ -4,7 +4,7 @@ class ApiConfig {
   static const String interactiveServiceBaseUrl = 'http://localhost:8890/api';
   static const String tagsEndpoint = 'tags';
   static const String postsEndpoint = 'posts';
-  static const String authEndpoint='auth';
+  static const String authEndpoint = 'auth';
   static const String seriesEndpoint = 'series';
   static const String votesEndpoint = 'votes';
   static const String bookmarksEndpoint = 'bookmarks';

@@ -37,7 +37,7 @@ class SeriesBloc extends Bloc<SeriesEvent, SeriesState> {
         emit(SeriesEmptyState());
       } else {
         List<String> usernames =
-        seriesPosts.resultList.map((e) => e.createdBy!).toList();
+            seriesPosts.resultList.map((e) => e.createdBy!).toList();
 
         var userResponse = await _userRepository.getUsers(usernames);
         List<User> users = (userResponse.data as List<dynamic>)
@@ -45,11 +45,11 @@ class SeriesBloc extends Bloc<SeriesEvent, SeriesState> {
             .toList();
 
         List<SeriesPostUser> seriesPostUsers =
-        convertSeriesPostUser(seriesPosts.resultList, users);
+            convertSeriesPostUser(seriesPosts.resultList, users);
 
         ResultCount<SeriesPostUser> seriesPostUserResults =
-        ResultCount<SeriesPostUser>(
-            count: seriesPosts.count, resultList: seriesPostUsers);
+            ResultCount<SeriesPostUser>(
+                count: seriesPosts.count, resultList: seriesPostUsers);
 
         emit(SeriesLoadedState(seriesPostUsers: seriesPostUserResults));
       }

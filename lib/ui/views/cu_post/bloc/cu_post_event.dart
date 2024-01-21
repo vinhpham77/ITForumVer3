@@ -90,7 +90,8 @@ final class CuPostOperationEvent extends CuPostSubEvent {
   final bool isCreate;
 
   const CuPostOperationEvent(
-      {required this.isCreate, required super.isEditMode,
+      {required this.isCreate,
+      required super.isEditMode,
       required super.post,
       required super.selectedTags,
       required super.tags,

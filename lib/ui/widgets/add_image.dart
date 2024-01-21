@@ -11,6 +11,7 @@ typedef ImageCallback = Function(String imagePath);
 
 class AddImage extends StatefulWidget {
   final ImageCallback imageCallback;
+
   const AddImage({super.key, required this.imageCallback});
 
   @override
@@ -35,7 +36,8 @@ class _AddImageState extends State<AddImage> {
     if (image != null) {
       var future = _imageRepository.upload(image);
       future.then((response) {
-        widget.imageCallback('![Tux, the Linux mascot](${ApiConfig.userServiceBaseUrl}/${ApiConfig.imagesEndpoint}/${response.data.toString()})');
+        widget.imageCallback(
+            '![Tux, the Linux mascot](${ApiConfig.userServiceBaseUrl}/${ApiConfig.imagesEndpoint}/${response.data.toString()})');
       }).catchError((error) {
         String message = getMessageFromException(error);
         showTopRightSnackBar(context, message, NotifyType.error);

@@ -10,7 +10,8 @@ class SeriesRepository {
 
   SeriesRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.seriesEndpoint}"));
+        baseUrl:
+            "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.seriesEndpoint}"));
   }
 
   Future<Response<dynamic>> add(SeriesDTO seriesDTO) async {
@@ -49,8 +50,7 @@ class SeriesRepository {
 
   Future<Response<dynamic>> updateScore(int idPost, int score) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio
-        .put('/updateScore?id=$idPost&score=$score');
+    return dio.put('/updateScore?id=$idPost&score=$score');
   }
 
   Future<Response<dynamic>> totalSeries(String username) async {
@@ -65,15 +65,15 @@ class SeriesRepository {
     return dio.get('/get/follow?page=${page}&limit=${limit}');
   }
 
-  Future<Response<dynamic>> getSearch({
-    required String fieldSearch,
-    required String searchContent,
-    required String sort,
-    required String sortField,
-    required String page,
-    int? limit
-  }) async {
-    return dio.get('/search?searchField=$fieldSearch&search=$searchContent&sort=$sort&sortField=$sortField&page=$page&limit=${limit ?? limitPage}');
+  Future<Response<dynamic>> getSearch(
+      {required String fieldSearch,
+      required String searchContent,
+      required String sort,
+      required String sortField,
+      required String page,
+      int? limit}) async {
+    return dio.get(
+        '/search?searchField=$fieldSearch&search=$searchContent&sort=$sort&sortField=$sortField&page=$page&limit=${limit ?? limitPage}');
   }
 
   Future<Response<dynamic>> getInUsernames(

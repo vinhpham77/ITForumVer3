@@ -10,7 +10,8 @@ import 'package:it_forum/ui/views/search/widgets/search_tap_view.dart';
 import '../posts/posts_view.dart';
 
 class SearchView extends StatefulWidget {
-  const SearchView({super.key, required this.params, required this.indexSelected});
+  const SearchView(
+      {super.key, required this.params, required this.indexSelected});
 
   final Map<String, String> params;
   final int indexSelected;
@@ -21,7 +22,7 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   late ResultCount<PostAggregation> resultCount =
-  ResultCount(resultList: [], count: 0);
+      ResultCount(resultList: [], count: 0);
   final searchController = TextEditingController();
   late List<NavigationPost> listSelectBtn;
 
@@ -83,7 +84,9 @@ class _SearchViewState extends State<SearchView> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 16,),
+                                const SizedBox(
+                                  width: 16,
+                                ),
                                 SizedBox(
                                   height: 36,
                                   width: 80,
@@ -92,16 +95,19 @@ class _SearchViewState extends State<SearchView> {
                                     backgroundColor: Colors.black,
                                     onPressed: () {
                                       appRouter.go(getSearchQuery(
-                                          path: listSelectBtn[widget.indexSelected].path,
+                                          path: listSelectBtn[
+                                                  widget.indexSelected]
+                                              .path,
                                           params: widget.params,
                                           searchStr: searchController.text,
                                           page: page));
                                     },
                                     shape: const RoundedRectangleBorder(
                                       borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
+                                          BorderRadius.all(Radius.circular(4)),
                                     ),
-                                    child: const Text("Tìm kiếm",
+                                    child: const Text(
+                                      "Tìm kiếm",
                                       style: TextStyle(
                                         color: Colors.white,
                                       ),
@@ -112,16 +118,17 @@ class _SearchViewState extends State<SearchView> {
                             ),
                             page < 1
                                 ? const Center(
-                                child: Text(
-                                  "Lỗi! Page không thể nhỏ hơn 1",
-                                  style: TextStyle(color: Colors.red),
-                                ))
-                                :Column(
-                                    children: [
-                                      SearchTapView(params: widget.params, index: widget.indexSelected, navigation: listSelectBtn),
-                                      listSelectBtn[widget.indexSelected].widget
-                                    ]
-                                )
+                                    child: Text(
+                                    "Lỗi! Page không thể nhỏ hơn 1",
+                                    style: TextStyle(color: Colors.red),
+                                  ))
+                                : Column(children: [
+                                    SearchTapView(
+                                        params: widget.params,
+                                        index: widget.indexSelected,
+                                        navigation: listSelectBtn),
+                                    listSelectBtn[widget.indexSelected].widget
+                                  ])
                           ],
                         ),
                       ),
@@ -158,8 +165,7 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
-  List<NavigationPost> get navigations =>
-      [
+  List<NavigationPost> get navigations => [
         NavigationPost(
             index: 0,
             text: "bài viết",
@@ -178,14 +184,14 @@ class _SearchViewState extends State<SearchView> {
             )),
       ];
 
-  String getSearchQuery({required Map<String, String> params,
-    required path,
-    required String searchStr,
-    required page}) {
-    return path + "/searchContent=$searchStr&sort=${widget.params['sort'] ??
-        ""}&sortField=${widget.params['sortField'] ?? ""}&page=$page";
+  String getSearchQuery(
+      {required Map<String, String> params,
+      required path,
+      required String searchStr,
+      required page}) {
+    return path +
+        "/searchContent=$searchStr&sort=${widget.params['sort'] ?? ""}&sortField=${widget.params['sortField'] ?? ""}&page=$page";
   }
-
 }
 
 class SortOption {

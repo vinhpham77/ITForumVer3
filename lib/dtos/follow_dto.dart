@@ -11,6 +11,7 @@ class FollowDTO {
     required this.followed,
     required this.createdAt,
   });
+
   Map<String, dynamic> toJson() {
     return {
       'follower': follower,

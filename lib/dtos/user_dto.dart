@@ -1,13 +1,27 @@
 class UserDTO {
-  final String username;
   final String email;
+  final bool? gender;
+  final DateTime? birthdate;
+  final String? avatarUrl;
+  final String? bio;
+  final String displayName;
 
-  UserDTO({required this.username, required this.email});
+  UserDTO(
+      {required this.email,
+      required this.gender,
+      required this.birthdate,
+      required this.avatarUrl,
+      required this.bio,
+      required this.displayName});
 
-  factory UserDTO.fromJson(Map<String, dynamic> json) {
-    return UserDTO(
-      username: json['username'],
-      email: json['email'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'gender': gender,
+      'birthdate': birthdate?.toIso8601String(),
+      'bio': bio,
+      'displayName': displayName,
+      'avatarUrl': avatarUrl,
+    };
   }
 }

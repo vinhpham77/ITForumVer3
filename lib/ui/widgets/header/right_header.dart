@@ -50,7 +50,6 @@ class _RightHeaderState extends State<RightHeader> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     searchController.dispose();
   }
@@ -67,7 +66,7 @@ class _RightHeaderState extends State<RightHeader> {
             controller: searchController,
             decoration: const InputDecoration(
                 contentPadding:
-                EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
+                    EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
                 hintText: 'Nhập từ khóa tìm kiếm...',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.only(
@@ -103,86 +102,137 @@ class _RightHeaderState extends State<RightHeader> {
         const SizedBox(width: 10),
         (JwtPayload.sub == null)
             ? Container(
-          height: 34,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          constraints: const BoxConstraints(minWidth: 120),
-          child: FilledButton(
-            onPressed: () => appRouter.go('/login'),
-            child: const Text("Đăng Nhập",
-                style: TextStyle(color: Colors.white),
-                softWrap: false,
-                maxLines: 1),
-          ),
-        )
+                height: 34,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                constraints: const BoxConstraints(minWidth: 120),
+                child: FilledButton(
+                  onPressed: () => appRouter.go('/login'),
+                  child: const Text("Đăng Nhập",
+                      style: TextStyle(color: Colors.white),
+                      softWrap: false,
+                      maxLines: 1),
+                ),
+              )
             : widgetSignIn()
       ],
     );
   }
 
   Widget widgetSignIn() => Row(
-    children: [
-      MenuAnchor(
-        builder: (BuildContext context, MenuController controller,
-            Widget? child) {
-          return IconButton(
-            onPressed: () {
-              if (controller.isOpen) {
-                controller.close();
-              } else {
-                controller.open();
-              }
+        children: [
+          MenuAnchor(
+            builder: (BuildContext context, MenuController controller,
+                Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  if (controller.isOpen) {
+                    controller.close();
+                  } else {
+                    controller.open();
+                  }
+                },
+                icon: const Icon(Icons.edit_note),
+                iconSize: 24,
+                splashRadius: 16,
+                tooltip: 'Viết',
+              );
             },
-            icon: const Icon(Icons.edit_note),
-            iconSize: 24,
-            splashRadius: 16,
-            tooltip: 'Viết',
-          );
-        },
-        menuChildren: List<MenuItemButton>.generate(
-          createMenu.length,
+            menuChildren: List<MenuItemButton>.generate(
+              createMenu.length,
               (int index) => MenuItemButton(
-              onPressed: () =>
-              {GoRouter.of(context).go(createMenu[index].route)},
-              child: Row(
-                children: [
-                  Icon(createMenu[index].icon),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(createMenu[index].name)
-                ],
-              )),
-        ),
-      ),
-      const SizedBox(width: 10),
-      IconButton(
-        onPressed: () => {},
-        icon: const Icon(Icons.notifications_none),
-        iconSize: 24,
-        splashRadius: 16,
-      ),
-      const SizedBox(width: 10),
-      MenuAnchor(
-        builder: (BuildContext context, MenuController controller,
-            Widget? child) {
-          return IconButton(
-            onPressed: () {
-              if (controller.isOpen) {
-                controller.close();
-              } else {
-                controller.open();
-              }
+                  onPressed: () =>
+                      {GoRouter.of(context).go(createMenu[index].route)},
+                  child: Row(
+                    children: [
+                      Icon(createMenu[index].icon),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text(createMenu[index].name)
+                    ],
+                  )),
+            ),
+          ),
+          const SizedBox(width: 10),
+          MenuAnchor(
+            builder: (BuildContext context, MenuController controller,
+                Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  if (controller.isOpen) {
+                    controller.close();
+                  } else {
+                    controller.open();
+                  }
+                },
+                icon: Stack(
+                  children: [
+                    const Icon(Icons.notifications_none),
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                iconSize: 24,
+                splashRadius: 16,
+                tooltip: 'Thông báo',
+              );
             },
-            icon: ClipOval(
-                child: UserAvatar(
-                    imageUrl: JwtPayload.avatarUrl ?? '', size: 32)),
-            iconSize: 32,
-            splashRadius: 16,
-            tooltip: 'Profiler',
-          );
-        },
-        menuChildren: List<MenuItemButton>.generate(
-          profilerMenu.length,
+            menuChildren: List<MenuItemButton>.generate(
+                0,
+                (int index) => MenuItemButton(
+                    onPressed: () => {},
+                    child: Row(
+                      children: [
+                        ClipOval(
+                            child: const UserAvatar(
+                          imageUrl: null,
+                          size: 54,
+                        )),
+                        const SizedBox(width: 12),
+                        const SizedBox(
+                          width: 250,
+                          child: Text(
+                            '',
+                            softWrap: true,
+                          ),
+                        )
+                      ],
+                    ))),
+          ),
+          const SizedBox(width: 10),
+          MenuAnchor(
+            builder: (BuildContext context, MenuController controller,
+                Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  if (controller.isOpen) {
+                    controller.close();
+                  } else {
+                    controller.open();
+                  }
+                },
+                icon: ClipOval(
+                    child: UserAvatar(
+                        imageUrl: JwtPayload.avatarUrl ?? '', size: 32)),
+                iconSize: 32,
+                splashRadius: 16,
+                tooltip: 'Profiler',
+              );
+            },
+            menuChildren: List<MenuItemButton>.generate(
+              createMenu.length,
               (int index) => MenuItemButton(
               onPressed: () async {
                 if (profilerMenu[index].name == "Đăng xuất") {
@@ -261,5 +311,3 @@ class _RightHeaderState extends State<RightHeader> {
     appRouter.go("/");
   }
 }
-  
-

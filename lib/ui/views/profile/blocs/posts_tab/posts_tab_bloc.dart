@@ -45,7 +45,7 @@ class PostsTabBloc extends Bloc<PostsTabEvent, PostsTabState> {
         emit(PostsEmptyState());
       } else {
         List<String> usernames =
-        posts.resultList.map((e) => e.createdBy).toList();
+            posts.resultList.map((e) => e.createdBy).toList();
 
         var userResponse = await _userRepository.getUsers(usernames);
         List<User> users = (userResponse.data as List<dynamic>)
@@ -54,8 +54,8 @@ class PostsTabBloc extends Bloc<PostsTabEvent, PostsTabState> {
 
         List<PostUser> postUsers = convertPostUser(posts.resultList, users);
 
-        ResultCount<PostUser> postUserResults = ResultCount<PostUser>(
-            count: posts.count, resultList: postUsers);
+        ResultCount<PostUser> postUserResults =
+            ResultCount<PostUser>(count: posts.count, resultList: postUsers);
         emit(PostsLoadedState(postUsers: postUserResults));
       }
     } catch (error) {

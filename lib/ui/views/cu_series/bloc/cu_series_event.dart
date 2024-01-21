@@ -83,7 +83,7 @@ final class CuSeriesOperationEvent extends CuSeriesSubEvent {
 
   const CuSeriesOperationEvent(
       {required this.seriesDTO,
-        required this.isCreate,
+      required this.isCreate,
       required super.isEditMode,
       required super.seriesPost,
       required super.selectedPostUsers,

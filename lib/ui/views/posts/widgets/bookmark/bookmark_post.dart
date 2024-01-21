@@ -16,12 +16,11 @@ class BookmarkPost extends StatefulWidget {
 
   const BookmarkPost(
       {super.key,
-        required this.username,
-        required this.page,
-        required this.limit,
-        required this.isQuestion,
-        required this.params
-      });
+      required this.username,
+      required this.page,
+      required this.limit,
+      required this.isQuestion,
+      required this.params});
 
   @override
   State<BookmarkPost> createState() => _BookmarkPostState();
@@ -29,19 +28,19 @@ class BookmarkPost extends StatefulWidget {
 
 class _BookmarkPostState extends State<BookmarkPost> {
   late BookmarkBloc _bloc;
-  late Map<String, String> indexing = widget.isQuestion ? {'name' : 'hỏi đáp', 'path': '/viewquestionbookmark'} :
-  {'name' : 'bài viết', 'path': '/viewbookmark'};
+  late Map<String, String> indexing = widget.isQuestion
+      ? {'name': 'hỏi đáp', 'path': '/viewquestionbookmark'}
+      : {'name': 'bài viết', 'path': '/viewbookmark'};
 
   @override
   void initState() {
     super.initState();
     _bloc = BookmarkBloc()
       ..add(LoadBookmarkPostEvent(
-        username: widget.username,
-        limit: widget.limit,
-        page: widget.page,
-        tag: widget.isQuestion ? "HoiDap" : ""
-      ));
+          username: widget.username,
+          limit: widget.limit,
+          page: widget.page,
+          tag: widget.isQuestion ? "HoiDap" : ""));
   }
 
   @override
@@ -51,8 +50,7 @@ class _BookmarkPostState extends State<BookmarkPost> {
         username: widget.username,
         limit: widget.limit,
         page: widget.page,
-        tag: widget.isQuestion ? "HoiDap" : ""
-    ));
+        tag: widget.isQuestion ? "HoiDap" : ""));
   }
 
   @override
@@ -86,11 +84,9 @@ class _BookmarkPostState extends State<BookmarkPost> {
               return Column(
                 children: [
                   Column(
-                      children: state.postUsers.resultList
-                          .map((e) {
-                        return PostFeedItem(
-                            postUser: e);
-                      }).toList()),
+                      children: state.postUsers.resultList.map((e) {
+                    return PostFeedItem(postUser: e);
+                  }).toList()),
                   Pagination(
                     path: indexing['path'] ?? '',
                     totalItem: state.postUsers.count,
@@ -103,7 +99,7 @@ class _BookmarkPostState extends State<BookmarkPost> {
               return Container(
                 alignment: Alignment.center,
                 child:
-                Text(state.message, style: const TextStyle(fontSize: 16)),
+                    Text(state.message, style: const TextStyle(fontSize: 16)),
               );
             }
 

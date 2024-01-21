@@ -21,12 +21,11 @@ class PostTabItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(50),
+          ClipOval(
               child: UserAvatar(
-                imageUrl: postUser.user.avatarUrl,
-                size: 54,
-              )),
+            imageUrl: postUser.user.avatarUrl,
+            size: 54,
+          )),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -55,7 +54,8 @@ class PostTabItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 2, bottom: 4),
                   child: InkWell(
-                    onTap: () => {appRouter.go('/posts/${postUser.post.id}', extra: {})},
+                    onTap: () =>
+                        {appRouter.go('/posts/${postUser.post.id}', extra: {})},
                     hoverColor: Colors.black12,
                     child: Text(
                       postUser.post.title,
@@ -90,7 +90,8 @@ class PostTabItem extends StatelessWidget {
                           ),
                         ),
                       const SizedBox(width: 16),
-                      buildFieldCount(Icons.comment_outlined, postUser.post.commentCount),
+                      buildFieldCount(
+                          Icons.comment_outlined, postUser.post.commentCount),
                       buildFieldCount(
                           postUser.post.score < 0
                               ? Icons.trending_down_outlined

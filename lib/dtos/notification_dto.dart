@@ -6,6 +6,7 @@ class NotificationDTO {
   final bool isRead;
   final String type;
   final int targetId;
+
   NotificationDTO({
     required this.id,
     required this.username,
@@ -15,6 +16,7 @@ class NotificationDTO {
     required this.type,
     required this.targetId,
   });
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

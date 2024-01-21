@@ -86,17 +86,17 @@ final class ProfileUnfollowedState extends ProfileSubState {
 final class ProfileItemUnfollowedState extends ProfileSubState {
   const ProfileItemUnfollowedState(
       {required super.user,
-        required super.isFollowing,
-        required super.tagCounts,
-        required super.profileStats});
+      required super.isFollowing,
+      required super.tagCounts,
+      required super.profileStats});
 }
 
 final class ProfileItemFollowedState extends ProfileSubState {
   const ProfileItemFollowedState(
       {required super.user,
-        required super.isFollowing,
-        required super.tagCounts,
-        required super.profileStats});
+      required super.isFollowing,
+      required super.tagCounts,
+      required super.profileStats});
 }
 
 final class PostsCountDecreasedState extends ProfileSubState {

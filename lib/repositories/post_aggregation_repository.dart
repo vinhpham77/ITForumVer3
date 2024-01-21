@@ -12,31 +12,26 @@ class PostAggregationRepository {
         baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.postsEndpoint}"));
   }
 
-  Future<Response<dynamic>> getSearch({
-    required String fieldSearch,
-    required String searchContent,
-    required String sort,
-    required String sortField,
-    required String page,
-    int? limit
-  }) async {
-    return dio.get('/search?searchField=$fieldSearch&search=$searchContent&sort=$sort&sortField=$sortField&page=$page&limit=${limit ?? limitPage}');
+  Future<Response<dynamic>> getSearch(
+      {required String fieldSearch,
+      required String searchContent,
+      required String sort,
+      required String sortField,
+      required String page,
+      int? limit}) async {
+    return dio.get(
+        '/search?searchField=$fieldSearch&search=$searchContent&sort=$sort&sortField=$sortField&page=$page&limit=${limit ?? limitPage}');
   }
 
-  Future<Response<dynamic>> get({
-    required int page,
-    int? limit,
-    String tag = ""
-  }) async {
+  Future<Response<dynamic>> get(
+      {required int page, int? limit, String tag = ""}) async {
     return dio.get('/get?page=${page}&limit=${limit ?? limitPage}&tag=${tag}');
   }
 
-  Future<Response<dynamic>> getFollow({
-    required int page,
-    int? limit,
-    bool isQuestion = false
-  }) async {
+  Future<Response<dynamic>> getFollow(
+      {required int page, int? limit, bool isQuestion = false}) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio.get('/get/follow?page=${page}&limit=${limit}&isQuestion=${isQuestion}');
+    return dio.get(
+        '/get/follow?page=${page}&limit=${limit}&isQuestion=${isQuestion}');
   }
 }

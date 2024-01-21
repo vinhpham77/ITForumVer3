@@ -13,11 +13,8 @@ final class LoadPostsEvent extends PostEvent {
   final int limit;
   final String tag;
 
-  const LoadPostsEvent({
-    required this.page,
-    required this.limit,
-    this.tag = ""
-  });
+  const LoadPostsEvent(
+      {required this.page, required this.limit, this.tag = ""});
 
   @override
   List<Object?> get props => [page, limit, tag];

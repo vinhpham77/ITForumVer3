@@ -345,13 +345,13 @@ class _PostDetailsPage extends State<PostDetailsPage> {
               child: const CircularProgressIndicator(),
             )
           : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              _builderAuthorPostContent(),
-              postPreview,
-            ],
-          ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _builderAuthorPostContent(),
+                postPreview,
+              ],
+            ),
     );
   }
 
@@ -369,7 +369,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
     try {
       var postResponse = await postRepository.getOne(id);
       var post = Post.fromJson(postResponse.data);
-      var userResponse = await userRepository.getUser(post.createdBy);
+      var userResponse = await userRepository.get(post.createdBy);
       var user = User.fromJson(userResponse.data);
        postUser = PostUser(post: post, user: user);
       if (mounted) {
@@ -377,7 +377,8 @@ class _PostDetailsPage extends State<PostDetailsPage> {
           postUser = postUser;
           authorPost = postUser.user;
           listTag = postUser.post.tags;
-          updatedAt = "Cập nhật lần cuối: ${getTimeAgo(postUser.post.updatedAt)}";
+          updatedAt =
+              "Cập nhật lần cuối: ${getTimeAgo(postUser.post.updatedAt)}";
           score = postUser.post.score;
           isPrivate = postUser.post.isPrivate;
         });
@@ -389,7 +390,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
 
   Future<void> _loadUser(String username) async {
     if (JwtPayload.sub != null) {
-      var futureUser = await userRepository.getUser(username);
+      var futureUser = await userRepository.get(username);
       if (mounted) {
         user = User.fromJson(futureUser.data);
       }
@@ -536,8 +537,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
             onTap: () {
               appRouter.go("/profile/${postUser.post.createdBy}/posts");
             },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
+            child: ClipOval(
               child: _buildPostImage(authorPost.avatarUrl ?? ""),
             ),
           ),

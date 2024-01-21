@@ -14,7 +14,6 @@ class TableOfContents extends StatelessWidget {
         for (var heading in headings) ...[
           GestureDetector(
             onTap: () {
-
               int index = headings.indexOf(heading);
               scrollController.animateTo(
                 index * 100.0,

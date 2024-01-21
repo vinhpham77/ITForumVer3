@@ -5,6 +5,7 @@ import 'package:it_forum/dtos/jwt_payload.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
+
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
@@ -14,7 +15,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   bool _showCurentPass = false;
   bool _showNewPass = false;
-  final bool _showReNewPass=false;
+  final bool _showReNewPass = false;
   final TextEditingController _curentPassController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _reRewPasswordController =
@@ -64,7 +65,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     style: const TextStyle(
                                         fontSize: 18, color: Colors.black),
                                     controller: _curentPassController,
-                                     obscureText: !_showCurentPass,
+                                    obscureText: !_showCurentPass,
                                     decoration: InputDecoration(
                                         labelText: "Nhập mật khẩu hiện tại",
                                         errorText: snapshot.hasError
@@ -79,7 +80,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     onTap: onToggleShowCurentPass,
                                     child: MouseRegion(
                                         cursor: SystemMouseCursors.click,
-                                        child: Text(_showCurentPass ? "Hide" : "Show",
+                                        child: Text(
+                                            _showCurentPass ? "Hide" : "Show",
                                             style: const TextStyle(
                                                 color: Colors.blue,
                                                 fontSize: 13,
@@ -112,7 +114,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     onTap: onToggleShowPass,
                                     child: MouseRegion(
                                         cursor: SystemMouseCursors.click,
-                                        child: Text(_showNewPass ? "Hide" : "Show",
+                                        child: Text(
+                                            _showNewPass ? "Hide" : "Show",
                                             style: const TextStyle(
                                                 color: Colors.blue,
                                                 fontSize: 13,
@@ -169,7 +172,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   void onChangePassClicked(BuildContext context) async {
     print("chay change pass");
     bool isValid = await bloc.isValidInfo(
-       JwtPayload.sub!,
+        JwtPayload.sub!,
         _curentPassController.text,
         _newPasswordController.text,
         _reRewPasswordController.text);
@@ -186,8 +189,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       _showNewPass = !_showNewPass;
     });
   }
-  void onToggleShowCurentPass(){
-      setState(() {
+
+  void onToggleShowCurentPass() {
+    setState(() {
       _showCurentPass = !_showCurentPass;
     });
   }

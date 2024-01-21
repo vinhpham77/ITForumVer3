@@ -6,7 +6,11 @@ class TagDropdown extends StatefulWidget {
   final List<Tag> tags;
   final Function(Tag) onTagSelected;
 
-  const TagDropdown({super.key, required this.tags, required this.onTagSelected, required this.label});
+  const TagDropdown(
+      {super.key,
+      required this.tags,
+      required this.onTagSelected,
+      required this.label});
 
   @override
   State<TagDropdown> createState() => _TagDropdownState();

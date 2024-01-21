@@ -16,17 +16,17 @@ final class LoadPostsEvent extends SearchEvent {
   final String page;
   final int? limit;
 
-  const LoadPostsEvent({
-    required this.fieldSearch,
-    required this.searchContent,
-    required this.sort,
-    required this.sortField,
-    required this.page,
-    required this.limit
-  });
+  const LoadPostsEvent(
+      {required this.fieldSearch,
+      required this.searchContent,
+      required this.sort,
+      required this.sortField,
+      required this.page,
+      required this.limit});
 
   @override
-  List<Object?> get props => [fieldSearch, searchContent, sort, sortField, page, limit];
+  List<Object?> get props =>
+      [fieldSearch, searchContent, sort, sortField, page, limit];
 }
 
 final class LoadSeriesEvent extends SearchEvent {
@@ -37,15 +37,15 @@ final class LoadSeriesEvent extends SearchEvent {
   final String page;
   final int? limit;
 
-  const LoadSeriesEvent({
-    required this.fieldSearch,
-    required this.searchContent,
-    required this.sort,
-    required this.sortField,
-    required this.page,
-    required this.limit
-  });
+  const LoadSeriesEvent(
+      {required this.fieldSearch,
+      required this.searchContent,
+      required this.sort,
+      required this.sortField,
+      required this.page,
+      required this.limit});
 
   @override
-  List<Object?> get props => [fieldSearch, searchContent, sort, sortField, page, limit];
+  List<Object?> get props =>
+      [fieldSearch, searchContent, sort, sortField, page, limit];
 }

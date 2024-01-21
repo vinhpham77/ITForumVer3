@@ -5,6 +5,7 @@ import 'package:it_forum/blocs/resetPassword_bloc.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
+
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }

@@ -9,6 +9,7 @@ class BookmarkRepository {
 
   BookmarkRepository() {
     dio = Dio(BaseOptions(
+
         baseUrl: "${ApiConfig.interactiveServiceBaseUrl}/${ApiConfig.bookmarksEndpoint}"));
   }
 

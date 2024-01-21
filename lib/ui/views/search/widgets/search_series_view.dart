@@ -29,10 +29,8 @@ class _SearchSeriesViewState extends State<SearchSeriesView> {
 
   @override
   void didUpdateWidget(SearchSeriesView oldWidget) {
-
     super.didUpdateWidget(oldWidget);
     loadPost();
-
   }
 
   void loadPost() {
@@ -50,8 +48,7 @@ class _SearchSeriesViewState extends State<SearchSeriesView> {
         sort: widget.params['sort'] ?? 'DESC',
         sortField: widget.params['sortField'] ?? 'updatedAt',
         page: widget.params['page'] ?? '1',
-        limit: int.parse(widget.params['limit'] ?? "10")
-    ));
+        limit: int.parse(widget.params['limit'] ?? "10")));
   }
 
   @override
@@ -60,6 +57,7 @@ class _SearchSeriesViewState extends State<SearchSeriesView> {
     super.dispose();
     _bloc.close();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -84,11 +82,9 @@ class _SearchSeriesViewState extends State<SearchSeriesView> {
               return Column(
                 children: [
                   Column(
-                      children: state.seriesPostUsers.resultList
-                          .map((e) {
-                        return SeriesFeedItem(
-                            seriesPostUser: e);
-                      }).toList()),
+                      children: state.seriesPostUsers.resultList.map((e) {
+                    return SeriesFeedItem(seriesPostUser: e);
+                  }).toList()),
                   Pagination(
                     path: "/viewsearchSeries",
                     totalItem: state.seriesPostUsers.count,
@@ -101,7 +97,7 @@ class _SearchSeriesViewState extends State<SearchSeriesView> {
               return Container(
                 alignment: Alignment.center,
                 child:
-                Text(state.message, style: const TextStyle(fontSize: 16)),
+                    Text(state.message, style: const TextStyle(fontSize: 16)),
               );
             }
 

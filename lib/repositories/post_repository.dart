@@ -10,7 +10,8 @@ class PostRepository {
 
   PostRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.postsEndpoint}"));
+        baseUrl:
+            "${ApiConfig.contentServiceBaseUrl}/${ApiConfig.postsEndpoint}"));
   }
 
   get notificationRepository => null;
@@ -71,8 +72,7 @@ class PostRepository {
 
   Future<Response<dynamic>> updateScore(int idPost, int score) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio
-        .put('/updateScore?id=$idPost&score=$score');
+    return dio.put('/updateScore?id=$idPost&score=$score');
   }
 
   Future<Response<dynamic>> totalPost(String username) async {

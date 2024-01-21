@@ -14,10 +14,9 @@ class FollowSeries extends StatefulWidget {
 
   const FollowSeries(
       {super.key,
-        required this.page,
-        required this.limit,
-        required this.params
-      });
+      required this.page,
+      required this.limit,
+      required this.params});
 
   @override
   State<FollowSeries> createState() => _FollowSeriesState();
@@ -76,11 +75,9 @@ class _FollowSeriesState extends State<FollowSeries> {
               return Column(
                 children: [
                   Column(
-                      children: state.seriesPostUsers.resultList
-                          .map((e) {
-                        return SeriesFeedItem(
-                            seriesPostUser: e);
-                      }).toList()),
+                      children: state.seriesPostUsers.resultList.map((e) {
+                    return SeriesFeedItem(seriesPostUser: e);
+                  }).toList()),
                   Pagination(
                     path: "viewfollow",
                     totalItem: state.seriesPostUsers.count,
@@ -93,14 +90,13 @@ class _FollowSeriesState extends State<FollowSeries> {
               return Container(
                 alignment: Alignment.center,
                 child:
-                Text(state.message, style: const TextStyle(fontSize: 16)),
+                    Text(state.message, style: const TextStyle(fontSize: 16)),
               );
             }
 
             return Container(
                 alignment: Alignment.center,
                 child: const CircularProgressIndicator());
-
           },
         ),
       ),

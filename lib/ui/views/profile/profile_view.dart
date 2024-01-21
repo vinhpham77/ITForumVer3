@@ -6,6 +6,7 @@ import 'package:it_forum/ui/views/profile/blocs/profile/profile_bloc.dart';
 import 'package:it_forum/ui/views/profile/widgets/count_stats.dart';
 import 'package:it_forum/ui/views/profile/widgets/custom_tab.dart';
 import 'package:it_forum/ui/views/profile/widgets/follows_tab/follows_tab.dart';
+import 'package:it_forum/ui/views/profile/widgets/personal_tab/personal_tab.dart';
 import 'package:it_forum/ui/views/profile/widgets/posts_tab/posts_tab.dart';
 import 'package:it_forum/ui/views/profile/widgets/series_tab/series_tab.dart';
 import 'package:it_forum/ui/views/profile/widgets/tag_chart.dart';
@@ -31,6 +32,8 @@ class Profile extends StatelessWidget {
       required this.params});
 
   int get page => params['page'] ?? 1;
+
+  bool get isPostBookmarks => params['postBookmarks'] != 0;
 
   int get size => params['size'] ?? pageSize;
 
@@ -139,7 +142,7 @@ class Profile extends StatelessWidget {
       child: Container(
         transform: Matrix4.translationValues(-8.0, 0, 0),
         padding: const EdgeInsets.only(right: 20.0),
-        child: tabs[selectedIndex]['widget']!,
+        child: buildTab(selectedIndex),
       ),
     );
   }
@@ -171,13 +174,11 @@ class Profile extends StatelessWidget {
                     children: [
                       for (int index = 0; index < tabs.length; index++)
                         CustomTab(
-                            isActive: index == selectedIndex,
-                            onTap: () => appRouter.go(tabs[index]['path']!,
-                                extra: {'size': size}),
-                            child: Text(
-                              '${tabs[index]['title']}',
-                              style: const TextStyle(fontSize: 14),
-                            )),
+                          isActive: index == selectedIndex,
+                          onTap: () => appRouter
+                              .go(tabs[index]['path']!, extra: {'size': size}),
+                          label: '${tabs[index]['title']}',
+                        ),
                     ],
                   ),
                 ),
@@ -201,12 +202,11 @@ class Profile extends StatelessWidget {
         children: [
           Row(
             children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
+              ClipOval(
                   child: UserAvatar(
-                    imageUrl: state.user.avatarUrl,
-                    size: 68,
-                  )),
+                imageUrl: state.user.avatarUrl,
+                size: 68,
+              )),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: Column(
@@ -304,39 +304,55 @@ class Profile extends StatelessWidget {
       {
         'title': 'Bài viết',
         'path': '/profile/$username/posts',
-        'widget': _buildPostTab(),
       },
       {
         'title': 'Câu hỏi',
         'path': '/profile/$username/questions',
-        'widget': _buildPostTab(isQuestion: true),
       },
       {
         'title': 'Series',
         'path': '/profile/$username/series',
-        'widget': _buildSeriesTab(),
       },
       {
         'title': 'Bookmark',
-        'path': '/profile/$username/bookmarks',
-        'widget': const Text('Bookmark'),
+        'path': isPostBookmarks
+            ? '/profile/$username/bookmarks/posts'
+            : '/profile/$username/bookmarks/series',
       },
       {
         'title': 'Đang theo dõi',
         'path': '/profile/$username/followings',
-        'widget': _buildFollowsTab(),
       },
       {
         'title': 'Người theo dõi',
         'path': '/profile/$username/followers',
-        'widget': _buildFollowsTab(isFollowers: true),
       },
       {
         'title': 'Cá nhân',
         'path': '/profile/$username/personal',
-        'widget': const Text('Cá nhân'),
       }
     ];
+  }
+
+  Widget buildTab(int index) {
+    switch (index) {
+      case 0:
+        return _buildPostTab();
+      case 1:
+        return _buildPostTab(isQuestion: true);
+      case 2:
+        return _buildSeriesTab();
+      case 3:
+        return _buildBookmarksTab();
+      case 4:
+        return _buildFollowsTab();
+      case 5:
+        return _buildFollowsTab(isFollowers: true);
+      case 6:
+        return PersonalTab(username: username);
+      default:
+        return _buildPostTab();
+    }
   }
 
   Widget _buildPostTab({bool isQuestion = false}) {
@@ -351,5 +367,14 @@ class Profile extends StatelessWidget {
   Widget _buildFollowsTab({bool isFollowers = false}) {
     return FollowsTab(
         isFollowers: isFollowers, username: username, page: page, size: size);
+  }
+
+  Widget _buildBookmarksTab() {
+    return Container();
+    // return BookmarksTab(
+    //     username: username,
+    //     page: page,
+    //     limit: limit,
+    //     isPostBookmarks: isPostBookmarks);
   }
 }

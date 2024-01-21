@@ -3,11 +3,7 @@ class Comment {
   int targetId;
   bool type;
 
-  Comment({
-    required this.id,
-    required this.targetId,
-    required this.type
-  });
+  Comment({required this.id, required this.targetId, required this.type});
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
@@ -16,5 +12,4 @@ class Comment {
       type: json['type'],
     );
   }
-
 }

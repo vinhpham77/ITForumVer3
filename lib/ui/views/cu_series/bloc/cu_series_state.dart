@@ -22,7 +22,8 @@ sealed class CuSeriesSubState extends CuSeriesState {
   });
 
   @override
-  List<Object?> get props => [isEditMode, seriesPost, selectedPostUsers, postUsers];
+  List<Object?> get props =>
+      [isEditMode, seriesPost, selectedPostUsers, postUsers];
 }
 
 final class CuSeriesInitState extends CuSeriesState {}

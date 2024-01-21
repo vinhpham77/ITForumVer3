@@ -8,7 +8,8 @@ class FollowRepository {
 
   FollowRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.followsEndpoint}"));
+        baseUrl:
+            "${ApiConfig.userServiceBaseUrl}/${ApiConfig.followsEndpoint}"));
   }
 
   Future<Response<dynamic>> add(String followed) async {

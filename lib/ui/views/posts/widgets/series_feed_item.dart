@@ -20,12 +20,11 @@ class SeriesFeedItem extends StatelessWidget {
           InkWell(
             onTap: () => appRouter
                 .go('/profile/${seriesPostUser.user.username}', extra: {}),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
+            child: ClipOval(
                 child: UserAvatar(
-                  imageUrl: seriesPostUser.user.avatarUrl,
-                  size: 54,
-                )),
+              imageUrl: seriesPostUser.user.avatarUrl,
+              size: 54,
+            )),
           ),
           const SizedBox(width: 12),
           Expanded(

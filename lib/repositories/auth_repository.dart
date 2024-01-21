@@ -6,7 +6,8 @@ import 'package:it_forum/ui/common/utils/jwt_interceptor.dart';
 
 class AuthRepository {
   late Dio dio;
-  final String baseUrl = "${ApiConfig.userServiceBaseUrl}/${ApiConfig.authEndpoint}";
+  final String baseUrl =
+      "${ApiConfig.userServiceBaseUrl}/${ApiConfig.authEndpoint}";
 
   AuthRepository() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
