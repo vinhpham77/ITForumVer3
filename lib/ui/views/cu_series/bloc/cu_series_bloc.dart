@@ -14,6 +14,7 @@ import '../../../../models/post.dart';
 import '../../../../models/user.dart';
 import '../../../../repositories/auth_repository.dart';
 import '../../../../repositories/comment_repository.dart';
+import '../../../../repositories/image_repository.dart';
 import '../../../../repositories/post_repository.dart';
 import '../../../common/utils/common_utils.dart';
 
@@ -25,15 +26,18 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
   final SeriesRepository _seriesRepository;
   final PostRepository _postRepository;
   final CommentRepository _commentRepository;
+  final ImageRepository _imageRepository;
 
   CuSeriesBloc(
       {required AuthRepository authRepository,
       required PostRepository postRepository,
       required SeriesRepository seriesRepository,
+      required ImageRepository imageRepository,
       required CommentRepository commentRepository})
       : _postRepository = postRepository,
         _authRepository = authRepository,
         _seriesRepository = seriesRepository,
+        _imageRepository = imageRepository,
         _commentRepository = commentRepository,
         super(CuSeriesInitState()) {
     on<InitEmptySeriesEvent>(_initEmptySeries);
@@ -144,11 +148,14 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
         response = await _seriesRepository.add(event.seriesDTO);
         Series series = Series.fromJson(response.data);
         await _commentRepository.create(response.data['id'], true);
+        await _imageRepository.saveByContent(series.content);
         emit(SeriesCreatedState(id: series.id!));
       } else {
         response = await _seriesRepository.update(
             event.seriesPost!.id!, event.seriesDTO);
         Series series = Series.fromJson(response.data);
+        await _imageRepository.deleteByContent(event.seriesPost!.content);
+        await _imageRepository.saveByContent(series.content);
         emit(SeriesUpdatedState(id: series.id!));
       }
     } catch (error) {

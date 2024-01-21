@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/repositories/auth_repository.dart';
+import 'package:it_forum/repositories/image_repository.dart';
 
 import '../../../../repositories/comment_repository.dart';
 import '../../../../repositories/post_repository.dart';
@@ -21,7 +22,8 @@ class CuSeriesBlocProvider extends StatelessWidget {
             authRepository: AuthRepository(),
             seriesRepository: SeriesRepository(),
             postRepository: PostRepository(),
-            commentRepository: CommentRepository());
+            commentRepository: CommentRepository(),
+            imageRepository: ImageRepository());
         if (id != null) {
           bloc.add(LoadSeriesEvent(id: id!));
         } else {

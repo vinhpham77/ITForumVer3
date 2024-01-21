@@ -28,4 +28,15 @@ class ImageRepository {
     dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.post('/upload', data: formData);
   }
+
+  Future<Response<dynamic>> saveByContent(String content) {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.post('/save/bycotent', data: content);
+  }
+
+  Future<Response<dynamic>> deleteByContent(String content) {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.delete('/delete/bycotent', data: content);
+  }
+
 }

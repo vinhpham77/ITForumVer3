@@ -9,6 +9,7 @@ import '../../../../dtos/post_dto.dart';
 import '../../../../models/post.dart';
 import '../../../../models/tag.dart';
 import '../../../../repositories/comment_repository.dart';
+import '../../../../repositories/image_repository.dart';
 import '../../../../repositories/post_repository.dart';
 import '../../../../repositories/tag_repository.dart';
 import '../../../common/utils/common_utils.dart';
@@ -20,14 +21,17 @@ class CuPostBloc extends Bloc<CuPostEvent, CuPostState> {
   final PostRepository _postRepository;
   final TagRepository _tagRepository;
   final CommentRepository _commentRepository;
+  final ImageRepository _imageRepository;
 
   CuPostBloc({
     required PostRepository postRepository,
     required TagRepository tagRepository,
-    required CommentRepository commentRepository
+    required CommentRepository commentRepository,
+    required ImageRepository imageRepository
   })  : _postRepository = postRepository,
         _tagRepository = tagRepository,
         _commentRepository = commentRepository,
+        _imageRepository = imageRepository,
         super(CuPostInitState()) {
     on<InitEmptyPostEvent>(_initEmptyPost);
     on<LoadPostEvent>(_loadPost);
@@ -148,8 +152,11 @@ class CuPostBloc extends Bloc<CuPostEvent, CuPostState> {
       if (event.isCreate) {
         response = await _postRepository.add(postDTO);
         await _commentRepository.create(response.data['id'], false);
+        await _imageRepository.saveByContent(postDTO.content);
       } else {
         response = await _postRepository.update(event.post!.id, postDTO);
+        await _imageRepository.deleteByContent(event.post!.content);
+        await _imageRepository.saveByContent(postDTO.content);
       }
 
       Post post = Post.fromJson(response.data);

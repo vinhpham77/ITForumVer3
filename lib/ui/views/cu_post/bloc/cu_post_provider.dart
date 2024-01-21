@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/repositories/comment_repository.dart';
+import 'package:it_forum/repositories/image_repository.dart';
 import 'package:it_forum/repositories/post_repository.dart';
 import 'package:it_forum/repositories/tag_repository.dart';
 
@@ -19,7 +20,10 @@ class CuPostBlocProvider extends StatelessWidget {
     return BlocProvider<CuPostBloc>(
       create: (context) {
         final bloc = CuPostBloc(
-            postRepository: PostRepository(), tagRepository: TagRepository(), commentRepository: CommentRepository());
+            postRepository: PostRepository(),
+            tagRepository: TagRepository(),
+            commentRepository: CommentRepository(),
+            imageRepository: ImageRepository());
         if (id == null) {
           bloc.add(InitEmptyPostEvent(isQuestion: isQuestion));
         } else {
