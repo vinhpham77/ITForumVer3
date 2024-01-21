@@ -147,8 +147,11 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
       if (event.isCreate) {
         response = await _seriesRepository.add(event.seriesDTO);
         Series series = Series.fromJson(response.data);
-        await _commentRepository.create(response.data['id'], true);
-        await _imageRepository.saveByContent(series.content);
+
+        var commentCreateFuture = _commentRepository.create(response.data['id'], true);
+        var saveImageFuture = _imageRepository.saveByContent(series.content);
+        await Future.wait([commentCreateFuture, saveImageFuture]);
+
         emit(SeriesCreatedState(id: series.id!));
       } else {
         response = await _seriesRepository.update(

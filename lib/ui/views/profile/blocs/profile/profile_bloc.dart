@@ -6,6 +6,7 @@ import 'package:it_forum/dtos/jwt_payload.dart';
 import 'package:it_forum/repositories/user_repository.dart';
 
 import '../../../../../dtos/ContentStats.dart';
+import '../../../../../dtos/bookmark_item.dart';
 import '../../../../../dtos/follow_stats.dart';
 import '../../../../../dtos/post_user.dart';
 import '../../../../../dtos/profile_stats.dart';

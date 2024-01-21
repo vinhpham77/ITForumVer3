@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/dtos/jwt_payload.dart';
 import 'package:it_forum/ui/common/app_constants.dart';
 import 'package:it_forum/ui/views/profile/blocs/profile/profile_bloc.dart';
+import 'package:it_forum/ui/views/profile/widgets/bookmarks_tab/bookmarks_tab.dart';
 import 'package:it_forum/ui/views/profile/widgets/count_stats.dart';
 import 'package:it_forum/ui/views/profile/widgets/custom_tab.dart';
 import 'package:it_forum/ui/views/profile/widgets/follows_tab/follows_tab.dart';
@@ -141,7 +142,7 @@ class Profile extends StatelessWidget {
       flex: _left,
       child: Container(
         transform: Matrix4.translationValues(-8.0, 0, 0),
-        padding: const EdgeInsets.only(right: 20.0),
+        padding: const EdgeInsets.only(right: 16.0),
         child: buildTab(selectedIndex),
       ),
     );
@@ -370,9 +371,6 @@ class Profile extends StatelessWidget {
   }
 
   Widget _buildBookmarksTab() {
-    return Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.only(top: 16),
-        child: const Text('Tính năng sẽ sớm ra mắt!'));
+    return BookmarksTab(username: username, page: page, size: size, isPostBookmarks: isPostBookmarks);
   }
 }

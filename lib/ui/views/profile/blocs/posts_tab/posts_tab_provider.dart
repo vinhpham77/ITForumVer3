@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_forum/repositories/comment_repository.dart';
+import 'package:it_forum/repositories/image_repository.dart';
 import 'package:it_forum/ui/views/profile/blocs/posts_tab/posts_tab_bloc.dart';
 
 import '../../../../../repositories/post_repository.dart';
@@ -29,7 +30,8 @@ class PostsTabBlocProvider extends StatelessWidget {
         final bloc = PostsTabBloc(
             postRepository: PostRepository(),
             userRepository: UserRepository(),
-            commentRepository: CommentRepository())
+            commentRepository: CommentRepository(),
+            imageRepository: ImageRepository())
           ..add(LoadPostsEvent(
             username: username,
             page: page,

@@ -9,6 +9,7 @@ import '../../../../../dtos/post_user.dart';
 import '../../../../../models/post.dart';
 import '../../../../../models/user.dart';
 import '../../../../../repositories/comment_repository.dart';
+import '../../../../../repositories/image_repository.dart';
 import '../../../../../repositories/user_repository.dart';
 import '../../../../common/utils/common_utils.dart';
 
@@ -19,13 +20,16 @@ class PostsTabBloc extends Bloc<PostsTabEvent, PostsTabState> {
   final PostRepository _postRepository;
   final UserRepository _userRepository;
   final CommentRepository _commentRepository;
+  final ImageRepository _imageRepository;
 
-  PostsTabBloc({
-    required PostRepository postRepository,
-    required UserRepository userRepository,
-    required CommentRepository commentRepository
-  })  : _postRepository = postRepository,
+  PostsTabBloc(
+      {required PostRepository postRepository,
+      required UserRepository userRepository,
+      required ImageRepository imageRepository,
+      required CommentRepository commentRepository})
+      : _postRepository = postRepository,
         _userRepository = userRepository,
+        _imageRepository = imageRepository,
         _commentRepository = commentRepository,
         super(PostsInitialState()) {
     on<LoadPostsEvent>(_loadPosts);
@@ -71,10 +75,13 @@ class PostsTabBloc extends Bloc<PostsTabEvent, PostsTabState> {
   void _confirmDelete(
       ConfirmDeleteEvent event, Emitter<PostsTabState> emit) async {
     try {
-      var deletePostResponse = await _postRepository.delete(event.postUser.post.id);
+      var deletePostResponse =
+          await _postRepository.delete(event.postUser.post.id);
 
       if (deletePostResponse.statusCode == 204) {
-        await _commentRepository.delete(event.postUser.post.id, false);
+        var deleteCommentFuture = _commentRepository.delete(event.postUser.post.id, false);
+        var deleteImageFuture =  _imageRepository.deleteByContent(event.postUser.post.content);
+        await Future.wait([deleteCommentFuture, deleteImageFuture]);
       }
 
       emit(PostsDeleteSuccessState(postUser: event.postUser));

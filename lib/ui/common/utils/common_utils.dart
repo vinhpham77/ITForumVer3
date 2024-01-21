@@ -3,6 +3,7 @@ import 'package:it_forum/dtos/comment_user.dart';
 import 'package:it_forum/dtos/series_post.dart';
 import 'package:it_forum/models/comment_details.dart';
 
+import '../../../dtos/bookmark_item.dart';
 import '../../../dtos/post_user.dart';
 import '../../../dtos/series_post_user.dart';
 import '../../../models/post.dart';
@@ -133,4 +134,32 @@ List<SeriesPostUser> aggregationSeries(List<int> seriesIds, List<SeriesPostUser>
           return SeriesPostUser.empty();
         });
   }).toList();
+}
+
+aggregationBookmarkUser(List<int> resultList, List<PostUser> postUsers) {
+  List<BookmarkUserItem> bookmarkUserItems = [];
+  for (var id in resultList) {
+    PostUser? postUser;
+    try {
+       postUser = postUsers.firstWhere((element) => element.post.id == id);
+    } catch (error) {
+      postUser = PostUser.empty();
+    }
+
+    var bookmarkItem = PostBookmark(
+        id: postUser.post.id,
+        title: postUser.post.title,
+        content: postUser.post.content,
+        createdBy: postUser.post.createdBy,
+        commentCount: postUser.post.commentCount,
+        private: postUser.post.isPrivate,
+        score: postUser.post.score,
+        tags: postUser.post.tags,
+        updatedAt: postUser.post.updatedAt);
+
+    bookmarkUserItems.add(BookmarkUserItem(
+        bookmarkItem: bookmarkItem,
+        user: postUser.user));
+  }
+  return bookmarkUserItems;
 }
