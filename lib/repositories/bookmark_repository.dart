@@ -39,7 +39,7 @@ class BookmarkRepository {
       String tag = ""}) async {
     var optionalParams = page == null ? '' : 'page=$page';
     optionalParams += limit == null ? '' : '&limit=$limit';
-    optionalParams += '&tag=$tag';
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.get('/getPost?username=$username&$optionalParams');
   }
 
@@ -47,6 +47,7 @@ class BookmarkRepository {
       {required String username, int? page, int? limit}) async {
     var optionalParams = page == null ? '' : 'page=$page';
     optionalParams += limit == null ? '' : '&limit=$limit';
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.get('/getSeries?username=$username&$optionalParams');
   }
 }

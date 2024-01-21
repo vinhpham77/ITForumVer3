@@ -10,13 +10,25 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget  {
   const MyApp({super.key});
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future<void>? _loadJwtFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadJwtFuture = loadJwt();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadJwt(),
+      future: _loadJwtFuture,
       builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
         var isLoading = snapshot.connectionState != ConnectionState.done;
         return buildMaterialApp(isLoading: isLoading);

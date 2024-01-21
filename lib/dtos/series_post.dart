@@ -57,4 +57,18 @@ class SeriesPost {
       createdBy: createdBy ?? this.createdBy,
     );
   }
+
+  static SeriesPost empty() {
+    return SeriesPost(
+      id: 0,
+      title: '',
+      content: '',
+      postIds: [],
+      score: 0,
+      commentCount: 0,
+      isPrivate: false,
+      createdBy: '',
+      updatedAt: DateTime.now(),
+    );
+  }
 }

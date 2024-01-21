@@ -22,7 +22,7 @@ class PostFeedItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: postUser.user == null
+            onTap: postUser.user.username == ""
                 ? null
                 : () => appRouter.go('/profile/${postUser.user}', extra: {}),
             child: ClipOval(
@@ -39,13 +39,14 @@ class PostFeedItem extends StatelessWidget {
                 Row(
                   children: [
                     InkWell(
-                      onTap: postUser.user == null
+                      onTap: postUser.user.username == ""
                           ? null
                           : () => appRouter.go(
                               '/profile/${postUser.user.username}',
                               extra: {}),
                       child: Text(
-                        postUser.user.displayName,
+                        postUser.user.username == "" ?
+                            'Người dùng ẩn danh' : postUser.user.displayName,
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w300,
@@ -71,11 +72,13 @@ class PostFeedItem extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(top: 2, bottom: 4),
                   child: InkWell(
-                    onTap: () =>
-                        {appRouter.go('/posts/${postUser.post.id}', extra: {})},
+                    onTap: postUser.post.title == "" ? null : () => {
+                      appRouter.go('/posts/${postUser.post.id}', extra: {})
+                    },
                     hoverColor: Colors.black12,
                     child: Text(
-                      postUser.post.title,
+                      postUser.post.title == "" ?
+                      'Bài viết không còn tồn tại' : postUser.post.title,
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w400,

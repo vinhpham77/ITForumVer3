@@ -29,15 +29,12 @@ class RightItem extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Icon(
-                postUser.post.score < 0
-                    ? Icons.arrow_downward
-                    : Icons.arrow_upward,
-                size: 16,
-                color: Colors.black87,
-              ),
-              Text('${postUser.post.score}',
-                  style: const TextStyle(fontSize: 12, color: Colors.black87)),
+              buildFieldCount(Icons.comment_outlined, postUser.post.commentCount),
+              buildFieldCount(
+                  postUser.post.score < 0
+                      ? Icons.trending_down_outlined
+                      : Icons.trending_up_outlined,
+                  postUser.post.score),
             ],
           ),
           InkWell(
@@ -47,6 +44,25 @@ class RightItem extends StatelessWidget {
               style: const TextStyle(color: Colors.black38),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  buildFieldCount(IconData icon, int count) {
+    return Container(
+      margin: const EdgeInsets.only(right: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 16,
+            color: Colors.grey[700],
+          ),
+          const SizedBox(width: 2),
+          Text('$count',
+              style: TextStyle(fontSize: 13, color: Colors.grey[700])),
         ],
       ),
     );
