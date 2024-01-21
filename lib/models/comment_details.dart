@@ -4,7 +4,7 @@ import 'package:it_forum/models/user.dart';
 class CommentDetails {
   int id;
   Comment comment;
-  User createdBy;
+  String createdBy;
   String content;
   DateTime updatedAt;
   int left;
@@ -23,11 +23,23 @@ class CommentDetails {
     return CommentDetails(
       id: json['id'],
       comment: Comment.fromJson(json['comment']),
-      createdBy: User.fromJson(json['createdBy']),
+      createdBy: json['createdBy'],
       content: json['content'],
       updatedAt: DateTime.tryParse(json['updatedAt']) ?? DateTime.now(),
       left: json['left'],
       right: json['right'],
+    );
+  }
+
+  static CommentDetails empty() {
+    return CommentDetails(
+      id: 0,
+      comment: Comment.empty(),
+      content: '',
+      createdBy: '',
+      left: 0,
+      right: 0,
+      updatedAt: DateTime.now(),
     );
   }
 }

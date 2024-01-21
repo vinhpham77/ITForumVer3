@@ -1,14 +1,16 @@
 import 'package:it_forum/models/comment_details.dart';
 
+import 'comment_user.dart';
+
 class CommentShow {
-  CommentDetails commentDetails;
+  CommentUser commentUser;
   List<CommentShow> commentShows;
   bool isReply;
   bool isShowChildren;
   bool isEdit;
 
   CommentShow(
-      {required this.commentDetails,
+      {required this.commentUser,
       List<CommentShow>? commentShows,
       this.isReply = false,
       this.isShowChildren = false,

@@ -12,12 +12,24 @@ class CommentRepository {
   CommentRepository() {
     dio = Dio(BaseOptions(
         baseUrl:
-            "${ApiConfig.userServiceBaseUrl}/${ApiConfig.commentsEndpoint}"));
+            "${ApiConfig.commentServiceBaseUrl}/${ApiConfig.commentsEndpoint}"));
+  }
+
+  Future<Response<dynamic>> create(
+      int postId, bool isSeries) async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.post('/create?targetId=$postId&isSeries=$isSeries');
+  }
+
+  Future<Response<dynamic>> delete(
+      int postId, bool isSeries) async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.delete('/delete?targetId=$postId&isSeries=$isSeries');
   }
 
   Future<Response<dynamic>> add(
       int postId, bool type, SubCommentDto subCommentDto) async {
-    dio = JwtInterceptor().addInterceptors(dio);
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.post('/$postId/$type/add', data: subCommentDto.toJson());
   }
 
@@ -30,13 +42,13 @@ class CommentRepository {
 
   Future<Response<dynamic>> deleteSubComment(
       int postId, bool type, int subId) async {
-    dio = JwtInterceptor().addInterceptors(dio);
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.delete('/$postId/$type/$subId/delete');
   }
 
   Future<Response<dynamic>> updateSubComment(
       int postId, bool type, int? subId, SubCommentDto subCommentDto) async {
-    dio = JwtInterceptor().addInterceptors(dio);
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);;
     String param = subId == null ? "" : subId.toString();
     return dio.put('/$postId/$type/$param/update',
         data: subCommentDto.toJson());

@@ -2,6 +2,8 @@ class ApiConfig {
   static const String userServiceBaseUrl = 'http://localhost:8888/api';
   static const String contentServiceBaseUrl = 'http://localhost:8889/api';
   static const String interactiveServiceBaseUrl = 'http://localhost:8890/api';
+  static const String commentServiceBaseUrl = 'http://localhost:8891/api';
+  static const String imageServiceBaseUrl = 'http://localhost:8892/api';
   static const String tagsEndpoint = 'tags';
   static const String postsEndpoint = 'posts';
   static const String authEndpoint = 'auth';

@@ -12,7 +12,7 @@ import '../../common/utils/common_utils.dart';
 import '../notification.dart';
 import '../user_avatar.dart';
 
-typedef CommentChangedCallback = Function(CommentDetails commentDetails);
+typedef CommentChangedCallback = Future Function(CommentDetails commentDetails);
 
 class CreateCommentView extends StatefulWidget {
   final int postId;
