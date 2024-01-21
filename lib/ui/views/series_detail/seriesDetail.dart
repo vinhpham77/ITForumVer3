@@ -74,6 +74,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
   User authorSeries = User.empty();
   List<String> listTag = [];
   late DateTime updateAt = DateTime.now();
+  Series series=Series.empty();
 
   @override
   void initState() {
@@ -100,14 +101,14 @@ class _SeriesDetailState extends State<SeriesDetail> {
       isLoading = true;
     });
     BookmarkInfo bookmarkInfo = BookmarkInfo(targetId: widget.id, type: false);
-    await _loadCheckVote(widget.id, false);
+    // await _loadCheckVote(widget.id, false);
     await _loadScoreSeries(widget.id);
     await _loadListPost(widget.id);
     await _loadUser(username);
     await _loadFollow(authorSeries.username);
     await _loadBookmark(username, bookmarkInfo);
-    await _loadTotalSeries(authorSeries.username);
-    await _loadTotalFollower(authorSeries.username);
+    // await _loadTotalSeries(authorSeries.username);
+    // await _loadTotalFollower(authorSeries.username);
     if (mounted) {
       setState(() {
         isLoading = false;
@@ -185,10 +186,10 @@ class _SeriesDetailState extends State<SeriesDetail> {
                         stickySideBar(),
                       ],
                     ),
-                    CommentView(
-                      postId: widget.id,
-                      isSeries: true,
-                    )
+                    // CommentView(
+                    //   postId: widget.id,
+                    //   isSeries: true,
+                    // )
                   ],
                 )),
           ));
@@ -310,10 +311,9 @@ class _SeriesDetailState extends State<SeriesDetail> {
   }
 
   Future<void> _loadScoreSeries(int postId) async {
-    var futureSp = await seriesRepository.getOne(postId);
-    Series series = Series.fromJson(futureSp.data);
+    var futureSeries= await seriesRepository.getOne(postId);
+    series=Series.fromJson(futureSeries.data);
     var futureUser = await userRepository.get(series.createdBy!);
-
     updateAt = series.updatedAt;
     if (mounted) {
       setState(() {
@@ -509,19 +509,13 @@ class _SeriesDetailState extends State<SeriesDetail> {
     for (var element in futureSeries.data) {
       posts.add(Post.fromJson(element));
     }
-
     List<String> usernames = posts.map((e) => e.createdBy).toList();
-
     var userResponse = await userRepository.getUsers(usernames);
     List<User> users = (userResponse.data as List<dynamic>)
         .map((e) => User.fromJson(e))
         .toList();
-
     List<PostUser> postUsers = convertPostUser(posts, users);
-
     listPostDetail = postUsers;
-
-    // listPostDetail = formJson(futureSeries.data);
     Map<String, int> uniqueTagCount = countUniqueTags(listTag);
     List<String> getTop5Tags = this.getTop5Tags(uniqueTagCount);
     listTag = getTop5Tags;

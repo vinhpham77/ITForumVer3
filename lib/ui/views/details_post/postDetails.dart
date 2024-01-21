@@ -104,8 +104,10 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       var postsAuthorFuture =
           _loadPostsByTheSameAuthor(authorPost.username, widget.id);
       var userFuture = _loadUser(username);
-      var checkVoteFuture = _loadCheckVote(widget.id, true);
+      // var checkVoteFuture = _loadCheckVote(widget.id, true);
+
       var bookmarkFuture = _loadBookmark(username, bookmarkInfo);
+
       var totalPostFuture = _loadTotalPost(authorPost.username);
       var totalFollowerFuture = _loadTotalFollower(authorPost.username);
       var followFuture = _loadFollow(authorPost.username);
@@ -113,11 +115,12 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       final responses = await Future.wait([
          postsAuthorFuture,
         userFuture,
-        checkVoteFuture,
+        // checkVoteFuture,
         bookmarkFuture,
-        totalPostFuture,
-        totalFollowerFuture,
-         followFuture
+        // totalPostFuture,
+        // totalFollowerFuture,
+          followFuture
+
       ]);
       // responses as List <Response<dynamic>>;
       // Response<dynamic> response = responses[0];
@@ -373,7 +376,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       var user = User.fromJson(userResponse.data);
        postUser = PostUser(post: post, user: user);
       if (mounted) {
-        setState(() async {
+        setState(()  {
           postUser = postUser;
           authorPost = postUser.user;
           listTag = postUser.post.tags;
@@ -486,8 +489,10 @@ class _PostDetailsPage extends State<PostDetailsPage> {
   }
 
   Future<void> _loadBookmark(String username, BookmarkInfo bookmarkInfo) async {
+    print("1");
     var future = await bookmarkRepository.checkBookmark(username, bookmarkInfo);
-
+    print("2");
+print( future.data);
     if (future.data != null && future.data is bool) {
       bool isBookmarked = future.data;
       if (mounted) {

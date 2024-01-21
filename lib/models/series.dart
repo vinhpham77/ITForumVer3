@@ -18,7 +18,18 @@ class Series {
     required this.createdBy,
     required this.updatedAt,
   });
-
+  factory Series.empty() {
+    return Series(
+      id: null,
+      title: '',
+      content: '',
+      score: 0,
+      commentCount: 0,
+      isPrivate: false,
+      createdBy: null,
+      updatedAt: DateTime.now(),
+    );
+  }
   factory Series.fromJson(Map<String, dynamic> json) {
     return Series(
       id: json['id'],
