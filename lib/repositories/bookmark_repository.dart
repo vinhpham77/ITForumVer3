@@ -22,10 +22,9 @@ class BookmarkRepository {
     return dio.get('');
   }
 
-  Future<Response<dynamic>> addBookmark(
-      String username, BookmarkInfo bookmarkInfo) async {
+  Future<Response<dynamic>> addBookmark(BookmarkInfo bookmarkInfo) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio.post('/bookmark/$username', data: bookmarkInfo.toJson());
+    return dio.post('/bookmark', data: bookmarkInfo.toJson());
   }
 
   Future<Response<dynamic>> unBookmark(

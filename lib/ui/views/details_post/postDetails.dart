@@ -797,7 +797,7 @@ print( future.data);
         if (isBookmark == false) {
           BookmarkInfo bookmarkInfo =
               BookmarkInfo(targetId: widget.id, type: true);
-          await bookmarkRepository.addBookmark(JwtPayload.sub!, bookmarkInfo);
+          await bookmarkRepository.addBookmark(bookmarkInfo);
           setState(() {
             isBookmark = !isBookmark;
           });

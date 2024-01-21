@@ -680,7 +680,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
         if (isBookmark == false) {
           BookmarkInfo bookmarkInfo =
               BookmarkInfo(targetId: widget.id, type: false);
-          await bookmarkRepository.addBookmark(JwtPayload.sub!, bookmarkInfo);
+          await bookmarkRepository.addBookmark(bookmarkInfo);
           setState(() {
             isBookmark = !isBookmark;
           });
