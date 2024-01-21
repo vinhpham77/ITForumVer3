@@ -38,7 +38,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
           .toList();
       List<String> usernames = users.map((e) => e.username).toList();
       Response<dynamic> response = await _postRepository.getInUsernames(
-          username: usernames,
+          usernames: usernames,
           page: event.page,
           limit: event.limit,
           tag: event.tag);
@@ -72,7 +72,7 @@ class FollowBloc extends Bloc<FollowEvent, FollowState> {
       List<String> usernames = users.map((e) => e.username).toList();
 
       Response<dynamic> response = await _seriesRepository.getInUsernames(
-        username: usernames,
+        usernames: usernames,
         page: event.page,
         limit: event.limit,
       );

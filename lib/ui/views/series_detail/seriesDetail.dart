@@ -312,7 +312,6 @@ class _SeriesDetailState extends State<SeriesDetail> {
   Future<void> _loadScoreSeries(int postId) async {
     var futureSp = await seriesRepository.getOne(postId);
     Series series = Series.fromJson(futureSp.data);
-    var futureUser = await userRepository.getUser(series.createdBy!);
     var futureUser = await userRepository.get(series.createdBy!);
 
     updateAt = series.updatedAt;
