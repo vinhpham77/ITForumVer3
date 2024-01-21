@@ -87,4 +87,8 @@ class SeriesRepository {
     String idsString = ids.join(',');
     return dio.get('/get/in_ids?ids=$idsString');
   }
+  Future<Response<dynamic>> getOneDetail(int id) async {
+    dio = JwtInterceptor().addInterceptors(dio);
+    return dio.get('/detail/$id');
+  }
 }

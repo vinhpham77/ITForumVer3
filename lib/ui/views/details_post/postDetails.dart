@@ -109,7 +109,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       var totalPostFuture = _loadTotalPost(authorPost.username);
       var totalFollowerFuture = _loadTotalFollower(authorPost.username);
       var followFuture = _loadFollow(authorPost.username);
-      final responses = await Future.wait([
+      await Future.wait([
         postsAuthorFuture,
         userFuture,
         checkVoteFuture,
@@ -232,6 +232,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       throw 'Could not launch $twitterUrl';
     }
   }
+
   Widget buildTagButton(String tag) {
     return Container(
       margin: const EdgeInsets.only(right: 8),
@@ -530,6 +531,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       ),
     );
   }
+
   Widget _buildUserProfile() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -888,7 +890,6 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       ],
     );
   }
-
 
   Widget _bodyRelatedArticles() {
     return Padding(

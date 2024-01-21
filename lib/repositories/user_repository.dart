@@ -41,4 +41,34 @@ class UserRepository {
     dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.put('/$username', data: userDTO.toJson());
   }
+  Future<Response<dynamic>> changePassUser(
+      String username, String currentPassword, String newPassword) async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.post(
+      "/changePassword",
+      data: {
+        'username': username,
+        'currentPassword': currentPassword,
+        'newPassword': newPassword
+      },
+    );
+  }
+
+  Future<Response<dynamic>> forgotPassUser(String username) async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.post(
+      "/forgetPassword",
+      data: {'username': username},
+    );
+  }
+
+  Future<Response<dynamic>> resetPassUser(
+      String username, String newPassword, String otp) async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.post(
+      "/resetPassword",
+      data: {'username': username, 'newPassword': newPassword, 'otp': otp},
+    );
+  }
+
 }
