@@ -77,7 +77,7 @@ class SeriesRepository {
   }
 
   Future<Response<dynamic>> getInUsernames(
-      {required List<String> username, required int page, int? limit}) async {
-    return dio.get('/get/in_usernames?username=$username&page=$page&limit=$limit');
+      {required List<String> usernames, required int page, int? limit}) async {
+    return dio.get('/get/in_usernames?usernames=$usernames&page=$page&limit=$limit');
   }
 }

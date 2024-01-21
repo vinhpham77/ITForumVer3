@@ -185,10 +185,10 @@ class _SeriesDetailState extends State<SeriesDetail> {
                         stickySideBar(),
                       ],
                     ),
-                    CommentView(
+                    /*CommentView(
                       postId: widget.id,
                       isSeries: true,
-                    )
+                    )*/
                   ],
                 )),
           ));
@@ -313,7 +313,6 @@ class _SeriesDetailState extends State<SeriesDetail> {
     var futureSp = await seriesRepository.getOne(postId);
     Series series = Series.fromJson(futureSp.data);
     var futureUser = await userRepository.getUser(series.createdBy!);
-
     updateAt = series.updatedAt;
     if (mounted) {
       setState(() {
@@ -508,6 +507,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
     var futureSeries = await spRepository.getOne(seriesId);
     List<Post> posts = [];
     for (var element in futureSeries.data) {
+
       posts.add(Post.fromJson(element));
     }
 
@@ -734,7 +734,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
             downVote = false;
           });
         } else {
-          if (hasVoted == true && typeVote == true) {
+          if (hasVoted == true && upVote == true) {
             var seriesScore =
                 await seriesRepository.updateScore(widget.id, score - 1);
             Series series = Series.fromJson(seriesScore.data);
@@ -745,16 +745,15 @@ class _SeriesDetailState extends State<SeriesDetail> {
             });
             await voteRepository.deleteVote(widget.id, false);
           } else {
-            if (hasVoted == true && typeVote == false) {
+            if (hasVoted == true && downVote == true) {
               var seriesScore =
-                  await seriesRepository.updateScore(widget.id, score + 1);
+                  await seriesRepository.updateScore(widget.id, score + 2);
               Series series = Series.fromJson(seriesScore.data);
               setState(() {
                 score = series.score;
-                upVote = false;
+                upVote = true;
                 downVote = false;
               });
-              await voteRepository.deleteVote(widget.id, false);
             }
           }
         }
@@ -800,7 +799,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
             upVote = false;
           });
         } else {
-          if (hasVoted == true && typeVote == false) {
+          if (hasVoted == true && downVote == true) {
             var seriesScore =
                 await seriesRepository.updateScore(widget.id, score + 1);
             Series series = Series.fromJson(seriesScore.data);
@@ -811,17 +810,15 @@ class _SeriesDetailState extends State<SeriesDetail> {
             });
             await voteRepository.deleteVote(widget.id, false);
           } else {
-            if (hasVoted == true && typeVote == true) {
+            if (hasVoted == true && upVote == true) {
               var seriesScore =
-                  await seriesRepository.updateScore(widget.id, score - 1);
+                  await seriesRepository.updateScore(widget.id, score - 2);
               Series series = Series.fromJson(seriesScore.data);
               setState(() {
                 score = series.score;
-                downVote = false;
+                downVote = true;
                 upVote = false;
               });
-
-              await voteRepository.deleteVote(widget.id, false);
             }
           }
         }

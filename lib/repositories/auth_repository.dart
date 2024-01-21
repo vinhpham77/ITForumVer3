@@ -66,5 +66,14 @@ class AuthRepository {
     dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.get("/verify");
   }
+  Future<Response<dynamic>> logoutUser(String refreshToken) async {
+    dio = JwtInterceptor().addInterceptors(dio);
+    if (refreshToken == null) {
+      throw Exception('Đăng xuất thất bại');
+    }
+    return dio.post("/logout",queryParameters: {
+      'refreshToken': refreshToken,
+    });
+  }
 
 }

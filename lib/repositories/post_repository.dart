@@ -61,7 +61,7 @@ class PostRepository {
 
   Future<Response<dynamic>> getOneDetails(int id) async {
     dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
-    return dio.get('/$id');
+    return dio.get('/$id/detail');
   }
 
   Future<Response<dynamic>> getPostsSameAuthor(
@@ -92,7 +92,8 @@ class PostRepository {
   }
 
   Future<Response<dynamic>> getInUsernames(
-      {required List<String> username, required int page, int? limit, String tag = ""}) async {
-    return dio.get('/get/in_usernames?username=$username&page=$page&limit=$limit&tag=$tag');
+      {required List<String> usernames, required int page, int? limit, String tag = ""}) async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    return dio.get('/get/in_usernames?usernames=$usernames&page=$page&limit=$limit&tag=$tag');
   }
 }

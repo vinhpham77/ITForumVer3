@@ -45,6 +45,7 @@ class FollowRepository {
   }
 
   Future<Response<dynamic>> totalFollower(String followedId) async {
+    dio = JwtInterceptor().addInterceptors(dio);
     return dio.get('/totalFollower/$followedId');
   }
 

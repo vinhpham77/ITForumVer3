@@ -111,13 +111,13 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       var followFuture = _loadFollow(authorPost.username);
 
       final responses = await Future.wait([
-        postsAuthorFuture,
+         postsAuthorFuture,
         userFuture,
         checkVoteFuture,
         bookmarkFuture,
         totalPostFuture,
         totalFollowerFuture,
-        followFuture
+         followFuture
       ]);
       // responses as List <Response<dynamic>>;
       // Response<dynamic> response = responses[0];
@@ -158,10 +158,10 @@ class _PostDetailsPage extends State<PostDetailsPage> {
                           _sidebar(),
                         ],
                       ),
-                      CommentView(
+                    /*  CommentView(
                         postId: widget.id,
                         isSeries: false,
-                      )
+                      )*/
                     ],
                   )),
             ),
@@ -367,13 +367,11 @@ class _PostDetailsPage extends State<PostDetailsPage> {
 
   Future<void> _loadPost(int id) async {
     try {
-      var postResponse = await postRepository.getOneDetails(id);
+      var postResponse = await postRepository.getOne(id);
       var post = Post.fromJson(postResponse.data);
       var userResponse = await userRepository.getUser(post.createdBy);
       var user = User.fromJson(userResponse.data);
-
-      var postUser = PostUser(post: post, user: user);
-
+       postUser = PostUser(post: post, user: user);
       if (mounted) {
         setState(() async {
           postUser = postUser;
@@ -397,7 +395,6 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       }
     }
   }
-
   Future<void> _loadCheckVote(int targetId, bool targetType) async {
     var futureVote = await voteRepository.checkVote(targetId, targetType);
     if (futureVote.data is Map<String, dynamic>) {
@@ -687,7 +684,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
             downVote = false;
           });
         } else {
-          if (hasVoted == true && typeVote == true) {
+          if (hasVoted == true && upVote == true ) {
             var postScore =
                 await postRepository.updateScore(widget.id, score - 1);
             Post post = Post.fromJson(postScore.data);
@@ -698,16 +695,15 @@ class _PostDetailsPage extends State<PostDetailsPage> {
             });
             await voteRepository.deleteVote(widget.id, true);
           } else {
-            if (hasVoted == true && typeVote == false) {
+            if (hasVoted == true && downVote == true) {
               var postScore =
-                  await postRepository.updateScore(widget.id, score + 1);
+                  await postRepository.updateScore(widget.id, score + 2);
               Post post = Post.fromJson(postScore.data);
               setState(() {
                 score = post.score;
-                upVote = false;
+                upVote = true;
                 downVote = false;
               });
-              await voteRepository.deleteVote(widget.id, true);
             }
           }
         }
@@ -753,7 +749,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
             upVote = false;
           });
         } else {
-          if (hasVoted == true && typeVote == false) {
+          if (hasVoted == true && downVote==true) {
             var postScore =
                 await postRepository.updateScore(widget.id, score + 1);
             Post post = Post.fromJson(postScore.data);
@@ -764,17 +760,15 @@ class _PostDetailsPage extends State<PostDetailsPage> {
             });
             await voteRepository.deleteVote(widget.id, true);
           } else {
-            if (hasVoted == true && typeVote == true) {
+            if (hasVoted == true && upVote == true) {
               var postScore =
-                  await postRepository.updateScore(widget.id, score - 1);
+                  await postRepository.updateScore(widget.id, score - 2);
               Post post = Post.fromJson(postScore.data);
               setState(() {
                 score = post.score;
-                downVote = false;
+                downVote = true;
                 upVote = false;
               });
-
-              await voteRepository.deleteVote(widget.id, true);
             }
           }
         }

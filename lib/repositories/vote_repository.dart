@@ -10,7 +10,7 @@ class VoteRepository {
 
    VoteRepository() {
     dio = Dio(BaseOptions(
-        baseUrl: "${ApiConfig.userServiceBaseUrl}/${ApiConfig.votesEndpoint}"));
+        baseUrl: "${ApiConfig.interactiveServiceBaseUrl}/${ApiConfig.votesEndpoint}"));
   }
 
   // Future<Response<dynamic>> delete(int id) {
@@ -32,7 +32,6 @@ class VoteRepository {
   Future<Response<dynamic>> createVote(VoteDTO voteDTO) async {
     dio = JwtInterceptor().addInterceptors(dio);
     return dio.post('/createVote',data: voteDTO.toJson());
-
   }
   Future<Response<dynamic>> updateVote(int id, VoteDTO voteDTO) async {
     dio = JwtInterceptor().addInterceptors(dio);
