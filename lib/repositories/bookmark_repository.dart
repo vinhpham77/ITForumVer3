@@ -9,14 +9,9 @@ class BookmarkRepository {
 
   BookmarkRepository() {
     dio = Dio(BaseOptions(
-
-        baseUrl: "${ApiConfig.interactiveServiceBaseUrl}/${ApiConfig.bookmarksEndpoint}"));
+        baseUrl:
+            "${ApiConfig.interactiveServiceBaseUrl}/${ApiConfig.bookmarksEndpoint}"));
   }
-
-  // Future<Response<dynamic>> delete(int id) {
-  //   // TODO: implement delete
-  //   throw UnimplementedError();
-  // }
 
   Future<Response<dynamic>> get() async {
     return dio.get('');
@@ -27,21 +22,14 @@ class BookmarkRepository {
     return dio.post('/bookmark', data: bookmarkInfo.toJson());
   }
 
-  Future<Response<dynamic>> unBookmark(
-      String username, BookmarkInfo bookmarkInfo) async {
+  Future<Response<dynamic>> unBookmark(BookmarkInfo bookmarkInfo) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio.delete('/unBookmark?username=$username', data: bookmarkInfo.toJson());
+    return dio.delete('/unBookmark', data: bookmarkInfo.toJson());
   }
 
-  Future<Response<dynamic>> checkBookmark(
-      String username, BookmarkInfo bookmarkInfo) async {
+  Future<Response<dynamic>> checkBookmark(BookmarkInfo bookmarkInfo) async {
     dio = JwtInterceptor().addInterceptors(dio);
-    return dio.post('/isBookmark?username=$username', data: bookmarkInfo.toJson());
-  }
-
-  Future<Response<dynamic>> getBookmarkByUsername(String username) async {
-    dio = JwtInterceptor().addInterceptors(dio);
-    return dio.get('/byUsername?username=$username');
+    return dio.post('/isBookmark', data: bookmarkInfo.toJson());
   }
 
   Future<Response<dynamic>> getPostByUserName(

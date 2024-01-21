@@ -74,7 +74,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
   User authorSeries = User.empty();
   List<String> listTag = [];
   late DateTime updateAt = DateTime.now();
-  Series series=Series.empty();
+  Series series = Series.empty();
 
   @override
   void initState() {
@@ -101,14 +101,14 @@ class _SeriesDetailState extends State<SeriesDetail> {
       isLoading = true;
     });
     BookmarkInfo bookmarkInfo = BookmarkInfo(targetId: widget.id, type: false);
-    // await _loadCheckVote(widget.id, false);
+    await _loadCheckVote(widget.id, false);
     await _loadScoreSeries(widget.id);
     await _loadListPost(widget.id);
     await _loadUser(username);
     await _loadFollow(authorSeries.username);
     await _loadBookmark(username, bookmarkInfo);
-    // await _loadTotalSeries(authorSeries.username);
-    // await _loadTotalFollower(authorSeries.username);
+    await _loadTotalSeries(authorSeries.username);
+    await _loadTotalFollower(authorSeries.username);
     if (mounted) {
       setState(() {
         isLoading = false;
@@ -186,10 +186,10 @@ class _SeriesDetailState extends State<SeriesDetail> {
                         stickySideBar(),
                       ],
                     ),
-                    // CommentView(
-                    //   postId: widget.id,
-                    //   isSeries: true,
-                    // )
+                    CommentView(
+                      postId: widget.id,
+                      isSeries: true,
+                    )
                   ],
                 )),
           ));
@@ -254,13 +254,10 @@ class _SeriesDetailState extends State<SeriesDetail> {
         return Future<bool>.value(false);
       } else {
         Vote vote = Vote.fromJson(response.data);
-        // idVote = vote.id;
         typeVote = vote.voteType;
         return Future<bool>.value(true);
       }
     }).catchError((error) {
-      // String message = getMessageFromException(error);
-      // showTopRightSnackBar(context, message, NotifyType.error);
       return Future<bool>.value(false);
     });
     return isFuture;
@@ -311,8 +308,8 @@ class _SeriesDetailState extends State<SeriesDetail> {
   }
 
   Future<void> _loadScoreSeries(int postId) async {
-    var futureSeries= await seriesRepository.getOne(postId);
-    series=Series.fromJson(futureSeries.data);
+    var futureSeries = await seriesRepository.getOne(postId);
+    series = Series.fromJson(futureSeries.data);
     var futureUser = await userRepository.get(series.createdBy!);
     updateAt = series.updatedAt;
     if (mounted) {
@@ -589,7 +586,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
   }
 
   Future<void> _loadBookmark(String username, BookmarkInfo bookmarkInfo) async {
-    var future = await bookmarkRepository.checkBookmark(username, bookmarkInfo);
+    var future = await bookmarkRepository.checkBookmark(bookmarkInfo);
     if (future.data == true) {
       if (mounted) {
         setState(() {
@@ -672,7 +669,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
       if (isBookmark == true) {
         BookmarkInfo bookmarkInfo =
             BookmarkInfo(targetId: widget.id, type: false);
-        await bookmarkRepository.unBookmark(JwtPayload.sub!, bookmarkInfo);
+        await bookmarkRepository.unBookmark(bookmarkInfo);
         setState(() {
           isBookmark = !isBookmark;
         });
@@ -697,18 +694,11 @@ class _SeriesDetailState extends State<SeriesDetail> {
     bool hasVoted;
     if (JwtPayload.sub == null) {
       appRouter.go('/login');
-      //GoRouter.of(context).go('/login');
     } else {
       if (stateVote == false) {
         setState(() {
           stateVote = true;
         });
-        VoteDTO voteDTO = VoteDTO(
-          targetId: widget.id,
-          username: JwtPayload.sub,
-          targetType: false,
-          voteType: true,
-        );
         hasVoted = await checkVote(widget.id, false);
         if (hasVoted == false) {
           VoteDTO voteDTO = VoteDTO(
@@ -767,12 +757,6 @@ class _SeriesDetailState extends State<SeriesDetail> {
         setState(() {
           stateVote == true;
         });
-        VoteDTO voteDTO = VoteDTO(
-          targetId: widget.id,
-          username: JwtPayload.sub,
-          targetType: false,
-          voteType: false,
-        );
         hasVoted = await checkVote(widget.id, false);
         if (hasVoted == false) {
           VoteDTO voteDTO = VoteDTO(

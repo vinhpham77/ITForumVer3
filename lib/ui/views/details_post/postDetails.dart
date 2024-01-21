@@ -104,29 +104,21 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       var postsAuthorFuture =
           _loadPostsByTheSameAuthor(authorPost.username, widget.id);
       var userFuture = _loadUser(username);
-      // var checkVoteFuture = _loadCheckVote(widget.id, true);
-
+      var checkVoteFuture = _loadCheckVote(widget.id, true);
       var bookmarkFuture = _loadBookmark(username, bookmarkInfo);
-
       var totalPostFuture = _loadTotalPost(authorPost.username);
       var totalFollowerFuture = _loadTotalFollower(authorPost.username);
       var followFuture = _loadFollow(authorPost.username);
-
       final responses = await Future.wait([
-         postsAuthorFuture,
+        postsAuthorFuture,
         userFuture,
-        // checkVoteFuture,
+        checkVoteFuture,
         bookmarkFuture,
-        // totalPostFuture,
-        // totalFollowerFuture,
-          followFuture
-
+        totalPostFuture,
+        totalFollowerFuture,
+        followFuture
       ]);
-      // responses as List <Response<dynamic>>;
-      // Response<dynamic> response = responses[0];
-      // User user = User.fromJson(userResponse.data);
     }
-
     if (mounted) {
       setState(() {
         isLoading = false;
@@ -140,7 +132,6 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       builder: (context, BoxConstraints constraints) {
         return SizedBox(
           width: constraints.maxWidth,
-          // color: Colors.white,
           child: Center(
             child: SizedBox(
               width: 1200,
@@ -241,15 +232,6 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       throw 'Could not launch $twitterUrl';
     }
   }
-
-  Widget _buildLoadingIndicator() {
-    return Container(
-      height: 600,
-      alignment: Alignment.center,
-      child: const CircularProgressIndicator(),
-    );
-  }
-
   Widget buildTagButton(String tag) {
     return Container(
       margin: const EdgeInsets.only(right: 8),
@@ -278,7 +260,6 @@ class _PostDetailsPage extends State<PostDetailsPage> {
   }
 
   Widget _postBody() {
-    // _builderTitlePostContent();
     var postPreview = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -374,9 +355,9 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       var post = Post.fromJson(postResponse.data);
       var userResponse = await userRepository.get(post.createdBy);
       var user = User.fromJson(userResponse.data);
-       postUser = PostUser(post: post, user: user);
+      postUser = PostUser(post: post, user: user);
       if (mounted) {
-        setState(()  {
+        setState(() {
           postUser = postUser;
           authorPost = postUser.user;
           listTag = postUser.post.tags;
@@ -399,6 +380,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
       }
     }
   }
+
   Future<void> _loadCheckVote(int targetId, bool targetType) async {
     var futureVote = await voteRepository.checkVote(targetId, targetType);
     if (futureVote.data is Map<String, dynamic>) {
@@ -489,10 +471,7 @@ class _PostDetailsPage extends State<PostDetailsPage> {
   }
 
   Future<void> _loadBookmark(String username, BookmarkInfo bookmarkInfo) async {
-    print("1");
-    var future = await bookmarkRepository.checkBookmark(username, bookmarkInfo);
-    print("2");
-print( future.data);
+    var future = await bookmarkRepository.checkBookmark(bookmarkInfo);
     if (future.data != null && future.data is bool) {
       bool isBookmarked = future.data;
       if (mounted) {
@@ -500,7 +479,6 @@ print( future.data);
       }
     } else {
       print(" lỗi bookmark");
-      // Xử lý trường hợp dữ liệu trả về từ API không đúng
     }
   }
 
@@ -519,8 +497,7 @@ print( future.data);
         listDateTime = posts.map((post) => post.updatedAt).toList();
       });
     }).catchError((error) {
-      // String message = getMessageFromException(error);
-      // showTopRightSnackBar(context, message, NotifyType.error);
+      print(error);
     });
   }
 
@@ -536,7 +513,6 @@ print( future.data);
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
             onTap: () {
@@ -554,7 +530,6 @@ print( future.data);
       ),
     );
   }
-
   Widget _buildUserProfile() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -644,7 +619,6 @@ print( future.data);
   Future<bool> checkVote(int target, bool targetType) async {
     Future<bool> isFuture;
     var future = voteRepository.checkVote(target, targetType);
-    print(future);
     isFuture = future.then((response) {
       if (response.data == null) {
         return Future<bool>.value(false);
@@ -655,8 +629,6 @@ print( future.data);
         return Future<bool>.value(true);
       }
     }).catchError((error) {
-      // String message = getMessageFromException(error);
-      // showTopRightSnackBar(context, message, NotifyType.error);
       return Future<bool>.value(false);
     });
     return isFuture;
@@ -689,7 +661,7 @@ print( future.data);
             downVote = false;
           });
         } else {
-          if (hasVoted == true && upVote == true ) {
+          if (hasVoted == true && upVote == true) {
             var postScore =
                 await postRepository.updateScore(widget.id, score - 1);
             Post post = Post.fromJson(postScore.data);
@@ -729,12 +701,6 @@ print( future.data);
         setState(() {
           stateVote == true;
         });
-        VoteDTO voteDTO = VoteDTO(
-          targetId: widget.id,
-          username: JwtPayload.sub,
-          targetType: true,
-          voteType: false,
-        );
         hasVoted = await checkVote(widget.id, true);
         if (hasVoted == false) {
           VoteDTO voteDTO = VoteDTO(
@@ -754,7 +720,7 @@ print( future.data);
             upVote = false;
           });
         } else {
-          if (hasVoted == true && downVote==true) {
+          if (hasVoted == true && downVote == true) {
             var postScore =
                 await postRepository.updateScore(widget.id, score + 1);
             Post post = Post.fromJson(postScore.data);
@@ -789,7 +755,7 @@ print( future.data);
       if (isBookmark == true) {
         BookmarkInfo bookmarkInfo =
             BookmarkInfo(targetId: widget.id, type: true);
-        await bookmarkRepository.unBookmark(JwtPayload.sub!, bookmarkInfo);
+        await bookmarkRepository.unBookmark(bookmarkInfo);
         setState(() {
           isBookmark = !isBookmark;
         });
@@ -805,8 +771,6 @@ print( future.data);
       }
     } else {
       appRouter.go('/login');
-      // String message = "Bạn chưa đăng nhập";
-      //  showTopRightSnackBar(context, message, NotifyType.error);
     }
   }
 
@@ -900,7 +864,6 @@ print( future.data);
 
   Widget _titletableOfContents() {
     return Row(
-      //crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         const Text(
           "Mục lục",
@@ -926,7 +889,6 @@ print( future.data);
     );
   }
 
-// open cac bai viet lien quan
 
   Widget _bodyRelatedArticles() {
     return Padding(
@@ -1093,7 +1055,6 @@ print( future.data);
   }
 }
 
-///// close cac bai viet lien quan
 Widget _titleRelatedArticles() {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.end,
