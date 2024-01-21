@@ -22,7 +22,6 @@ import '../../../dtos/vote_dto.dart';
 import '../../../models/post.dart';
 import '../../../models/vote.dart';
 import '../../../repositories/post_repository.dart';
-import '../../../repositories/sp_repository.dart';
 import '../../../repositories/vote_repository.dart';
 import '../../common/utils/common_utils.dart';
 import '../../router.dart';
@@ -42,13 +41,10 @@ class _SeriesDetailState extends State<SeriesDetail> {
   final postRepository = PostRepository();
   final seriesRepository = SeriesRepository();
   final voteRepository = VoteRepository();
-  final spRepository = SpRepository();
   final userRepository = UserRepository();
   final followRepository = FollowRepository();
   final bookmarkRepository = BookmarkRepository();
   late SeriesDetailBloc seriesDetailBloc;
-  late List<String> listTagsPost;
-  late List<String> listTagsSeries;
   late Follow follow;
 
   late List<PostUser> listPostDetail = [];
@@ -56,14 +52,11 @@ class _SeriesDetailState extends State<SeriesDetail> {
   bool upVote = false;
   bool downVote = false;
   bool typeVote = false;
-  bool isHoveredTitle = false;
-  bool isClickedTitle = false;
   bool isHoveredUserLink = false;
   bool isFollow = false;
   bool isBookmark = false;
   bool isLoading = true;
   bool isPrivate = true;
-  int idVote = 0;
   String type = "series";
   String username = JwtPayload.sub ?? '';
   int _currentId = 0;
@@ -109,6 +102,25 @@ class _SeriesDetailState extends State<SeriesDetail> {
     await _loadBookmark(username, bookmarkInfo);
     await _loadTotalSeries(authorSeries.username);
     await _loadTotalFollower(authorSeries.username);
+    // var futureCheckVote=_loadCheckVote(widget.id, false);
+    // var futureScore=_loadScoreSeries(widget.id);
+    // var futureListPost=_loadListPost(widget.id);
+    // var futureUser=_loadUser(username);
+    // var futureFollow=_loadFollow(authorSeries.username);
+    // var futureBookmark=_loadBookmark(username, bookmarkInfo);
+    // var futureTotalSeries=_loadTotalSeries(authorSeries.username);
+    // var futureTotalFollower=_loadTotalFollower(authorSeries.username);
+    // await Future.wait([
+    //   futureCheckVote,
+    //   futureScore,
+    //   futureListPost,
+    //   futureListPost,
+    //   futureUser,
+    //   futureFollow,
+    //   futureBookmark,
+    //   futureTotalSeries,
+    //   futureTotalFollower
+    // ]);
     if (mounted) {
       setState(() {
         isLoading = false;
@@ -501,7 +513,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
   }
 
   Future<void> _loadListPost(int seriesId) async {
-    var futureSeries = await spRepository.getOne(seriesId);
+    var futureSeries = await seriesRepository.getOneDetail(seriesId);
     List<Post> posts = [];
     for (var element in futureSeries.data) {
       posts.add(Post.fromJson(element));
@@ -757,6 +769,7 @@ class _SeriesDetailState extends State<SeriesDetail> {
         setState(() {
           stateVote == true;
         });
+
         hasVoted = await checkVote(widget.id, false);
         if (hasVoted == false) {
           VoteDTO voteDTO = VoteDTO(

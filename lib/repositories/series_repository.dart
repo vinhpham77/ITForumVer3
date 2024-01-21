@@ -80,4 +80,8 @@ class SeriesRepository {
       {required List<String> usernames, required int page, int? limit}) async {
     return dio.get('/get/in_usernames?usernames=$usernames&page=$page&limit=$limit');
   }
+  Future<Response<dynamic>> getOneDetail(int id) async {
+    dio = JwtInterceptor().addInterceptors(dio);
+    return dio.get('/detail/$id');
+  }
 }

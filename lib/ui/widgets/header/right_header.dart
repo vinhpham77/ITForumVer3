@@ -232,7 +232,7 @@ class _RightHeaderState extends State<RightHeader> {
               );
             },
             menuChildren: List<MenuItemButton>.generate(
-              createMenu.length,
+              profilerMenu.length,
               (int index) => MenuItemButton(
               onPressed: () async {
                 if (profilerMenu[index].name == "Đăng xuất") {

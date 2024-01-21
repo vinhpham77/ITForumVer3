@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:it_forum/dtos/notify_type.dart';
 import 'package:it_forum/repositories/auth_repository.dart';
+import 'package:it_forum/repositories/user_repository.dart';
 import 'package:it_forum/ui/widgets/notification.dart';
 import 'package:it_forum/validators/validations.dart';
 
@@ -12,7 +13,7 @@ class ForgotPasswordBloc {
   final StreamController _emailController = StreamController();
 
   StreamController<String> loginStatusController = StreamController();
-  final AuthRepository _userRepository = AuthRepository();
+  final UserRepository _userRepository = UserRepository();
   final StreamController _userController = StreamController();
   final StreamController _usernameController = StreamController();
 
