@@ -8,6 +8,7 @@ import 'package:it_forum/repositories/post_repository.dart';
 import '../../../../../dtos/post_user.dart';
 import '../../../../../models/post.dart';
 import '../../../../../models/user.dart';
+import '../../../../../repositories/comment_repository.dart';
 import '../../../../../repositories/user_repository.dart';
 import '../../../../common/utils/common_utils.dart';
 
@@ -17,12 +18,15 @@ part 'posts_tab_state.dart';
 class PostsTabBloc extends Bloc<PostsTabEvent, PostsTabState> {
   final PostRepository _postRepository;
   final UserRepository _userRepository;
+  final CommentRepository _commentRepository;
 
   PostsTabBloc({
     required PostRepository postRepository,
     required UserRepository userRepository,
+    required CommentRepository commentRepository
   })  : _postRepository = postRepository,
         _userRepository = userRepository,
+        _commentRepository = commentRepository,
         super(PostsInitialState()) {
     on<LoadPostsEvent>(_loadPosts);
     on<ConfirmDeleteEvent>(_confirmDelete);
@@ -67,7 +71,12 @@ class PostsTabBloc extends Bloc<PostsTabEvent, PostsTabState> {
   void _confirmDelete(
       ConfirmDeleteEvent event, Emitter<PostsTabState> emit) async {
     try {
-      await _postRepository.delete(event.postUser.post.id);
+      var deletePostResponse = await _postRepository.delete(event.postUser.post.id);
+
+      if (deletePostResponse.statusCode == 204) {
+        await _commentRepository.delete(event.postUser.post.id, false);
+      }
+
       emit(PostsDeleteSuccessState(postUser: event.postUser));
     } catch (error) {
       String message = getMessageFromException(error);

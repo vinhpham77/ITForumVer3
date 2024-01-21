@@ -9,6 +9,7 @@ import 'package:it_forum/ui/views/cu_series/bloc/cu_series_bloc.dart';
 import 'package:it_forum/ui/views/cu_series/widgets/post_item.dart';
 
 import '../../../dtos/series_post.dart';
+import '../../widgets/add_image.dart';
 import '/ui/widgets/notification.dart';
 import 'bloc/cu_series_provider.dart';
 
@@ -293,36 +294,45 @@ class CuSeries extends StatelessWidget {
               ),
               maxLines: 1),
         ),
-        Container(
-          height: contentHeight,
-          decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 4,
-                offset: Offset(0, 2),
+        Stack(
+          children: [
+            Container(
+              height: contentHeight,
+              decoration: BoxDecoration(
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+                borderRadius: isCreateMode
+                    ? const BorderRadius.only(
+                        bottomLeft: Radius.circular(8),
+                        bottomRight: Radius.circular(8))
+                    : null,
+                color: Colors.white,
               ),
-            ],
-            borderRadius: isCreateMode
-                ? const BorderRadius.only(
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8))
-                : null,
-            color: Colors.white,
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
-          child: TextFormField(
-              controller: _contentController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Vui lòng nhập nội dung';
-                }
-                return null;
-              },
-              maxLines: null,
-              decoration: const InputDecoration.collapsed(
-                hintText: 'Viết nội dung ở đây...',
-              )),
+              padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
+              child: TextFormField(
+                  controller: _contentController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Vui lòng nhập nội dung';
+                    }
+                    return null;
+                  },
+                  maxLines: null,
+                  decoration: const InputDecoration.collapsed(
+                    hintText: 'Viết nội dung ở đây...',
+                  )),
+            ),
+            Positioned(
+              top: 8,
+              right: 12,
+              child: AddImage(imageCallback: insertText),
+            ),
+          ],
         ),
         if (!isCreateMode)
           Container(
@@ -587,5 +597,19 @@ class CuSeries extends StatelessWidget {
     }
 
     return _buildPostListView(bottomSheetContext, context, state);
+  }
+
+  void insertText(String input) {
+    final text = _contentController.text;
+    final textSelection = _contentController.selection;
+    final String newText;
+    final int cursorPosition = textSelection.isValid ? textSelection.end : text.length;
+
+    newText = text.replaceRange(cursorPosition, cursorPosition, input);
+
+    final textSelectionNew = TextSelection.collapsed(offset: cursorPosition + input.length);
+
+    _contentController.text = newText;
+    _contentController.selection = textSelectionNew;
   }
 }

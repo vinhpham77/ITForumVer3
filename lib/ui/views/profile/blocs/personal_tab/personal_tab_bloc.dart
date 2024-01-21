@@ -57,7 +57,7 @@ class PersonalTabBloc extends Bloc<PersonalTabEvent, PersonalTabState> {
       if (image != null) {
         var response = await _imageRepository.upload(image);
         String avatarUrl =
-            '${ApiConfig.userServiceBaseUrl}/${ApiConfig.imagesEndpoint}/${response.data.toString()}';
+            '${ApiConfig.imageServiceBaseUrl}/${ApiConfig.imagesEndpoint}/${response.data.toString()}';
         user = event.user.copyWith(avatarUrl: avatarUrl);
       } else {
         user = event.user;

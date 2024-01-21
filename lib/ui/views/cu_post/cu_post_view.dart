@@ -9,6 +9,7 @@ import 'package:it_forum/ui/router.dart';
 import 'package:it_forum/ui/views/cu_post/widgets/tag_dropdown.dart';
 
 import '../../../models/post.dart';
+import '../../widgets/add_image.dart';
 import '/ui/widgets/notification.dart';
 import 'bloc/cu_post_bloc.dart';
 import 'bloc/cu_post_provider.dart';
@@ -301,35 +302,44 @@ class CuPost extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          decoration: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 4,
-                offset: Offset(0, 2),
+        Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(8)),
+                color: Colors.white,
               ),
-            ],
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8)),
-            color: Colors.white,
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
-          height: contentHeight + (state.selectedTags.length == 3 ? 8 : 0),
-          child: TextFormField(
-            controller: _contentController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Vui lòng nhập nội dung';
-              }
-              return null;
-            },
-            maxLines: null,
-            decoration: const InputDecoration.collapsed(
-              hintText: 'Viết nội dung ở đây...',
+              padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
+              height: contentHeight + (state.selectedTags.length == 3 ? 8 : 0),
+              child: TextFormField(
+                controller: _contentController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Vui lòng nhập nội dung';
+                  }
+                  return null;
+                },
+                maxLines: null,
+                decoration: const InputDecoration.collapsed(
+                  hintText: 'Viết nội dung ở đây...',
+                ),
+              ),
             ),
-          ),
+            Positioned(
+              top: 8,
+              right: 12,
+              child: AddImage(imageCallback: insertText),
+            ),
+          ],
         ),
         _buildActionContainer(context, state)
       ],
@@ -544,5 +554,19 @@ class CuPost extends StatelessWidget {
 
   String getHeadingP2(CuPostSubState state) {
     return state.isQuestion ? 'câu hỏi' : 'bài viết';
+  }
+
+  void insertText(String input) {
+    final text = _contentController.text;
+    final textSelection = _contentController.selection;
+    final String newText;
+    final int cursorPosition = textSelection.isValid ? textSelection.end : text.length;
+
+    newText = text.replaceRange(cursorPosition, cursorPosition, input);
+
+    final textSelectionNew = TextSelection.collapsed(offset: cursorPosition + input.length);
+
+    _contentController.text = newText;
+    _contentController.selection = textSelectionNew;
   }
 }
