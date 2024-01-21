@@ -12,4 +12,12 @@ class Comment {
       type: json['type'],
     );
   }
+
+  static Comment empty() {
+    return Comment(
+      id: 0,
+      targetId: 0,
+      type: true,
+    );
+  }
 }

@@ -37,7 +37,7 @@ class _AddImageState extends State<AddImage> {
       var future = _imageRepository.upload(image);
       future.then((response) {
         widget.imageCallback(
-            '![Tux, the Linux mascot](${ApiConfig.userServiceBaseUrl}/${ApiConfig.imagesEndpoint}/${response.data.toString()})');
+            '![Tux, the Linux mascot](${ApiConfig.imageServiceBaseUrl}/${ApiConfig.imagesEndpoint}/${response.data.toString()})');
       }).catchError((error) {
         String message = getMessageFromException(error);
         showTopRightSnackBar(context, message, NotifyType.error);

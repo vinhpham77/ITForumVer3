@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:it_forum/dtos/comment_show.dart';
+import 'package:it_forum/dtos/comment_user.dart';
 import 'package:it_forum/dtos/jwt_payload.dart';
 import 'package:it_forum/models/comment_details.dart';
 import 'package:it_forum/repositories/comment_repository.dart';
@@ -12,6 +13,7 @@ import 'package:it_forum/ui/widgets/comment/create_comment_view.dart';
 
 import '../../../dtos/notify_type.dart';
 import '../../../models/user.dart';
+import '../../../repositories/user_repository.dart';
 import '../../common/utils/common_utils.dart';
 import '../notification.dart';
 import '../user_avatar.dart';
@@ -28,24 +30,31 @@ class CommentView extends StatefulWidget {
 
 class _CommentState extends State<CommentView> {
   final CommentRepository _commentRepository = CommentRepository();
+  final UserRepository _userRepository = UserRepository();
   List<CommentShow> _comments = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getComment(subId: null);
+    Future.delayed(Duration.zero,() async {
+      await getComment(commentShows:  _comments, subId: null);
+    });
   }
 
   @override
   void didUpdateWidget(CommentView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    getComment(subId: null);
+    Future.delayed(Duration.zero,() async {
+      await getComment(commentShows: _comments, subId: null);
+    });
   }
 
-  void upComment(CommentDetails commentDetails) {
+  Future<void> upComment(CommentDetails commentDetails) async {
+    Response<dynamic> response = await _userRepository.get(commentDetails.createdBy);
+    User user = User.fromJson(response.data);
+    CommentUser commentUser = CommentUser(commentDetails: commentDetails, user: user);
     setState(() {
-      _comments.insert(0, CommentShow(commentDetails: commentDetails));
+      _comments.insert(0, CommentShow(commentUser: commentUser));
     });
   }
 
@@ -89,16 +98,21 @@ class _CommentState extends State<CommentView> {
     );
   }
 
-  Future getComment({int? subId}) async {
-    var future =
-        _commentRepository.getSubComment(widget.postId, widget.isSeries, subId);
-    future.then((response) {
-      _comments = response == null
+  Future getComment({required List<CommentShow> commentShows, int? subId}) async {
+    var future = _commentRepository.getSubComment(widget.postId, widget.isSeries, subId);
+    future.then((response) async {
+      List<CommentDetails> commentDetails = response == null
           ? []
           : response.data
-              .map<CommentShow>((e) =>
-                  CommentShow(commentDetails: CommentDetails.fromJson(e)))
-              .toList();
+            .map<CommentDetails>((e) => CommentDetails.fromJson(e)).toList();
+      List<String> usernames = commentDetails.map((e) => e.createdBy).toList();
+      var userResponse = await _userRepository.getUsers(usernames);
+      List<User> users = (userResponse.data as List<dynamic>)
+          .map((e) => User.fromJson(e))
+          .toList();
+
+      List<CommentUser> commentUser = convertCommentUser(commentDetails, users);
+      _comments = commentUser.map((e) => CommentShow(commentUser: e)).toList();
       setState(() {});
     }).catchError((error) {
       String message = getMessageFromException(error);
@@ -130,8 +144,8 @@ class _CommentState extends State<CommentView> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          headerComment(commentShow.commentDetails.createdBy,
-              commentShow.commentDetails.updatedAt),
+          headerComment(commentShow.commentUser.user,
+              commentShow.commentUser.commentDetails.updatedAt),
           commentShow.isEdit
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -147,18 +161,18 @@ class _CommentState extends State<CommentView> {
                     CreateCommentView(
                       postId: widget.postId,
                       type: widget.isSeries,
-                      subId: commentShow.commentDetails.id,
-                      callback: (CommentDetails subCom) {
+                      subId: commentShow.commentUser.commentDetails.id,
+                      callback: (CommentDetails subCom) async {
                         setState(() {
-                          commentShow.commentDetails = subCom;
+                          commentShow.commentUser.commentDetails = subCom;
                           commentShow.isEdit = false;
                         });
                       },
-                      context: commentShow.commentDetails.content,
+                      context: commentShow.commentUser.commentDetails.content,
                     )
                   ],
                 )
-              : contentComment(content: commentShow.commentDetails.content),
+              : contentComment(content: commentShow.commentUser.commentDetails.content),
           Container(
             padding: const EdgeInsets.only(left: 24),
             child: commentShow.isEdit
@@ -187,7 +201,7 @@ class _CommentState extends State<CommentView> {
                       ),
                       menuComment(
                           username:
-                              commentShow.commentDetails.createdBy.username,
+                              commentShow.commentUser.commentDetails.createdBy,
                           commentShow: commentShow,
                           commentShows: commentShows),
                     ],
@@ -208,11 +222,15 @@ class _CommentState extends State<CommentView> {
                     CreateCommentView(
                         postId: widget.postId,
                         type: widget.isSeries,
-                        subId: commentShow.commentDetails.id,
-                        callback: (CommentDetails subCom) {
+                        subId: commentShow.commentUser.commentDetails.id,
+                        callback: (CommentDetails subCom) async {
+                          Response<dynamic> response = await _userRepository.get(subCom.createdBy);
+                          User user = User.fromJson(response.data);
+                          CommentUser commentUser = CommentUser(commentDetails: subCom, user: user);
+                          CommentShow newCommentShow = CommentShow(commentUser: commentUser);
+
                           setState(() {
-                            commentShow.commentShows
-                                .insert(0, CommentShow(commentDetails: subCom));
+                            commentShow.commentShows.insert(0, newCommentShow);
                             commentShow.isReply = false;
                           });
                         })
@@ -228,27 +246,30 @@ class _CommentState extends State<CommentView> {
                   paddingLeft: 24, commentShows: commentShow.commentShows),
           Container(
             padding: const EdgeInsets.only(left: 32),
-            child: (commentShow.commentDetails.right >
-                        commentShow.commentDetails.left + 1 &&
+            child: (commentShow.commentUser.commentDetails.right >
+                        commentShow.commentUser.commentDetails.left + 1 &&
                     !commentShow.isShowChildren)
                 ? InkWell(
-                    onTap: () {
-                      Future<Response<dynamic>> future =
-                          _commentRepository.getSubComment(widget.postId,
-                              widget.isSeries, commentShow.commentDetails.id);
-                      future.then((response) {
-                        commentShow.commentShows = response == null
+                    onTap: () async {
+                      var future = _commentRepository.getSubComment(widget.postId, widget.isSeries, commentShow.commentUser.commentDetails.id);
+                      future.then((response) async {
+                        List<CommentDetails> commentDetails = response == null
                             ? []
                             : response.data
-                                .map<CommentShow>((e) => CommentShow(
-                                    commentDetails: CommentDetails.fromJson(e)))
-                                .toList();
+                            .map<CommentDetails>((e) => CommentDetails.fromJson(e)).toList();
+                        List<String> usernames = commentDetails.map((e) => e.createdBy).toList();
+                        var userResponse = await _userRepository.getUsers(usernames);
+                        List<User> users = (userResponse.data as List<dynamic>)
+                            .map((e) => User.fromJson(e))
+                            .toList();
+
+                        List<CommentUser> commentUser = convertCommentUser(commentDetails, users);
+                        commentShow.commentShows = commentUser.map((e) => CommentShow(commentUser: e)).toList();
                         commentShow.isShowChildren = true;
                         setState(() {});
                       }).catchError((error) {
                         String message = getMessageFromException(error);
-                        showTopRightSnackBar(
-                            context, message, NotifyType.error);
+                        showTopRightSnackBar(context, message, NotifyType.error);
                       });
                     },
                     child: const Text(
@@ -400,7 +421,7 @@ class _CommentState extends State<CommentView> {
       MenuItemButton(
           onPressed: () {
             _showConfirmationDialog(
-                context, commentShows, commentShow.commentDetails.id);
+                context, commentShows, commentShow.commentUser.commentDetails.id);
           },
           child: const Row(
             children: [
@@ -449,7 +470,7 @@ class _CommentState extends State<CommentView> {
                     bool result = response.data;
                     if (!result) return;
                     int index = commentShows
-                        .indexWhere((item) => item.commentDetails.id == subId);
+                        .indexWhere((item) => item.commentUser.commentDetails.id == subId);
                     if (index == -1) return;
                     setState(() {
                       commentShows.removeAt(index);

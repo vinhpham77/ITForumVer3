@@ -8,6 +8,7 @@ import '../../../../dtos/jwt_payload.dart';
 import '../../../../dtos/post_dto.dart';
 import '../../../../models/post.dart';
 import '../../../../models/tag.dart';
+import '../../../../repositories/comment_repository.dart';
 import '../../../../repositories/post_repository.dart';
 import '../../../../repositories/tag_repository.dart';
 import '../../../common/utils/common_utils.dart';
@@ -18,12 +19,15 @@ part 'cu_post_state.dart';
 class CuPostBloc extends Bloc<CuPostEvent, CuPostState> {
   final PostRepository _postRepository;
   final TagRepository _tagRepository;
+  final CommentRepository _commentRepository;
 
   CuPostBloc({
     required PostRepository postRepository,
     required TagRepository tagRepository,
+    required CommentRepository commentRepository
   })  : _postRepository = postRepository,
         _tagRepository = tagRepository,
+        _commentRepository = commentRepository,
         super(CuPostInitState()) {
     on<InitEmptyPostEvent>(_initEmptyPost);
     on<LoadPostEvent>(_loadPost);
@@ -143,6 +147,7 @@ class CuPostBloc extends Bloc<CuPostEvent, CuPostState> {
 
       if (event.isCreate) {
         response = await _postRepository.add(postDTO);
+        await _commentRepository.create(response.data['id'], false);
       } else {
         response = await _postRepository.update(event.post!.id, postDTO);
       }

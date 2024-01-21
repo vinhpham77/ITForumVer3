@@ -14,7 +14,7 @@ class ImageRepository {
   ImageRepository() {
     dio = Dio(BaseOptions(
         baseUrl:
-            "${ApiConfig.userServiceBaseUrl}/${ApiConfig.imagesEndpoint}"));
+            "${ApiConfig.imageServiceBaseUrl}/${ApiConfig.imagesEndpoint}"));
   }
 
   Future<Response<dynamic>> upload(XFile file) async {
@@ -25,7 +25,7 @@ class ImageRepository {
     FormData formData = FormData.fromMap({
       "file": MultipartFile.fromBytes(fileBytes, filename: fileName),
     });
-    dio = JwtInterceptor().addInterceptors(dio);
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
     return dio.post('/upload', data: formData);
   }
 }

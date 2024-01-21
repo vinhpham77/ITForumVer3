@@ -52,6 +52,11 @@ class PostFeedItem extends StatelessWidget {
                             color: Colors.indigo[700]),
                       ),
                     ),
+                    const SizedBox(width: 8,),
+                    Text(
+                      "@${postUser.user.username}",
+                      style: const TextStyle(fontSize: 13, color: Colors.black38),
+                    ),
                     const SizedBox(width: 12),
                     Text(
                       getTimeAgo(postUser.post.updatedAt),

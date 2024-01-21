@@ -161,10 +161,10 @@ class _PostDetailsPage extends State<PostDetailsPage> {
                           _sidebar(),
                         ],
                       ),
-                    /*  CommentView(
+                      CommentView(
                         postId: widget.id,
                         isSeries: false,
-                      )*/
+                      )
                     ],
                   )),
             ),

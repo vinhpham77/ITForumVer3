@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:it_forum/dtos/comment_user.dart';
 import 'package:it_forum/dtos/series_post.dart';
+import 'package:it_forum/models/comment_details.dart';
 
 import '../../../dtos/post_user.dart';
 import '../../../dtos/series_post_user.dart';
@@ -99,4 +101,16 @@ List<SeriesPostUser> convertSeriesPostUser(
   }
 
   return seriesPostUsers;
+}
+
+List<CommentUser> convertCommentUser(List<CommentDetails> commentDetails, List<User> users) {
+  List<CommentUser> commentUser = [];
+
+  for (var comment in commentDetails) {
+    var user =
+    users.firstWhere((element) => element.username == comment.createdBy);
+    commentUser.add(CommentUser(commentDetails: comment, user: user));
+  }
+
+  return commentUser;
 }
