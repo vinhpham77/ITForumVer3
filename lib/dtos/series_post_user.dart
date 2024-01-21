@@ -17,4 +17,11 @@ class SeriesPostUser {
       user: user ?? this.user,
     );
   }
+
+  static SeriesPostUser empty() {
+    return SeriesPostUser(
+      seriesPost: SeriesPost.empty(),
+      user: User.empty(),
+    );
+  }
 }

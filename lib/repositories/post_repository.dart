@@ -94,6 +94,14 @@ class PostRepository {
   Future<Response<dynamic>> getInUsernames(
       {required List<String> usernames, required int page, int? limit, String tag = ""}) async {
     dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
-    return dio.get('/get/in_usernames?usernames=$usernames&page=$page&limit=$limit&tag=$tag');
+    String usernamesString = usernames.join(',');
+    return dio.get('/get/in_usernames?usernames=$usernamesString&page=$page&limit=$limit&tag=$tag');
+  }
+
+  Future<Response<dynamic>> getByIds(
+      {required List<int> ids}) async {
+    dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
+    String idsString = ids.join(',');
+    return dio.get('/get/in_ids?ids=$idsString');
   }
 }

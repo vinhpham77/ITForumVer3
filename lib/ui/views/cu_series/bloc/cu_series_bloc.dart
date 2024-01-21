@@ -13,6 +13,7 @@ import '../../../../dtos/series_post.dart';
 import '../../../../models/post.dart';
 import '../../../../models/user.dart';
 import '../../../../repositories/auth_repository.dart';
+import '../../../../repositories/comment_repository.dart';
 import '../../../../repositories/post_repository.dart';
 import '../../../common/utils/common_utils.dart';
 
@@ -23,14 +24,17 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
   final AuthRepository _authRepository;
   final SeriesRepository _seriesRepository;
   final PostRepository _postRepository;
+  final CommentRepository _commentRepository;
 
   CuSeriesBloc(
       {required AuthRepository authRepository,
       required PostRepository postRepository,
-      required SeriesRepository seriesRepository})
+      required SeriesRepository seriesRepository,
+      required CommentRepository commentRepository})
       : _postRepository = postRepository,
         _authRepository = authRepository,
         _seriesRepository = seriesRepository,
+        _commentRepository = commentRepository,
         super(CuSeriesInitState()) {
     on<InitEmptySeriesEvent>(_initEmptySeries);
     on<LoadSeriesEvent>(_loadSeries);
@@ -139,6 +143,7 @@ class CuSeriesBloc extends Bloc<CuSeriesEvent, CuSeriesState> {
       if (event.isCreate) {
         response = await _seriesRepository.add(event.seriesDTO);
         Series series = Series.fromJson(response.data);
+        await _commentRepository.create(response.data['id'], true);
         emit(SeriesCreatedState(id: series.id!));
       } else {
         response = await _seriesRepository.update(

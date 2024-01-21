@@ -114,3 +114,23 @@ List<CommentUser> convertCommentUser(List<CommentDetails> commentDetails, List<U
 
   return commentUser;
 }
+
+List<PostUser> aggregationPost(List<int> postIds, List<PostUser> postsUsers) {
+   return postIds.map((e) {
+      return postsUsers.firstWhere(
+            (element) => element.post.id == e,
+        orElse: () {
+          return PostUser.empty();
+        });
+  }).toList();
+}
+
+List<SeriesPostUser> aggregationSeries(List<int> seriesIds, List<SeriesPostUser> seriesPostUsers) {
+  return seriesIds.map((e) {
+    return seriesPostUsers.firstWhere(
+            (element) => element.seriesPost.id == e,
+        orElse: () {
+          return SeriesPostUser.empty();
+        });
+  }).toList();
+}
