@@ -37,7 +37,6 @@ class BookmarkBloc extends Bloc<BookmarkEvent, BookmarkState> {
           page: event.page,
           limit: event.limit,
           tag: event.tag);
-
       ResultCount<int> postIds = ResultCount(resultList: List<int>.from(response.data['resultList']), count: response.data['count']);
 
 
@@ -65,8 +64,13 @@ class BookmarkBloc extends Bloc<BookmarkEvent, BookmarkState> {
         emit(BookmarkPostLoadedState(postUsers: postUserResults));
       }
     } catch (error) {
-      emit(const BookmarkLoadErrorState(
-          message: "Có lỗi xảy ra. Vui lòng thử lại sau!"));
+      String message = "Có lỗi xảy ra. Vui lòng thử lại sau!";
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          message = "Chưa có bookmark!";
+        }
+      }
+      emit(BookmarkLoadErrorState(message: message));
     }
   }
 
@@ -102,12 +106,16 @@ class BookmarkBloc extends Bloc<BookmarkEvent, BookmarkState> {
         ResultCount<SeriesPostUser> seriesPostUserResults =
             ResultCount<SeriesPostUser>(
                 count: seriesIds.count, resultList: aggregationSeries(seriesIds.resultList, seriesPostUsers));
-
         emit(BookmarkSeriesLoadedState(seriesPostUsers: seriesPostUserResults));
       }
     } catch (error) {
-      emit(const BookmarkLoadErrorState(
-          message: "Có lỗi xảy ra. Vui lòng thử lại sau!"));
+      String message = "Có lỗi xảy ra. Vui lòng thử lại sau!";
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          message = "Chưa có bookmark!";
+        }
+      }
+      emit(BookmarkLoadErrorState(message: message));
     }
   }
 }

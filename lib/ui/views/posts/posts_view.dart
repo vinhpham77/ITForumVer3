@@ -122,25 +122,25 @@ class _PostsViewState extends State<PostsView> {
       ];
 
   List<NavigationPost> get navi => [
-        NavigationPost(
-            index: 0,
-            text: "Mới nhất",
-            path: "/viewposts}",
-            widget: PostsFeed(
-              page: getPage(widget.params['page'] ?? "1"),
-              limit: 10,
-              isQuestion: false,
-              params: widget.params,
-            )),
-        NavigationPost(
-            index: 1,
-            text: "Series",
-            path: "/viewseries",
-            widget: SeriesFeed(
-              page: getPage(widget.params['page'] ?? "1"),
-              limit: 10,
-              params: widget.params,
-            )),
+    NavigationPost(
+        index: 0,
+        text: "Mới nhất",
+        path: "/viewposts",
+        widget: PostsFeed(
+          page: getPage(widget.params['page'] ?? "1"),
+          limit: 10,
+          isQuestion: false,
+          params: widget.params,
+        )),
+    NavigationPost(
+        index: 1,
+        text: "Series",
+        path: "/viewseries",
+        widget: SeriesFeed(
+          page: getPage(widget.params['page'] ?? "1"),
+          limit: 10,
+          params: widget.params,
+        )),
       ];
 }
 
