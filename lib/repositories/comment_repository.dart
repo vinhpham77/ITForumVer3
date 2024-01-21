@@ -16,15 +16,15 @@ class CommentRepository {
   }
 
   Future<Response<dynamic>> create(
-      int postId, bool isSeries) async {
+      int postId, bool type) async {
     dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
-    return dio.post('/create?targetId=$postId&isSeries=$isSeries');
+    return dio.post('/create?targetId=$postId&type=$type');
   }
 
   Future<Response<dynamic>> delete(
-      int postId, bool isSeries) async {
+      int postId, bool type) async {
     dio = JwtInterceptor(needToLogin: true).addInterceptors(dio);
-    return dio.delete('/delete?targetId=$postId&isSeries=$isSeries');
+    return dio.delete('/delete?targetId=$postId&type=$type');
   }
 
   Future<Response<dynamic>> add(
