@@ -5,8 +5,7 @@ class UserStats {
   final String displayName;
   final String? avatarUrl;
   final String role;
-  final int postCount;
-  final int seriesCount;
+  final int followingCount;
   final int followerCount;
 
   UserStats({
@@ -16,8 +15,7 @@ class UserStats {
     required this.displayName,
     required this.avatarUrl,
     required this.role,
-    required this.postCount,
-    required this.seriesCount,
+    required this.followingCount,
     required this.followerCount,
   });
 
@@ -29,13 +27,11 @@ class UserStats {
       displayName: json['displayName'],
       avatarUrl: json['avatarUrl'],
       role: json['role'],
-      postCount: json['postCount'],
-      seriesCount: json['seriesCount'],
+      followingCount: json['followingCount'],
       followerCount: json['followerCount'],
     );
   }
 
-  // empty
   factory UserStats.empty() {
     return UserStats(
       id: 0,
@@ -44,8 +40,7 @@ class UserStats {
       displayName: '',
       avatarUrl: '',
       role: '',
-      postCount: 0,
-      seriesCount: 0,
+      followingCount: 0,
       followerCount: 0,
     );
   }
