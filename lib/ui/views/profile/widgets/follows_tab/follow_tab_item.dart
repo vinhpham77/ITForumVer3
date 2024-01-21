@@ -103,11 +103,9 @@ class FollowTabItem extends StatelessWidget {
                 ],
               ),
               Row(children: [
+                _buildFieldCount(
+                    Icons.track_changes_outlined, userStats.followingCount),
                 _buildFollowerCount(state),
-                _buildFieldCount(
-                    Icons.backup_table_rounded, userStats.postCount),
-                _buildFieldCount(
-                    Icons.category_outlined, userStats.seriesCount),
               ]),
               if (isFollowingsTab && isAuthorised)
                 _buildFollowButton(context, state)

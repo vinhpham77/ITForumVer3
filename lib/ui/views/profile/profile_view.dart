@@ -370,11 +370,9 @@ class Profile extends StatelessWidget {
   }
 
   Widget _buildBookmarksTab() {
-    return Container();
-    // return BookmarksTab(
-    //     username: username,
-    //     page: page,
-    //     limit: limit,
-    //     isPostBookmarks: isPostBookmarks);
+    return Container(
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(top: 16),
+        child: const Text('Tính năng sẽ sớm ra mắt!'));
   }
 }

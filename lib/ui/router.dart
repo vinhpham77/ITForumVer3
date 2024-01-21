@@ -448,16 +448,43 @@ final appRouter = GoRouter(
           ),
     ),
     GoRoute(
-        path: '/profile/:username/bookmarks',
-        pageBuilder: (context, state) =>
-            MaterialPage<void>(
-                key: UniqueKey(),
-                child: ScreenWithHeaderAndFooter(
-                  body: Profile(
-                      username: state.pathParameters['username']!,
-                      selectedIndex: 3,
-                      params: state.extra as Map<String, dynamic>? ?? {}),
-                ))),
+      path: '/profile/:username/bookmarks',
+      redirect: (BuildContext context, GoRouterState state) async {
+        return '/profile/${state.pathParameters['username']}/bookmarks/posts';
+      },
+    ),
+    GoRoute(
+        path: '/profile/:username/bookmarks/posts',
+        pageBuilder: (context, state) {
+          Map<String, dynamic> params =
+              state.extra as Map<String, dynamic>? ?? {};
+          params['postBookmarks'] = 1;
+
+          return MaterialPage<void>(
+              key: UniqueKey(),
+              child: ScreenWithHeaderAndFooter(
+                body: Profile(
+                    username: state.pathParameters['username']!,
+                    selectedIndex: 3,
+                    params: params),
+              ));
+        }),
+    GoRoute(
+        path: '/profile/:username/bookmarks/series',
+        pageBuilder: (context, state) {
+          Map<String, dynamic> params =
+              state.extra as Map<String, dynamic>? ?? {};
+          params['postBookmarks'] = 0;
+
+          return MaterialPage<void>(
+              key: UniqueKey(),
+              child: ScreenWithHeaderAndFooter(
+                body: Profile(
+                    username: state.pathParameters['username']!,
+                    selectedIndex: 3,
+                    params: params),
+              ));
+        }),
     GoRoute(
         path: '/profile/:username/followings',
         pageBuilder: (context, state) =>

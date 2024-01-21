@@ -649,7 +649,7 @@ class PersonalTab extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Icon(icon, size: 28, color: Colors.black87),
+        Icon(icon, size: 28, color: Colors.black54),
         const SizedBox(width: 14),
         Padding(
           padding: const EdgeInsets.only(bottom: 1),
