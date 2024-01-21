@@ -158,6 +158,7 @@ class _MoreHorizState extends State<MoreHoriz> {
             TextButton(
               onPressed: () {
                 deleteSeries(widget.idContent, widget.type);
+
               },
               child: Text("Xóa"),
             ),
@@ -183,6 +184,7 @@ class _MoreHorizState extends State<MoreHoriz> {
             TextButton(
               onPressed: () {
                 deleteSeries(widget.idContent, widget.type);
+
               },
               child: Text("Thêm"),
             ),
